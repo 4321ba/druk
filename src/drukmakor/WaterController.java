@@ -18,7 +18,7 @@ public class WaterController {
 		
 		//https://www.baeldung.com/java-random-list-element
 	    Random rand = new Random();
-	    if (rand.nextBoolean()&&rand.nextBoolean()) {
+	    if (rand.nextBoolean()&&rand.nextBoolean()&&rand.nextBoolean()&&rand.nextBoolean()) {
 	    	ActiveElement randomElement = vertices.get(rand.nextInt(vertices.size()));
 	    	randomElement.randomEvent();
 	    }
