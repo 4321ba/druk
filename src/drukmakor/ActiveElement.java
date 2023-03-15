@@ -31,8 +31,10 @@ public abstract class ActiveElement extends Element {
 		boolean res1 = pipes.remove(p);
 		if (!res1)
 			return false;
-		p.disconnectFrom(this);
-		return true;
+		boolean res2 = p.disconnectFrom(this);
+		if (!res2)
+			pipes.add(p);
+		return res2;
 	}
 	
 	void pushWater() {

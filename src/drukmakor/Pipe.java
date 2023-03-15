@@ -52,13 +52,16 @@ public class Pipe extends Element {
 			return end1;
 		return end2;
 	}
-	void disconnectFrom(ActiveElement ae) {// ha rajta állnak akkor jelen pillanatban rajta marad
+	boolean disconnectFrom(ActiveElement ae) {// ha rajta állnak akkor ne engedje a felvételt
+		if (isOccupied)
+			return false;
 		assert(end1 != end2);
 		if (ae != end1 && ae != end2)
 			throw new RuntimeException("A cső egyik vége sem ae!");
 		if (ae == end1)
 			end1 = end2;
 		end2 = null;
+		return true;
 	}
 	void connectTo(ActiveElement ae) {//ctorból hívva még mindkettő null lesz!
 		if (end2 != null)
@@ -73,7 +76,7 @@ public class Pipe extends Element {
 	}
 	
 	@Override boolean acceptCharacter(Element from) {
-		if (isOccupied /*|| end2 == null*/)//ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor fel lehet venni, tehát szimmetriai okokból lehessen is rálépni
+		if (isOccupied || end2 == null)//ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
 			return false;
 		if (from != end1 && from != end2 && from != null)
 			return false;
