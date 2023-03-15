@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class WaterController {
 	boolean pushed = false;
-	List<ActiveElement> vertices = new ArrayList<ActiveElement>();
+	private List<ActiveElement> vertices = new ArrayList<ActiveElement>();
 	void tick() {
 		if (!pushed)
 			for (ActiveElement ae : vertices)
@@ -22,5 +22,13 @@ public class WaterController {
 	    	ActiveElement randomElement = vertices.get(rand.nextInt(vertices.size()));
 	    	randomElement.randomEvent();
 	    }
+	}
+	void add(ActiveElement ae) {
+		vertices.add(ae);
+	}
+	
+	private static WaterController theWC = new WaterController();
+	public static WaterController get() {
+		return theWC;
 	}
 }

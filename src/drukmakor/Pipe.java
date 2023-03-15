@@ -20,7 +20,7 @@ public class Pipe extends Element {
 		boolean prevIsBroken = isPierced;
 		isPierced = true;
 		if (hasWater) {
-			PointCounter.thePC.addSaboteurPoint();
+			PointCounter.get().addSaboteurPoint();
 			hasWater = false;
 		}
 		return !prevIsBroken;
@@ -90,7 +90,7 @@ public class Pipe extends Element {
 		if (hasWater)
 			return false;
 		if (isPierced) {
-			PointCounter.thePC.addSaboteurPoint();
+			PointCounter.get().addSaboteurPoint();
 			return true;
 		}
 		hasWater = true;
@@ -105,6 +105,8 @@ public class Pipe extends Element {
 
 	@Override Pump placePump() {
 		assert(end1!=null&&end2!=null);
+		boolean previsocc = isOccupied;//azért kell, mert occupied csövet nem lehet felszedni
+		isOccupied = false;
 		Pump p = new Pump(getCoords());
 		Main.registernewpump(p);
 		ActiveElement prevend1 = end1;
@@ -120,6 +122,7 @@ public class Pipe extends Element {
 		boolean res2 = p.connectPipe(this);
 		assert(res2);
 		b.c=getCoords();
+		isOccupied = previsocc;
 		return p;
 	}
 

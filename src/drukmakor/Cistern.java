@@ -19,7 +19,7 @@ public class Cistern extends ActiveElement {
 	@Override void pullWater() {
 		for (Pipe p : pipes)
 			if (p.drainWater()) {
-				PointCounter.thePC.addMechanicPoint();
+				PointCounter.get().addMechanicPoint();
 				++waterLevel;
 			}
 	}
@@ -27,16 +27,16 @@ public class Cistern extends ActiveElement {
 
 	@Override void pushWater() {
 			if (danglingPipe && waterLevel > 0) {
-				PointCounter.thePC.addSaboteurPoint();
-				PointCounter.thePC.subtractMechanicPoint();
+				PointCounter.get().addSaboteurPoint();
+				PointCounter.get().subtractMechanicPoint();
 				--waterLevel;
 			}
 	}
 
-	boolean pickUpPump() {
+	@Override boolean pickUpPump() {
 		return true;
 	}
-	Pipe pickUpDanglingPipe() {
+	@Override Pipe pickUpDanglingPipe() {
 		if (!danglingPipe)
 			return null;
 		danglingPipe = false;

@@ -14,7 +14,7 @@ public class Pump extends ActiveElement {
 
 
 	boolean isBroken = false;
-	boolean fix() {
+	@Override boolean fix() {
 		boolean prevIsBroken = isBroken;
 		isBroken = false;
 		return prevIsBroken;

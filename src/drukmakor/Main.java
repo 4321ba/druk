@@ -41,45 +41,45 @@ public class Main {
 		players[currPlIdx].soros = true;
 	}
 
-	static WaterController wc = new WaterController();
+	static WaterController wc = WaterController.get();
 	public static void main(String[] args) throws IOException {
 		
         Timer timer2 = new Timer(500, (e) -> wc.tick());
         timer2.start();
         
-        d.drl.add(PointCounter.thePC);
+        d.drl.add(PointCounter.get());
         
 		Source s1 = new Source(new Coords(900, 400));
 		d.drl.add(s1);
-		wc.vertices.add(s1);
+		wc.add(s1);
 		Source s2 = new Source(new Coords(1100, 600));
 		d.drl.add(s2);
-		wc.vertices.add(s2);
+		wc.add(s2);
 		Source s3 = new Source(new Coords(730, 500));
 		d.drl.add(s3);
-		wc.vertices.add(s3);
+		wc.add(s3);
 		Cistern c1 = new Cistern(new Coords(150, 450));
 		d.drl.add(c1);
-		wc.vertices.add(c1);
+		wc.add(c1);
 		Cistern c2 = new Cistern(new Coords(260, 450));
 		d.drl.add(c2);
-		wc.vertices.add(c2);
+		wc.add(c2);
 		Cistern c3 = new Cistern(new Coords(170, 340));
 		d.drl.add(c3);
-		wc.vertices.add(c3);
+		wc.add(c3);
 		
 		Pump p1 = new Pump(new Coords(500, 100));
 		d.drl.add(p1);
-		wc.vertices.add(p1);
+		wc.add(p1);
 		Pump p2 = new Pump(new Coords(600, 300));
 		d.drl.add(p2);
-		wc.vertices.add(p2);
+		wc.add(p2);
 		Pump p3 = new Pump(new Coords(550, 600));
 		d.drl.add(p3);
-		wc.vertices.add(p3);
+		wc.add(p3);
 		Pump p4 = new Pump(new Coords(720, 650));
 		d.drl.add(p4);
-		wc.vertices.add(p4);
+		wc.add(p4);
 		
 		Pipe pi1 = new Pipe(s1, p1);
 		d.drl.add(pi1);
@@ -127,7 +127,7 @@ public class Main {
 	
 	static void registernewpump(Pump p) {
 		d.drl.add(p);
-		wc.vertices.add(p);
+		wc.add(p);
 	}
 	static void registernewpipe(Pipe p) {
 		d.drl.add(p);

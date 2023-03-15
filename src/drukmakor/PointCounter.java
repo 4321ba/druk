@@ -5,7 +5,10 @@ import java.awt.Graphics;
 
 public class PointCounter implements Drawable {
 	private PointCounter() {}
-	static PointCounter thePC = new PointCounter();
+	private static PointCounter thePC = new PointCounter();
+	public static PointCounter get() {
+		return thePC;
+	}
 	private int mechanicPoints = 0;
 	private int saboteurPoints = 0;
 
