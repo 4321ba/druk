@@ -1,6 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +9,32 @@ public abstract class ActiveElement extends Element {
 	static final int MAX_CONNECTIONS = 8;
 	List<Pipe> pipes = new ArrayList<Pipe>();
 	@Override boolean acceptCharacter(Element from) {
+		if (from == null)
+			return true;
 		return pipes.contains(from);//referencia szerinti hasonlítás kéne
 	}
-	@Override boolean placePipe(Pipe p) {
+	@Override boolean connectPipe(Pipe p) {
+		if (!p.hasConnectionTo(null))
+			throw new RuntimeException("Nem jó csőcsatlakoztatási próbálkozás!");
 		if (pipes.size() >= MAX_CONNECTIONS)
 			return false;
+		if (p.hasConnectionTo(this))//ez lehetséges ha pl hurokélt akarunk csinálni
+			return false;
 		for (Pipe pipe: pipes)
-			if (p.hasConnectionTo(pipe.getOtherEnd(this)))
+			if (!pipe.hasConnectionTo(null) && p.hasConnectionTo(pipe.getOtherEnd(this)))//azért, hogy ha két mechanic 2 pipeot huzigál uarról az aeről, még megengedett legyen
 				return false;
 		pipes.add(p);
+		p.connectTo(this);
 		return true;
 	}
+	@Override boolean disconnectPipe(Pipe p) {
+		boolean res1 = pipes.remove(p);
+		if (!res1)
+			return false;
+		p.disconnectFrom(this);
+		return true;
+	}
+	
 	void pushWater() {
 		
 	}
@@ -37,7 +51,7 @@ public abstract class ActiveElement extends Element {
 		b = new Button(getCoords(), this);
 	}
 	Coords c;
-	@Override public void draw(Graphics g) {//TODO színbeállítás a gyerekeknél kötelező
+	@Override public void draw(Graphics g) {//színbeállítás a gyerekeknél kötelező
 		g.fillOval(c.x-6, c.y-6, 12, 12);
 		super.draw(g);
 	}

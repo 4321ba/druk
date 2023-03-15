@@ -2,10 +2,13 @@ package drukmakor;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+
+//+7 óra prototípus nekem :))
 
 public class Main {
 	static Desert d = new Desert();
@@ -37,9 +40,10 @@ public class Main {
 			currPlIdx-=4;
 		players[currPlIdx].soros = true;
 	}
-	public static void main(String[] args) {
+
+	static WaterController wc = new WaterController();
+	public static void main(String[] args) throws IOException {
 		
-		WaterController wc = new WaterController();
         Timer timer2 = new Timer(500, (e) -> wc.tick());
         timer2.start();
         
@@ -108,10 +112,10 @@ public class Main {
 		players[0] = m1;
 		d.drl.add(m1);
 		m1.soros = true;
-		Mechanic m2 = new Mechanic(p2);
+		Mechanic m2 = new Mechanic(c1);
 		players[1] = m2;
 		d.drl.add(m2);
-		Saboteur sz1 = new Saboteur(c1);
+		Saboteur sz1 = new Saboteur(p2);
 		players[2] = sz1;
 		d.drl.add(sz1);
 		Saboteur sz2 = new Saboteur(s2);
@@ -120,6 +124,16 @@ public class Main {
 		
         SwingUtilities.invokeLater(() -> Main.createAndShowGUI());
 	}
+	
+	static void registernewpump(Pump p) {
+		d.drl.add(p);
+		wc.vertices.add(p);
+	}
+	static void registernewpipe(Pipe p) {
+		d.drl.add(p);
+	}
+	
+	
 	
 	
 	static void playergoto(Element e) {
@@ -131,8 +145,17 @@ public class Main {
 			else if (alteringelements[2] == null) {
 				alteringelements[2] = e;
 				if (alteringelements[0] instanceof Pump && alteringelements[1] instanceof Pipe && alteringelements[2] instanceof Pipe &&
-						players[currPlIdx].alterPump((Pump)alteringelements[0], (Pipe)alteringelements[1], (Pipe)alteringelements[2]))
-					{incr();alterpump();}
+						players[currPlIdx].alterPump((Pump)alteringelements[0], (Pipe)alteringelements[1], (Pipe)alteringelements[2])) {
+					incr();
+					alterpump();
+				}
+			}
+			return;
+		}
+		if (isdisconnectingpipe) {
+			if (e instanceof Pipe && players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).disconnectPipe((Pipe)e)) {
+				incr();
+				disconnectpipe();
 			}
 			return;
 		}
@@ -148,18 +171,40 @@ public class Main {
 			incr();
 	}
 	static void mechanicfix() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).fixCurrent())
+		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).fix())
 			incr();
 	}
 	
 	static boolean isalteringpump = false;
 	static Element[] alteringelements = new Element[3];
 	static void alterpump() {
+		isdisconnectingpipe = false;
 		isalteringpump = !isalteringpump;
 		if (!isalteringpump)
 			for (int i = 0; i < 3; ++i)
 				alteringelements[i]=null;
 	}
 	
+	static void connectpipe() {
+		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).connectPipe())
+			incr();
+	}
+	static boolean isdisconnectingpipe = false;
+	static void disconnectpipe() {
+		isalteringpump = false;
+		isdisconnectingpipe = !isdisconnectingpipe;
+	}
+	static void pickuppump() {
+		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpPump())
+			incr();
+	}
+	static void placepump() {
+		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).placePump())
+			incr();
+	}
+	static void danglingpipe() {
+		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpDanglingPipe())
+			incr();
+	}
 
 }

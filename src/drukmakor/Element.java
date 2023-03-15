@@ -9,20 +9,30 @@ public abstract class Element implements Drawable {
 	boolean fix() {
 		return false;
 	}
-	boolean breac() {//for pump
-		return false;
-	}
-	boolean pierce() {
+	boolean piercePipe() {
 		return false;//for pipe
 	}
-	abstract boolean acceptCharacter(Element from);
+	boolean acceptCharacter(Element from) {
+		return false;
+	}
 	void characterExited() {}
-	boolean placePipe(Pipe p) {
+	boolean connectPipe(Pipe p) {
 		return false;
 	}
-	boolean pickUpPipe(Pipe p) {
+	boolean disconnectPipe(Pipe p) {
 		return false;
 	}
+	Pipe pickUpDanglingPipe() {
+		return null;
+	}
+	boolean pickUpPump() {
+		return false;
+	}
+	Pump placePump() {
+		return null;
+	}
+	
+	
 	
 	
 	abstract Coords getCoords();

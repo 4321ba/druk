@@ -9,33 +9,63 @@ public class Mechanic extends Character {
 	public Mechanic(Element cp) {
 		super(cp);
 	}
-	boolean fixCurrent() {
+	boolean fix() {
 		return currentPosition.fix();
 	}
 
-	boolean pickUpPipe(Pipe p) {
-		if (holdingPipe != null || !currentPosition.pickUpPipe(p))//rövidzár??
+	boolean disconnectPipe(Pipe p) {
+		if (holdingPipe != null)
+			return false;
+		if (!currentPosition.disconnectPipe(p))
 			return false;
 		holdingPipe = p;
-		//p.disconnectFrom(currentPosition);//TODO
 		return true;
 	}
 	boolean connectPipe() {
 		if (holdingPipe == null)
 			return false;
-		return currentPosition.placePipe(holdingPipe);
+		boolean res = currentPosition.connectPipe(holdingPipe);
+		if (res)
+			holdingPipe = null;
+		return res;
+	}
+	boolean pickUpDanglingPipe() {
+		if (holdingPipe != null)
+			return false;
+		holdingPipe = currentPosition.pickUpDanglingPipe();
+		return holdingPipe != null;
 	}
 
 	boolean pickUpPump() {
-		return false;//TODO
+		if (hasPump)
+			return false;
+		hasPump = currentPosition.pickUpPump();
+		return hasPump;
 	}
 	boolean placePump() {
-		return false;//TODO
+		if(!hasPump)
+			return false;
+		Pump pu = currentPosition.placePump();
+		hasPump = pu == null;
+		boolean res = moveTo(pu);
+		if (!res)
+			throw new RuntimeException("Nem jól bekötött, nem tudunk átlépni a pumpára!");
+		return !hasPump;
 	}
 	
 	
 
 	@Override public void draw(Graphics g) {
+		if (hasPump) {
+			g.setColor(new Color(50, 0, 0));
+			Coords c = currentPosition.getCoords();
+			g.fillOval(c.x, c.y-20, 12, 12);
+		}
+		if (holdingPipe!=null) {
+			Coords c = currentPosition.getCoords().copy();
+			c.y-=10;
+			holdingPipe.drawfromplayer(c, g);
+		}
 		g.setColor(new Color(255,255,255));
 		super.draw(g);
 	}

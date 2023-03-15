@@ -1,11 +1,14 @@
 package drukmakor;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.security.InvalidParameterException;
 
 public abstract class Character implements Drawable {
 	protected Element currentPosition;
-	public Character(Element cp) {//accept??? pl cső legyen foglalt
+	public Character(Element cp) {
+		boolean res = cp.acceptCharacter(null);
+		if (!res)
+			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
 		currentPosition = cp;
 	}
 	public boolean alterPump(Pump pump, Pipe inPipe, Pipe outPipe) {

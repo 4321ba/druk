@@ -19,15 +19,20 @@ public class Pump extends ActiveElement {
 		isBroken = false;
 		return prevIsBroken;
 	}
-	boolean breac() {
-		boolean prevIsBroken = isBroken;
-		isBroken = true;
-		return !prevIsBroken;
-	}
 	@Override void randomEvent() {
-		breac();
+		isBroken = true;
 	}
-	
+
+	@Override boolean disconnectPipe(Pipe p) {
+		boolean res = super.disconnectPipe(p);
+		if (res) {
+			if (inPipe == p)
+				inPipe = null;
+			if (outPipe == p)
+				outPipe = null;
+		}
+		return res;
+	}
 	
 	public boolean alter(Pipe inP, Pipe outP) {
 		if (inP == outP)

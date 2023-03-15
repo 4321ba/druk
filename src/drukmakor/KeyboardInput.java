@@ -15,6 +15,16 @@ public class KeyboardInput implements KeyListener {
 			Main.mechanicfix();
 		if (e.getKeyChar() == 'a')
 			Main.alterpump();
+		if (e.getKeyChar() == 'c')
+			Main.connectpipe();
+		if (e.getKeyChar() == 'd')
+			Main.disconnectpipe();
+		if (e.getKeyChar() == 'p')
+			Main.pickuppump();
+		if (e.getKeyChar() == 'o')
+			Main.placepump();
+		if (e.getKeyChar() == 'e')
+			Main.danglingpipe();
 		
 	}
 
