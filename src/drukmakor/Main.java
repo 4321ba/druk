@@ -50,57 +50,27 @@ public class Main {
         d.drl.add(PointCounter.get());
         
 		Source s1 = new Source(new Coords(900, 400));
-		d.drl.add(s1);
-		wc.add(s1);
 		Source s2 = new Source(new Coords(1100, 600));
-		d.drl.add(s2);
-		wc.add(s2);
 		Source s3 = new Source(new Coords(730, 500));
-		d.drl.add(s3);
-		wc.add(s3);
 		Cistern c1 = new Cistern(new Coords(150, 450));
-		d.drl.add(c1);
-		wc.add(c1);
 		Cistern c2 = new Cistern(new Coords(260, 450));
-		d.drl.add(c2);
-		wc.add(c2);
 		Cistern c3 = new Cistern(new Coords(170, 340));
-		d.drl.add(c3);
-		wc.add(c3);
 		
 		Pump p1 = new Pump(new Coords(500, 100));
-		d.drl.add(p1);
-		wc.add(p1);
 		Pump p2 = new Pump(new Coords(600, 300));
-		d.drl.add(p2);
-		wc.add(p2);
 		Pump p3 = new Pump(new Coords(550, 600));
-		d.drl.add(p3);
-		wc.add(p3);
 		Pump p4 = new Pump(new Coords(720, 650));
-		d.drl.add(p4);
-		wc.add(p4);
 		
 		Pipe pi1 = new Pipe(s1, p1);
-		d.drl.add(pi1);
 		Pipe pi2 = new Pipe(s2, p2);
-		d.drl.add(pi2);
 		Pipe pi3 = new Pipe(s3, p3);
-		d.drl.add(pi3);
 		Pipe pi4 = new Pipe(p1, p2);
-		d.drl.add(pi4);
 		Pipe pi5 = new Pipe(p1, c1);
-		d.drl.add(pi5);
 		Pipe pi6 = new Pipe(p3, c2);
-		d.drl.add(pi6);
 		Pipe pi7 = new Pipe(p4, c3);
-		d.drl.add(pi7);
 		Pipe pi8 = new Pipe(p2, p4);
-		d.drl.add(pi8);
 		Pipe pi9 = new Pipe(p3, p1);
-		d.drl.add(pi9);
 		Pipe pi10 = new Pipe(p4, s2);
-		d.drl.add(pi10);
 		
 		p1.alter(pi1, pi5);
 		//p2.alter(pi2, pi4);
@@ -124,16 +94,7 @@ public class Main {
 		
         SwingUtilities.invokeLater(() -> Main.createAndShowGUI());
 	}
-	
-	static void registernewpump(Pump p) {
-		d.drl.add(p);
-		wc.add(p);
-	}
-	static void registernewpipe(Pipe p) {
-		d.drl.add(p);
-	}
-	
-	
+
 	
 	
 	static void playergoto(Element e) {

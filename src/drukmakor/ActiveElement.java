@@ -49,6 +49,8 @@ public abstract class ActiveElement extends Element {
 	
 	
 	public ActiveElement(Coords c) {
+		Main.d.drl.add(this);
+		WaterController.get().add(this);
 		this.c = c;
 		b = new Button(getCoords(), this);
 	}

@@ -42,7 +42,6 @@ public class Cistern extends ActiveElement {
 		danglingPipe = false;
 		try {
 			Pipe pi = new Pipe(this, null);
-			Main.registernewpipe(pi);
 			return pi;
 		} catch (IOException e) {
 			return null; // nem sikerült a csövet létrehozni, az aktív elemek nem fogadták be pl max csőszámot meghaladja TODO ilyenkor danglingPipeot visszaállíthatjuk falsera??

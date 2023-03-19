@@ -41,6 +41,7 @@ public class Pipe extends Element {
 			}
 		}
 		b = new Button(getCoords(), this);
+		Main.d.drl.add(this);
 	}
 
 	boolean hasConnectionTo(ActiveElement ae) {//null esetén azt adja vissza, hogy egyik vége legalább null-e
@@ -108,7 +109,6 @@ public class Pipe extends Element {
 		boolean previsocc = isOccupied;//azért kell, mert occupied csövet nem lehet felszedni
 		isOccupied = false;
 		Pump p = new Pump(getCoords());
-		Main.registernewpump(p);
 		ActiveElement prevend1 = end1;
 		boolean res1 = end1.disconnectPipe(this);
 		assert(res1);
@@ -118,7 +118,6 @@ public class Pipe extends Element {
 		} catch (IOException e) {
 			assert(false);
 		}
-		Main.registernewpipe(pi);
 		boolean res2 = p.connectPipe(this);
 		assert(res2);
 		b.c=getCoords();
