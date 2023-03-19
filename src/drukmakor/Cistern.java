@@ -11,9 +11,9 @@ public class Cistern extends ActiveElement {
 		// TODO Auto-generated constructor stub
 	}
 	int waterLevel = 0;
-	boolean danglingPipe = false;
+	int danglingPipeCount = 0;
 	@Override void randomEvent() {
-		danglingPipe = true;
+		++danglingPipeCount;
 	}
 
 	@Override void pullWater() {
@@ -26,20 +26,22 @@ public class Cistern extends ActiveElement {
 	
 
 	@Override void pushWater() {
-			if (danglingPipe && waterLevel > 0) {
+		for (int i = 0; i < danglingPipeCount; ++i) {
+			if (waterLevel > 0) {
 				PointCounter.get().addSaboteurPoint();
 				PointCounter.get().subtractMechanicPoint();
 				--waterLevel;
 			}
+		}
 	}
 
 	@Override boolean pickUpPump() {
 		return true;
 	}
 	@Override Pipe pickUpDanglingPipe() {
-		if (!danglingPipe)
+		if (danglingPipeCount < 1)
 			return null;
-		danglingPipe = false;
+		--danglingPipeCount;
 		try {
 			Pipe pi = new Pipe(this, null);
 			return pi;
@@ -49,9 +51,9 @@ public class Cistern extends ActiveElement {
 	}
 
 	@Override public void draw(Graphics g) {
-		if (danglingPipe) {
+		for (int i = 0; i < danglingPipeCount; ++i) {
 			g.setColor(new Color(0, 0, 0));
-			g.drawLine(c.x, c.y, c.x-10, c.y-10);
+			g.drawLine(c.x, c.y, c.x-10, c.y-15+5*i);
 		}
 		g.setColor(new Color(255, 255, 255));
 		g.drawString(Integer.toString(waterLevel), c.x-10, c.y-10);
