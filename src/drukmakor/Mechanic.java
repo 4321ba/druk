@@ -5,7 +5,8 @@ import java.awt.Graphics;
 
 public class Mechanic extends Character {
 	private Pipe holdingPipe = null;
-	boolean hasPump = false;
+	private Pump holdingPump = null;
+	
 	public Mechanic(Element cp) {
 		super(cp);
 	}
@@ -13,54 +14,56 @@ public class Mechanic extends Character {
 		return currentPosition.fix();
 	}
 
-	boolean disconnectPipe(Pipe p) {
+	boolean disconnectPipe(int index) {
 		if (holdingPipe != null)
 			return false;
-		if (!currentPosition.disconnectPipe(p))
-			return false;
-		holdingPipe = p;
-		return true;
+		holdingPipe = currentPosition.disconnectPipe(index);
+		return holdingPipe != null;
 	}
-	boolean connectPipe() {
+	boolean connectPipe(int index) {
 		if (holdingPipe == null)
 			return false;
-		boolean res = currentPosition.connectPipe(holdingPipe);
+		boolean res = currentPosition.connectPipe(holdingPipe, index);
 		if (res)
 			holdingPipe = null;
 		return res;
 	}
-	boolean pickUpDanglingPipe() {
+	boolean pickUpDanglingPipe(int idx) {
 		if (holdingPipe != null)
 			return false;
-		holdingPipe = currentPosition.pickUpDanglingPipe();
+		holdingPipe = currentPosition.pickUpDanglingPipe(idx);
 		return holdingPipe != null;
 	}
 
 	boolean pickUpPump() {
-		if (hasPump)
+		if (holdingPump != null)
 			return false;
-		hasPump = currentPosition.pickUpPump();
-		return hasPump;
+		holdingPump = currentPosition.pickUpPump();
+		return holdingPump != null;
 	}
 	boolean placePump() {
-		if(!hasPump)
+		if(holdingPump == null)
 			return false;
-		Pump pu = currentPosition.placePump();
-		hasPump = pu == null;
-		boolean res = moveTo(pu);
-		if (!res)
+		boolean res1 = currentPosition.placePump(holdingPump);
+		if (!res1)
+			return false;
+		boolean res2 = moveTo(holdingPump);
+		if (!res2)
 			throw new RuntimeException("Nem jól bekötött, nem tudunk átlépni a pumpára!");
-		return !hasPump;
+		holdingPump = null;
+		return true;
 	}
 	
 	
 
 	@Override public void draw(Graphics g) {
-		if (hasPump) {
+		/*if (hasPump) {
 			g.setColor(new Color(50, 0, 0));
 			Coords c = currentPosition.getCoords();
 			g.fillOval(c.x, c.y-20, 12, 12);
-		}
+		}*/
+		if (holdingPump!=null)
+			holdingPump.c = new Coords(currentPosition.getCoords().x+6, currentPosition.getCoords().y-14);
 		if (holdingPipe!=null) {
 			Coords c = currentPosition.getCoords().copy();
 			c.y-=10;

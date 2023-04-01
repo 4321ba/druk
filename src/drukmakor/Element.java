@@ -16,20 +16,23 @@ public abstract class Element implements Drawable {
 		return false;
 	}
 	void characterExited() {}
-	boolean connectPipe(Pipe p) {
+	boolean connectPipe(Pipe p, int idx) {
 		return false;
 	}
-	boolean disconnectPipe(Pipe p) {
-		return false;
-	}
-	Pipe pickUpDanglingPipe() {
+	Pipe disconnectPipe(int idx) {
 		return null;
 	}
-	boolean pickUpPump() {
+	boolean alterPump(int inPipeIdx, int outPipeIdx) {
 		return false;
 	}
-	Pump placePump() {
+	Pipe pickUpDanglingPipe(int idx) {
 		return null;
+	}
+	Pump pickUpPump() {
+		return null;
+	}
+	boolean placePump(Pump p) {
+		return false;
 	}
 	
 	
@@ -41,6 +44,7 @@ public abstract class Element implements Drawable {
 	
 	@Override
 	public void draw(Graphics g) {
+		b.c=getCoords();
 		b.draw(g);
 		if (!hasWater)
 			return;

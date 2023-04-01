@@ -12,7 +12,8 @@ public class Source extends ActiveElement {
 
 	@Override void pushWater() {
 		for (Pipe p : pipes)
-			p.addWater();
+			if (p != null)
+				p.addWater();
 	}
 	
 	

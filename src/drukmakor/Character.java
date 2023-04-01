@@ -11,10 +11,8 @@ public abstract class Character implements Drawable {
 			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
 		currentPosition = cp;
 	}
-	public boolean alterPump(Pump pump, Pipe inPipe, Pipe outPipe) {
-		if (pump == currentPosition)
-			return pump.alter(inPipe, outPipe);
-		return false;
+	public boolean alterPump(int inPipeIdx, int outPipeIdx) {
+		return currentPosition.alterPump(inPipeIdx, outPipeIdx);
 	}
 	public boolean moveTo(Element e) {
 		if (!e.acceptCharacter(currentPosition))
@@ -23,6 +21,8 @@ public abstract class Character implements Drawable {
 		currentPosition = e;
 		return true;
 	}
+	
+	
 	
 	boolean soros = false;
 	@Override public void draw(Graphics g) {

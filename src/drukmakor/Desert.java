@@ -19,7 +19,7 @@ public class Desert extends JPanel {
 	    //g.setColor(new Color(40,100,40));
 		//g.drawRoundRect(1, 2, 30, 40, 3, 4);
 		g.setColor(new Color(0,0,0));
-		g.drawString("s:skip b:breakpipe f:fix a:alterpump c:connectpipe d:dcpipe p:pickuppump o:placepump e:pickupdanglingpipe", 10, 30);
+		g.drawString("s:skip b:breakpipe f:fix a:alterpump c:connectpipe d:dcpipe p:pickuppump o:placepump e:pickupdanglingpipe numbers:inputforpreviousthings", 10, 30);
 		for (Drawable dr : drl)
 			dr.draw(g);
 	}

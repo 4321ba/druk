@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import drukmakor.Main.dst;
+
 public class Button implements Drawable, MouseListener {
 	Coords c;
 	Element e;
@@ -16,7 +18,7 @@ public class Button implements Drawable, MouseListener {
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(new Color(Main.isalteringpump||Main.isdisconnectingpipe?0:255, 100, 100));
+		g.setColor(new Color(Main.doingSomething!=dst.NOTHING?0:255, 100, 100));
 		g.drawRect(c.x-4, c.y-4, 9, 9);
 	}
 	void click() {

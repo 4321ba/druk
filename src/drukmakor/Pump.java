@@ -9,8 +9,8 @@ public class Pump extends ActiveElement {
 		super(c);
 		// TODO Auto-generated constructor stub
 	}
-	private Pipe inPipe;
-	private Pipe outPipe;//DISCONNECT PIPE-nál ezeket is dcni!
+	private int inPipeIdx = 0;
+	private int outPipeIdx = 1;
 
 
 	boolean isBroken = false;
@@ -23,58 +23,41 @@ public class Pump extends ActiveElement {
 		isBroken = true;
 	}
 
-	@Override boolean disconnectPipe(Pipe p) {
-		boolean res = super.disconnectPipe(p);
-		if (res) {
-			if (inPipe == p)
-				inPipe = null;
-			if (outPipe == p)
-				outPipe = null;
-		}
-		return res;
-	}
-	
-	public boolean alter(Pipe inP, Pipe outP) {
-		if (inP == outP)
+	@Override public boolean alterPump(int inPipeIdx, int outPipeIdx) {
+		if (inPipeIdx == outPipeIdx)
 			return false;
-		if (inPipe == inP && outPipe == outP)
+		if (inPipeIdx == this.inPipeIdx && outPipeIdx == this.outPipeIdx)
 			return false;
-		if (!pipes.contains(inP) || !pipes.contains(outP))
+		if (inPipeIdx < 0 || inPipeIdx >= MAX_CONNECTIONS || outPipeIdx < 0 || outPipeIdx >= MAX_CONNECTIONS)
 			return false;
-		inPipe = inP;
-		outPipe = outP;
+		this.inPipeIdx = inPipeIdx;
+		this.outPipeIdx = outPipeIdx;
 		return true;
 	}
 	
 	@Override
 	void pushWater() {
-		if (outPipe == null || isBroken)
+		if (pipes[outPipeIdx] == null || isBroken)
 			return;
 		if (hasWater)
-			hasWater = !outPipe.addWater();
+			hasWater = !pipes[outPipeIdx].addWater();
 	}	
 
 	@Override
 	void pullWater() {
-		if (inPipe == null || isBroken)
+		if (pipes[inPipeIdx] == null || isBroken)
 			return;
 		if (!hasWater)
-			hasWater = inPipe.drainWater();
+			hasWater = pipes[inPipeIdx].drainWater();
 	}
 	
 	@Override public void draw(Graphics g) {
-		if (inPipe != null) {
-			Coords cin = inPipe.getCoords();
-			cin = new Coords((3*c.x+cin.x)/4, (3*c.y+cin.y)/4);
-			g.setColor(new Color(0, 230, 0));//zöldből a pirosba pumpál
-			g.drawRoundRect(cin.x-1, cin.y-1, 4, 4, 1, 1);
-		}
-		if (outPipe != null) {
-			Coords cout = outPipe.getCoords();
-			cout = new Coords((3*c.x+cout.x)/4, (3*c.y+cout.y)/4);
-			g.setColor(new Color(230, 0, 0));
-			g.drawRoundRect(cout.x-1, cout.y-1, 4, 4, 1, 1);
-		}
+		Coords nc = getCoordsForIdx(inPipeIdx);
+		g.setColor(new Color(0, 230, 0));//zöldből a pirosba pumpál
+		g.drawRect(nc.x-3, nc.y-3, 7, 7);
+		nc = getCoordsForIdx(outPipeIdx);
+		g.setColor(new Color(230, 0, 0));
+		g.drawRect(nc.x-3, nc.y-3, 7, 7);
 		g.setColor(new Color(isBroken? 200 : 50, 0, 0));
 		super.draw(g);
 	}

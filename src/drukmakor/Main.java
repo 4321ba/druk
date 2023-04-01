@@ -8,7 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-//+7 óra prototípus nekem :))
+//+7 óra prototípus nekem :)) (5 óra március 13, 2 óra március 15
+// +2.5 óra 04.01
 
 public class Main {
 	static Desert d = new Desert();
@@ -72,10 +73,10 @@ public class Main {
 		Pipe pi9 = new Pipe(p3, p1);
 		Pipe pi10 = new Pipe(p4, s2);
 		
-		p1.alter(pi1, pi5);
+		p1.alterPump(0, 2);
 		//p2.alter(pi2, pi4);
-		p3.alter(pi3, pi6);
-		p4.alter(pi10, pi7);
+		p3.alterPump(0, 1);
+		p4.alterPump(2, 0);
 		
 		
 		Mechanic m1 = new Mechanic(p1);
@@ -98,29 +99,6 @@ public class Main {
 	
 	
 	static void playergoto(Element e) {
-		if (isalteringpump) {
-			if (alteringelements[0] == null)
-				alteringelements[0] = e;
-			else if (alteringelements[1] == null)
-				alteringelements[1] = e;
-			else if (alteringelements[2] == null) {
-				alteringelements[2] = e;
-				if (alteringelements[0] instanceof Pump && alteringelements[1] instanceof Pipe && alteringelements[2] instanceof Pipe &&
-						players[currPlIdx].alterPump((Pump)alteringelements[0], (Pipe)alteringelements[1], (Pipe)alteringelements[2])) {
-					incr();
-					alterpump();
-				}
-			}
-			return;
-		}
-		if (isdisconnectingpipe) {
-			if (e instanceof Pipe && players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).disconnectPipe((Pipe)e)) {
-				incr();
-				disconnectpipe();
-			}
-			return;
-		}
-		
 		if (players[currPlIdx].moveTo(e))
 			incr();
 	}
@@ -136,24 +114,57 @@ public class Main {
 			incr();
 	}
 	
-	static boolean isalteringpump = false;
-	static Element[] alteringelements = new Element[3];
+	public enum dst {
+		NOTHING,
+	    ALTERINGPUMP,
+	    DCPIPE, 
+	    CONNECTPIPE,
+	    PICKUPDANGLING,
+	}
+	static dst doingSomething = dst.NOTHING;
+	static int prevalter = -1;
 	static void alterpump() {
-		isdisconnectingpipe = false;
-		isalteringpump = !isalteringpump;
-		if (!isalteringpump)
-			for (int i = 0; i < 3; ++i)
-				alteringelements[i]=null;
+		doingSomething = dst.ALTERINGPUMP;
+	}
+	static void numberinput(int n) {
+		switch (doingSomething) {
+			case ALTERINGPUMP:
+				if (prevalter == -1)
+					prevalter = n;
+				else {
+					if (players[currPlIdx].alterPump(prevalter, n))
+						incr();
+					prevalter = -1;
+					doingSomething = dst.NOTHING;
+				}
+				break;
+			case DCPIPE:
+				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).disconnectPipe(n))
+					incr();
+				doingSomething = dst.NOTHING;
+				break;
+			case CONNECTPIPE:
+				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).connectPipe(n))
+					incr();
+				doingSomething = dst.NOTHING;
+				break;
+			case PICKUPDANGLING:
+				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpDanglingPipe(n))
+					incr();
+				doingSomething = dst.NOTHING;
+				break;
+		case NOTHING:
+			break;
+		default:
+			break;
+		}
 	}
 	
 	static void connectpipe() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).connectPipe())
-			incr();
+		doingSomething = dst.CONNECTPIPE;
 	}
-	static boolean isdisconnectingpipe = false;
 	static void disconnectpipe() {
-		isalteringpump = false;
-		isdisconnectingpipe = !isdisconnectingpipe;
+		doingSomething = dst.DCPIPE;
 	}
 	static void pickuppump() {
 		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpPump())
@@ -164,8 +175,7 @@ public class Main {
 			incr();
 	}
 	static void danglingpipe() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpDanglingPipe())
-			incr();
+		doingSomething = dst.PICKUPDANGLING;
 	}
 
 }

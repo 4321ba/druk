@@ -11,6 +11,9 @@ public class Pipe extends Element {
 	boolean isOccupied = false;
 	
 	boolean isPierced = false;
+	
+	boolean isCarried = false;
+	
 	@Override boolean fix() {
 		boolean prevIsBroken = isPierced;
 		isPierced = false;
@@ -28,12 +31,12 @@ public class Pipe extends Element {
 	
 	
 	public Pipe(ActiveElement ae1, ActiveElement ae2) throws IOException {    // mi történik ha teli ciszernához veszünk fel új csövet??? Exception amit a ciszternának el kell kapni
-		boolean res1 = ae1.connectPipe(this);
+		boolean res1 = ae1.connectPipe(this, -1);
 		if (!res1) {
 			throw new IOException("Failed to connect to Pump!");
 		}
 		if (ae2 != null) {
-			boolean res2 = ae2.connectPipe(this);
+			boolean res2 = ae2.connectPipe(this, -1);
 			if (!res2) {
 				boolean res3 = ae1.disconnectPipe(this);//konzisztens állapotba visszaállítani a varázslatot
 				assert(res3);
@@ -44,17 +47,10 @@ public class Pipe extends Element {
 		Main.d.drl.add(this);
 	}
 
-	boolean hasConnectionTo(ActiveElement ae) {//null esetén azt adja vissza, hogy egyik vége legalább null-e
-		return end1 == ae || end2 == ae;
-	}
-	ActiveElement getOtherEnd(ActiveElement ae) {//vissazadja az egyik végét, amelyik nem ae
-		assert(end1 != end2);//ezeket ott kéne ellenőrizni ahol változnak
-		if (end1 != ae)
-			return end1;
-		return end2;
-	}
 	boolean disconnectFrom(ActiveElement ae) {// ha rajta állnak akkor ne engedje a felvételt
 		if (isOccupied)
+			return false;
+		if (end1 == null || end2 == null)
 			return false;
 		assert(end1 != end2);
 		if (ae != end1 && ae != end2)
@@ -62,18 +58,29 @@ public class Pipe extends Element {
 		if (ae == end1)
 			end1 = end2;
 		end2 = null;
+		isCarried = true;
 		return true;
 	}
-	void connectTo(ActiveElement ae) {//ctorból hívva még mindkettő null lesz!
+	boolean connectTo(ActiveElement ae) {//ctorból hívva még mindkettő null lesz!
 		if (end2 != null)
 			throw new RuntimeException("Mindkét végén foglalt csőhöz történő csatlakoztatás!");
+		if (end1 == ae)
+			return false;
+		isCarried = false;
 		end2 = ae;
-		if (end1 == null) {
+		if (end1 == null) {//ha ctorból van hívva és mindkettő null
 			end1 = end2;
 			end2 = null;
 		}
-		if (b != null)//ctorból
-			b.c=getCoords();
+		return true;
+	}
+	
+	Pipe pickUpDangling() {
+		if ((end1 == null || end2 == null) && !isCarried) {//ha egyik vége null de nem viszik: ekkor dangling
+			isCarried = true;
+			return this;
+		}
+		return null;
 	}
 	
 	@Override boolean acceptCharacter(Element from) {
@@ -103,26 +110,33 @@ public class Pipe extends Element {
 		hasWater = false;
 		return true;
 	}
+	
+	boolean wasteWater() {
+		if ((end1 == null || end2 == null) && !isCarried) {// dangling: azaz az egyik vége null, és nem szállítják
+			PointCounter.get().addSaboteurPoint();
+			return true;
+		}
+		return false;
+	}
 
-	@Override Pump placePump() {
+	@Override boolean placePump(Pump p) {
 		assert(end1!=null&&end2!=null);
 		boolean previsocc = isOccupied;//azért kell, mert occupied csövet nem lehet felszedni
 		isOccupied = false;
-		Pump p = new Pump(getCoords());
+		p.c=getCoords();
 		ActiveElement prevend1 = end1;
 		boolean res1 = end1.disconnectPipe(this);
 		assert(res1);
-		Pipe pi = null;
 		try {
-			pi = new Pipe(prevend1, p);
+			new Pipe(prevend1, p);
 		} catch (IOException e) {
 			assert(false);
 		}
-		boolean res2 = p.connectPipe(this);
+		boolean res2 = p.connectPipe(this, -1);
 		assert(res2);
 		b.c=getCoords();
 		isOccupied = previsocc;
-		return p;
+		return true;
 	}
 
 	
@@ -133,7 +147,7 @@ public class Pipe extends Element {
 	public void drawfromplayer(Coords playerc, Graphics g) {
 		assert(end2==null);
 		g.setColor(new Color(isPierced? 200 : 50 , end2==null?200:0, isOccupied?255:0));
-		Coords e1 = end1.getCoords();
+		Coords e1 = end1.getCoordsForPipe(this);
 		Coords e2 = playerc;
 		Coords c = new Coords((e1.x+e2.x)/2, (e1.y+e2.y)/2);
 		g.drawLine(e1.x, e1.y, e2.x, e2.y);
@@ -146,21 +160,21 @@ public class Pipe extends Element {
 	}
 
 	@Override public void draw(Graphics g) {
-		if (end2 == null)
+		if (end2 == null && isCarried)
 			return;
 		g.setColor(new Color(isPierced? 200 : 50 , end2==null?200:0, isOccupied?255:0));
-		Coords e1 = end1.getCoords();
-		Coords e2 = end2.getCoords();
+		Coords e1 = end1.getCoordsForPipe(this);
+		Coords e2 = end2!=null?end2.getCoordsForPipe(this):new Coords(e1.x-10, e1.y-10);
 		g.drawLine(e1.x, e1.y, e2.x, e2.y);
 		super.draw(g);
 	}
 	
 	@Override
 	Coords getCoords() {
-		Coords e1 = end1.getCoords();
+		Coords e1 = end1.getCoordsForPipe(this);
 		Coords masik = e1.copy();
 		masik.y-=20;
-		Coords e2 = end2==null?masik:end2.getCoords();//TODO mi használná még ezt, pl vízcsepp kirajzolás? idk
+		Coords e2 = end2==null?masik:end2.getCoordsForPipe(this);//TODO mi használná még ezt, pl vízcsepp kirajzolás? idk
 		return new Coords((e1.x+e2.x)/2, (e1.y+e2.y)/2);
 	}
 }

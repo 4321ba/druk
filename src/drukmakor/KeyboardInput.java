@@ -25,6 +25,8 @@ public class KeyboardInput implements KeyListener {
 			Main.placepump();
 		if (e.getKeyChar() == 'e')
 			Main.danglingpipe();
+		if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9')
+			Main.numberinput(e.getKeyChar()-'0');
 		
 	}
 
