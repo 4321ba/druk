@@ -18,10 +18,12 @@ vele a karaktert (acceptCharacter). Különben a cső például nem tudna arról
 	 * @param cp
 	 */
 	public Character(Element cp) {
+		Pr.fv(this, "Character", cp);
 		boolean res = cp.acceptCharacter(null);
 		if (!res)
 			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
 		currentPosition = cp;
+		Pr.ret();
 	}
 	/**
 	 * amennyiben pump-on áll, beállítja
@@ -33,7 +35,8 @@ sikerült-e)
 	 * @return
 	 */
 	public boolean alterPump(int inPipeIdx, int outPipeIdx) {
-		return currentPosition.alterPump(inPipeIdx, outPipeIdx);
+		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
+		return Pr.ret(currentPosition.alterPump(inPipeIdx, outPipeIdx));
 	}
 	/**
 	 * a paraméterként kapott Element-re próbál rálépni
@@ -41,11 +44,12 @@ sikerült-e)
 	 * @return
 	 */
 	public boolean moveTo(Element e) {
+		Pr.fv(this, "moveTo", e); 
 		if (!e.acceptCharacter(currentPosition))
-			return false;
+			return Pr.ret(false);
 		currentPosition.characterExited();
 		currentPosition = e;
-		return true;
+		return Pr.ret(true);
 	}
 	
 	

@@ -18,7 +18,8 @@ alapértelmezetten sikertelen, leszármazottaknak célszerű felüldefiniálni
 	 * @return
 	 */
 	public boolean fix() {
-		return false;
+		Pr.fv(this, "fix");
+		return Pr.ret(false);
 	}
 	/**
 	 * az elem reakcióját írja elő a rajta álló szabotőr “piercePipe”
@@ -26,7 +27,8 @@ akciójára, alapértelmezetten sikertelen, leszármazottaknak célszerű felül
 	 * @return
 	 */
 	public boolean piercePipe() {
-		return false;//for pipe
+		Pr.fv(this, "piercePipe");
+		return Pr.ret(false);
 	}
 	/**
 	 * egy karakter rá szeretne lépni from elem
@@ -35,12 +37,16 @@ irányából, alapértelmezetten sikertelen, leszármazottaknak célszerű felü
 	 * @return
 	 */
 	public boolean acceptCharacter(Element from) {
-		return false;
+		Pr.fv(this, "acceptCharacter", from);
+		return Pr.ret(false);
 	}
 	/**
 	 * egy karakter lelépett erről az elemről
 	 */
-	public void characterExited() {}
+	public void characterExited() {
+		Pr.fv(this, "characterExited");
+		Pr.ret();
+	}
 	/**
 	 * leteszi p cső végét erre az elemre, az idxedik
 helyre (lista elem), p-t is megkéri, hogy frissítse magát, -1-es index esetén bárhova
@@ -50,7 +56,8 @@ csatlakoztatja
 	 * @return
 	 */
 	public boolean connectPipe(Pipe p, int idx) {
-		return false;
+		Pr.fv(this, "connectPipe", p, idx);
+		return Pr.ret(false);
 	}
 	/**
 	 * amennyiben sikerül az adott pozícióból pipe-ot
@@ -59,7 +66,8 @@ lecsatolni, azt visszaadja, különben null-t, a pipe-ot is megkéri, hogy friss
 	 * @return
 	 */
 	public Pipe disconnectPipe(int idx) {
-		return null;
+		Pr.fv(this, "disconnectPipe", idx);
+		return Pr.ret((Pipe)null);
 	}
 	/**
 	 * beállítja a kimeneti és a bemeneti
@@ -69,7 +77,8 @@ cső indexet, amennyiben a leszármazott megvalósítja
 	 * @return
 	 */
 	public boolean alterPump(int inPipeIdx, int outPipeIdx) {
-		return false;
+		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
+		return Pr.ret(false);
 	}
 	/**
 	 * felveszi az indexedik helyen levő lelógó
@@ -78,14 +87,16 @@ csövet erről az elemről, nullt ad vissza, ha sikertelen
 	 * @return
 	 */
 	public Pipe pickUpDanglingPipe(int idx) {
-		return null;
+		Pr.fv(this, "pickUpDanglingPipe", idx);
+		return Pr.ret((Pipe)null);
 	}
 	/**
 	 * felvesz egy pumpát erről az elemről
 	 * @return
 	 */
 	public Pump pickUpPump() {
-		return null;
+		Pr.fv(this, "pickUpPump");
+		return Pr.ret((Pump)null);
 	}
 	/**
 	 * letesz egy pumpát, amennyiben ez az adott elemen
@@ -94,7 +105,8 @@ lehetséges. Visszaadja a sikerességet.
 	 * @return
 	 */
 	public boolean placePump(Pump p) {
-		return false;
+		Pr.fv(this, "placePump", p);
+		return Pr.ret(false);
 	}
 	
 	

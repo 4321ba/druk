@@ -10,29 +10,35 @@ Tudja milyen csövek kapcsolódnak bele.
 public class Cistern extends ActiveElement {
 
 	public Cistern() {
-		
+		Pr.fv(this, "Cistern");
+		Pr.ret();
 	}
 	private int waterLevel = 0;
 	/**
 	 * keletkezik egy új cső, ami lelóg róla
 	 */
 	@Override public void randomEvent() {
-		for (Pipe p : pipes) {// van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot
+		Pr.fv(this, "randomEvent");
+		for (Pipe p : pipes) {// van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot (különben exceptiont dob)
 			if (p == null) {
 				new Pipe(this, null);
+				Pr.ret();
 				return;
 			}
 		}
+		Pr.ret();
 	}
 	/**
 	 * végigmegy az összes rákötött csövön, és kiszívja
 belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőknek
 	 */
 	@Override public void pullWater() {
+		Pr.fv(this, "pullWater");
 		for (Pipe p : pipes)
 			if (p != null && p.drainWater()) {
 				++waterLevel;
 			}
+		Pr.ret();
 	}
 	
 	/**
@@ -41,6 +47,7 @@ ezzel analóg módon levon egy-egy pontot a szerelőktől (és a pipe-ok adnak e
 pontot a szabotőröknek)
 	 */
 	@Override public void pushWater() {
+		Pr.fv(this, "pushWater");
 		for (Pipe p : pipes) {
 			if (p != null && waterLevel > 0) {
 				if (p.wasteWater()) {
@@ -48,13 +55,15 @@ pontot a szabotőröknek)
 				}
 			}
 		}
+		Pr.ret();
 	}
 	/**
 	 * egy új pumpát ad vissza mindig: bármikor lehet
 új pumpát felvenni a ciszternánál
 	 */
 	@Override public Pump pickUpPump() {
-		return new Pump();
+		Pr.fv(this, "pickUpPump");
+		return Pr.ret(new Pump());
 	}
 
 }

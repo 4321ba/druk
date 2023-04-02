@@ -20,7 +20,8 @@ public class Saboteur extends Character {
 	 * @return
 	 */
 	public boolean piercePipe() {
-		return currentPosition.piercePipe();
+		Pr.fv(this, "piercePipe");
+		return Pr.ret(currentPosition.piercePipe());
 	}
 
 	

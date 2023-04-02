@@ -34,21 +34,23 @@ public class Pipe extends Element {
 	 * megjavítja a csövet, ha ki van lyukasztva
 	 */
 	@Override public boolean fix() {
+		Pr.fv(this, "fix");
 		boolean prevIsBroken = isPierced;
 		isPierced = false;
-		return prevIsBroken;
+		return Pr.ret(prevIsBroken);
 	}
 	/**
 	 * kilyukasztja a csövet, ha eddig nem volt; a benne levő
 víz is kifolyik, ha volt benne
 	 */
 	@Override public boolean piercePipe() {
+		Pr.fv(this, "piercePipe");
 		boolean prevIsBroken = isPierced;
 		isPierced = true;
 		if (hasWater) {
 			hasWater = false;
 		}
-		return !prevIsBroken;
+		return Pr.ret(!prevIsBroken);
 	}
 	
 	/**
@@ -60,6 +62,8 @@ nem sikerül, kivételt dob
 	 * @param ae2
 	 */
 	public Pipe(ActiveElement ae1, ActiveElement ae2) throws InvalidParameterException {    // mi történik ha teli ciszernához veszünk fel új csövet??? Exception amit a ciszternának el kell kapni
+
+		Pr.fv(this, "Pipe", ae1, ae2);
 		boolean res1 = ae1.connectPipe(this, -1);
 		if (!res1) {
 			throw new InvalidParameterException("Failed to connect to Pump!");
@@ -67,11 +71,11 @@ nem sikerül, kivételt dob
 		if (ae2 != null) {
 			boolean res2 = ae2.connectPipe(this, -1);
 			if (!res2) {
-				boolean res3 = ae1.disconnectPipe(this);//konzisztens állapotba visszaállítani a varázslatot
-				assert(res3);
+				ae1.disconnectPipe(this);//konzisztens állapotba visszaállítani a varázslatot
 				throw new InvalidParameterException("Failed to connect to Pump!");
 			}
 		}
+		Pr.ret();
 	}
 	/**
 	 * lecsatlakoztatja az ae véget, amennyiben
@@ -81,10 +85,11 @@ nem sikerül, kivételt dob
 	 * @return
 	 */
 	public boolean disconnectFrom(ActiveElement ae) {// ha rajta állnak akkor ne engedje a felvételt
+		Pr.fv(this, "disconnectFrom", ae);
 		if (isOccupied)
-			return false;
+			return Pr.ret(false);
 		if (end1 == null || end2 == null)
-			return false;
+			return Pr.ret(false);
 		assert(end1 != end2);
 		if (ae != end1 && ae != end2)
 			throw new RuntimeException("A cső egyik vége sem ae!");
@@ -92,7 +97,7 @@ nem sikerül, kivételt dob
 			end1 = end2;
 		end2 = null;
 		isCarried = true;
-		return true;
+		return Pr.ret(true);
 	}
 	/**
 	 * rácsatlakoztatja ae-t a szabad végére. A hívás
@@ -101,17 +106,18 @@ feltétele, hogy legyen a csőnek szabad vége. Hurokélt nem enged meg
 	 * @return
 	 */
 	public boolean connectTo(ActiveElement ae) {//ctorból hívva még mindkettő null lesz!
+		Pr.fv(this, "connectTo", ae);
 		if (end2 != null)
 			throw new RuntimeException("Mindkét végén foglalt csőhöz történő csatlakoztatás!");
 		if (end1 == ae)
-			return false;
+			return Pr.ret(false);
 		isCarried = false;
 		end2 = ae;
 		if (end1 == null) {//ha ctorból van hívva és mindkettő null
 			end1 = end2;
 			end2 = null;
 		}
-		return true;
+		return Pr.ret(true);
 	}
 	/**
 	 * visszaadja önmagát, ha ez egy dangling pipe (azaz egyik
@@ -119,52 +125,58 @@ vége null és nem isCarried), egyébként nullt ad vissza.
 	 * @return
 	 */
 	public Pipe pickUpDangling() {
+		Pr.fv(this, "pickUpDangling");
 		if ((end1 == null || end2 == null) && !isCarried) {//ha egyik vége null de nem viszik: ekkor dangling
 			isCarried = true;
-			return this;
+			return Pr.ret(this);
 		}
-		return null;
+		return Pr.ret((Pipe)null);
 	}
 	/**
 	 *  rá enged lépni egy karaktert, ha
 nem foglalt, illetve nem viszik éppen
 	 */
 	@Override public boolean acceptCharacter(Element from) {
+		Pr.fv(this, "acceptCharacter", from);
 		if (isOccupied || end2 == null)//ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
-			return false;
+			return Pr.ret(false);
 		if (from != end1 && from != end2 && from != null)
-			return false;
+			return Pr.ret(false);
 		isOccupied = true;
-		return true;
+		return Pr.ret(true);
 	}
 	/**
 	 * lelépett róla egy karakter. Ismét szabad
 	 */
 	@Override public void characterExited() {
+		Pr.fv(this, "characterExited");
 		isOccupied = false;
+		Pr.ret();
 	}
 	/**
 	 * Kap vizet, visszaadja, hogy elfogadta-e
 	 * @return
 	 */
 	public boolean addWater() {
+		Pr.fv(this, "addWater");
 		if (hasWater)
-			return false;
+			return Pr.ret(false);
 		if (isPierced) {
-			return true;
+			return Pr.ret(true);
 		}
 		hasWater = true;
-		return true;
+		return Pr.ret(true);
 	}
 	/**
 	 * Szívnak belőle vizet, visszaadja, hogy volt-e benne
 	 * @return
 	 */
 	public boolean drainWater() {
+		Pr.fv(this, "drainWater");
 		if (!hasWater)
-			return false;
+			return Pr.ret(false);
 		hasWater = false;
-		return true;
+		return Pr.ret(true);
 	}
 	/**
 	 * Amennyiben a cső egyik vége szabadon van, elfolyatja a kapott vizet.
@@ -172,27 +184,28 @@ nem foglalt, illetve nem viszik éppen
 	 * @return
 	 */
 	public boolean wasteWater() {
+		Pr.fv(this, "wasteWater");
 		if ((end1 == null || end2 == null) && !isCarried) {// dangling: azaz az egyik vége null, és nem szállítják
-			return true;
+			return Pr.ret(true);
 		}
-		return false;
+		return Pr.ret(false);
 	}
 	/**
 	 * leteszi p pumpát középre, magát
 átcsatlakoztatja hozzá, és létrehoz még egy csövet az új pumpa, és a másik vég között.
 	 */
 	@Override public boolean placePump(Pump p) {
+		Pr.fv(this, "placePump", p);
 		assert(end1!=null&&end2!=null);
 		boolean previsocc = isOccupied;//azért kell, mert occupied csövet nem lehet felszedni
 		isOccupied = false;
 		ActiveElement prevend1 = end1;
-		boolean res1 = end1.disconnectPipe(this);
-		assert(res1);
+		end1.disconnectPipe(this);
 		new Pipe(prevend1, p);
 		boolean res2 = p.connectPipe(this, -1);
 		assert(res2);
 		isOccupied = previsocc;
-		return true;
+		return Pr.ret(true);
 	}
 
 }

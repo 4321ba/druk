@@ -28,7 +28,8 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean fix() {
-		return currentPosition.fix();
+		Pr.fv(this, "fix");
+		return Pr.ret(currentPosition.fix());
 	}
 	/**
 	 * arról a pumpáról, amin áll, megkísérli lekapcsolni a
@@ -38,10 +39,11 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean disconnectPipe(int index) {
+		Pr.fv(this, "disconnectPipe", index);
 		if (holdingPipe != null)
-			return false;
+			return Pr.ret(false);
 		holdingPipe = currentPosition.disconnectPipe(index);
-		return holdingPipe != null;
+		return Pr.ret(holdingPipe != null);
 	}
 	/**
 	 * megkísérli a holdingPipe csövet csatlakoztatni ahhoz
@@ -50,12 +52,13 @@ az elemhez, amin áll, ahhoz a csatlakozóhoz
 	 * @return
 	 */
 	public boolean connectPipe(int index) {
+		Pr.fv(this, "connectPipe", index);
 		if (holdingPipe == null)
-			return false;
+			return Pr.ret(false);
 		boolean res = currentPosition.connectPipe(holdingPipe, index);
 		if (res)
 			holdingPipe = null;
-		return res;
+		return Pr.ret(res);
 	}
 	/**
 	 * felveszi az indexedik helyen levő lelógó
@@ -64,10 +67,11 @@ csövet (a ciszternánál), ha sikerül
 	 * @return
 	 */
 	public boolean pickUpDanglingPipe(int idx) {
+		Pr.fv(this, "pickUpDanglingPipe", idx);
 		if (holdingPipe != null)
-			return false;
+			return Pr.ret(false);
 		holdingPipe = currentPosition.pickUpDanglingPipe(idx);
-		return holdingPipe != null;
+		return Pr.ret(holdingPipe != null);
 	}
 	/**
 	 * felvesz egy pumpát (a ciszternánál), ha sikerül ez lesz a
@@ -75,26 +79,28 @@ holdingPump
 	 * @return
 	 */
 	public boolean pickUpPump() {
+		Pr.fv(this, "pickUpPump");
 		if (holdingPump != null)
-			return false;
+			return Pr.ret(false);
 		holdingPump = currentPosition.pickUpPump();
-		return holdingPump != null;
+		return Pr.ret(holdingPump != null);
 	}
 	/**
 	 * megkéri az elemet, amin áll, hogy rakja le a pumpát (ha van nála)
 	 * @return
 	 */
 	public boolean placePump() {
+		Pr.fv(this, "placePump");
 		if(holdingPump == null)
-			return false;
+			return Pr.ret(false);
 		boolean res1 = currentPosition.placePump(holdingPump);
 		if (!res1)
-			return false;
+			return Pr.ret(false);
 		boolean res2 = moveTo(holdingPump);
 		if (!res2)
 			throw new RuntimeException("Nem jól bekötött, nem tudunk átlépni a pumpára!");
 		holdingPump = null;
-		return true;
+		return Pr.ret(true);
 	}
 	
 	
