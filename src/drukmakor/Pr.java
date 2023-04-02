@@ -1,9 +1,14 @@
 package drukmakor;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  * PRinteli a kért dolgot
  * 
  */
 public class Pr {
+    private static Scanner scanner = new Scanner(System.in);
 	private static boolean muted = false;
 	public static void setMuted(boolean b) {
 		muted = b;
@@ -17,13 +22,15 @@ public class Pr {
 			System.out.print(s);
 	}
 	private static int ident = 0;
-	private static void prident(boolean arrowRight) {
+	private static void prident(char arrowMode) {
 		for (int i = 0; i < ident; ++i)
 			print("     |");
-		if (arrowRight)
+		if (arrowMode == '>')
 			print("--->\\ ");
-		else
+		else if (arrowMode == '<')
 			print("<---/ ");
+		else if (arrowMode == ' ')
+			print(" ");
 	}
 	private static String strip(Object o) {
 		if (o == null)
@@ -37,41 +44,67 @@ public class Pr {
 		return s;
 	}
 	public static void fv(Object ths, String name) {
-		prident(true);
+		prident('>');
 		println(strip(ths) + "." + name + "()");
 		ident++;
 	}
 	public static void fv(Object ths, String name, Object p) {
-		prident(true);
+		prident('>');
 		println(strip(ths) + "." + name + "(" + strip(p) + ")");
 		ident++;
 	}
 	public static void fv(Object ths, String name, Object p1, Object p2) {
-		prident(true);
+		prident('>');
 		println(strip(ths) + "." + name + "(" + strip(p1) + ", " + strip(p2) + ")");
 		ident++;
 	}
 	public static void ret() {
 		ident--;
-		prident(false);
+		prident('<');
 		println("return");
 	}
 	public static boolean ret(boolean val) {
 		ident--;
-		prident(false);
+		prident('<');
 		println("return " + strip(val));
 		return val;
 	}
 	public static Pipe ret(Pipe val) {
 		ident--;
-		prident(false);
+		prident('<');
 		println("return " + strip(val));
 		return val;
 	}
 	public static Pump ret(Pump val) {
 		ident--;
-		prident(false);
+		prident('<');
 		println("return " + strip(val));
 		return val;
+	}
+	public static boolean inBool(String s) {
+		while (true) {
+			prident(' ');
+			System.out.print("Bool value needed (" + s + "): ");
+			try {
+				return scanner.nextBoolean();
+			} catch (InputMismatchException e) {
+				scanner.nextLine();
+				prident(' ');
+                System.out.println("Invalid input!");
+            }
+		}
+	}
+	public static int inInt(String s) {
+		while (true) {
+			prident(' ');
+			System.out.print("Int value needed (" + s + "): ");
+			try {
+				return scanner.nextInt();
+			} catch (InputMismatchException e) {
+				scanner.nextLine();
+				prident(' ');
+                System.out.println("Invalid input!");
+            }
+		}
 	}
 }

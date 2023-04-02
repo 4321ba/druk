@@ -14,25 +14,11 @@ public class Pump extends ActiveElement {
 		Pr.ret();
 	}
 	/**
-	 * bemeneti cső indexe
-	 */
-	private int inPipeIdx = 0;
-	/**
-	 * kimeneti cső, indexe
-	 */
-	private int outPipeIdx = 1;
-
-	/**
-	 * el van-e törve
-	 */
-	private boolean isBroken = false;
-	/**
 	 * megjavítja a pumpát
 	 */
 	@Override public boolean fix() {
 		Pr.fv(this, "fix");
-		boolean prevIsBroken = isBroken;
-		isBroken = false;
+		boolean prevIsBroken = Pr.inBool("isBroken");
 		return Pr.ret(prevIsBroken);
 	}
 	/**
@@ -40,7 +26,6 @@ public class Pump extends ActiveElement {
 	 */
 	@Override public void randomEvent() {
 		Pr.fv(this, "randomEvent");
-		isBroken = true;
 		Pr.ret();
 	}
 	/**
@@ -51,12 +36,8 @@ bemeneti cső indexet
 		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
 		if (inPipeIdx == outPipeIdx)
 			return Pr.ret(false);
-		if (inPipeIdx == this.inPipeIdx && outPipeIdx == this.outPipeIdx)
-			return Pr.ret(false);
 		if (inPipeIdx < 0 || inPipeIdx >= MAX_CONNECTIONS || outPipeIdx < 0 || outPipeIdx >= MAX_CONNECTIONS)
 			return Pr.ret(false);
-		this.inPipeIdx = inPipeIdx;
-		this.outPipeIdx = outPipeIdx;
 		return Pr.ret(true);
 	}
 	/**
@@ -66,12 +47,12 @@ benne víz, akkor átadja a vizet outPipe-nak, amennyiben az befogadja
 	@Override
 	public void pushWater() {
 		Pr.fv(this, "pushWater");
-		if (pipes[outPipeIdx] == null || isBroken) {
+		if (pipes[Pr.inInt("outPipeIdx")] == null || Pr.inBool("isBroken")) {
 			Pr.ret();
 			return;
 		}
-		if (hasWater)
-			hasWater = !pipes[outPipeIdx].addWater();
+		if (Pr.inBool("hasWater"))
+			pipes[Pr.inInt("outPipeIdx")].addWater();
 		Pr.ret();
 	}	
 	/**
@@ -81,12 +62,12 @@ nincs már eleve a pumpában víz, akkor megkéri a bemeneti csövet, hogy adjon
 	@Override
 	public void pullWater() {
 		Pr.fv(this, "pullWater");
-		if (pipes[inPipeIdx] == null || isBroken) {
+		if (pipes[Pr.inInt("inPipeIdx")] == null || Pr.inBool("isBroken")) {
 			Pr.ret();
 			return;
 		}
-		if (!hasWater)
-			hasWater = pipes[inPipeIdx].drainWater();
+		if (!Pr.inBool("hasWater"))
+			pipes[Pr.inInt("inPipeIdx")].drainWater();
 		Pr.ret();
 	}
 	

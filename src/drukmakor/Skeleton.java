@@ -2,8 +2,11 @@ package drukmakor;
 
 public class Skeleton {
 	public static void main(String[] args) {
-		//seq_5_3_1_1();
-		ini_5_4_6();
+		seq_5_3_1_1();
+		//ini_5_4_1();
+		//ini_5_4_2();
+		//ini_5_4_3();
+		//ini_5_4_4();
 	}
 	private static Mechanic m;
 	private static Saboteur s;

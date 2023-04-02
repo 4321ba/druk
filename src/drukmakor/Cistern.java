@@ -13,7 +13,6 @@ public class Cistern extends ActiveElement {
 		Pr.fv(this, "Cistern");
 		Pr.ret();
 	}
-	private int waterLevel = 0;
 	/**
 	 * keletkezik egy új cső, ami lelóg róla
 	 */
@@ -36,7 +35,6 @@ belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőkne
 		Pr.fv(this, "pullWater");
 		for (Pipe p : pipes)
 			if (p != null && p.drainWater()) {
-				++waterLevel;
 			}
 		Pr.ret();
 	}
@@ -49,9 +47,8 @@ pontot a szabotőröknek)
 	@Override public void pushWater() {
 		Pr.fv(this, "pushWater");
 		for (Pipe p : pipes) {
-			if (p != null && waterLevel > 0) {
+			if (p != null && Pr.inInt("waterLevel") > 0) {
 				if (p.wasteWater()) {
-					--waterLevel;
 				}
 			}
 		}
