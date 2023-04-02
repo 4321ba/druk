@@ -2,7 +2,6 @@ package drukmakor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.IOException;
 import java.security.InvalidParameterException;
 /**
  * Ezen az objektumon keresztül folyik a víz. Csövek kötik össze a pumpákat és a pumpákat
@@ -62,7 +61,6 @@ ekkor csak egy vége van a csőnek, a másik vége a játékosnál lesz. Ha a cs
 nem sikerül, kivételt dob
 	 * @param ae1
 	 * @param ae2
-	 * @throws IOException TODO valami más exception!
 	 */
 	public Pipe(ActiveElement ae1, ActiveElement ae2) throws InvalidParameterException {    // mi történik ha teli ciszernához veszünk fel új csövet??? Exception amit a ciszternának el kell kapni
 		boolean res1 = ae1.connectPipe(this, -1);

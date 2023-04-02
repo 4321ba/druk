@@ -2,7 +2,6 @@ package drukmakor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.IOException;
 /**
  * Ide kell eljuttatni a vizet a szerelőknek. Csövek kapcsolódhatnak hozzá. Időközönként
 termelődik itt új cső. Tudja mennyi víz jutott el bele. A szerelők itt vehetnek fel új pumpát,
