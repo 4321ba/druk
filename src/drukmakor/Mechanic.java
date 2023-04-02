@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 /**
  * Olyan játékos, aki képes megjavítani a szabotált/elromlott dolgokat, és módosítani a pályát
 pumpák és csövek elhelyezésével, vagy csövek mozgatásával. Fel tudnak venni új csövet,
@@ -100,22 +98,5 @@ holdingPump
 	}
 	
 	
-
-	@Override public void draw(Graphics g) {
-		/*if (hasPump) {
-			g.setColor(new Color(50, 0, 0));
-			Coords c = currentPosition.getCoords();
-			g.fillOval(c.x, c.y-20, 12, 12);
-		}*/
-		if (holdingPump!=null)
-			holdingPump.c = new Coords(currentPosition.getCoords().x+6, currentPosition.getCoords().y-14);
-		if (holdingPipe!=null) {
-			Coords c = currentPosition.getCoords().copy();
-			c.y-=10;
-			holdingPipe.drawfromplayer(c, g);
-		}
-		g.setColor(new Color(255,255,255));
-		super.draw(g);
-	}
 	
 }

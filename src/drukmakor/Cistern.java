@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 /**
  * Ide kell eljuttatni a vizet a szerelőknek. Csövek kapcsolódhatnak hozzá. Időközönként
 termelődik itt új cső. Tudja mennyi víz jutott el bele. A szerelők itt vehetnek fel új pumpát,
@@ -11,8 +9,8 @@ Tudja milyen csövek kapcsolódnak bele.
  */
 public class Cistern extends ActiveElement {
 
-	public Cistern(Coords c) {
-		super(c);
+	public Cistern() {
+		
 	}
 	private int waterLevel = 0;
 	/**
@@ -33,7 +31,6 @@ belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőkne
 	@Override public void pullWater() {
 		for (Pipe p : pipes)
 			if (p != null && p.drainWater()) {
-				PointCounter.get().addMechanicPoint();
 				++waterLevel;
 			}
 	}
@@ -47,7 +44,6 @@ pontot a szabotőröknek)
 		for (Pipe p : pipes) {
 			if (p != null && waterLevel > 0) {
 				if (p.wasteWater()) {
-					PointCounter.get().subtractMechanicPoint();
 					--waterLevel;
 				}
 			}
@@ -58,18 +54,7 @@ pontot a szabotőröknek)
 új pumpát felvenni a ciszternánál
 	 */
 	@Override public Pump pickUpPump() {
-		return new Pump(getCoords().copy());
+		return new Pump();
 	}
 
-	
-	
-	
-	
-	
-	@Override public void draw(Graphics g) {
-		g.setColor(new Color(255, 255, 255));
-		g.drawString(Integer.toString(waterLevel), c.x-10, c.y-10);
-		g.setColor(new Color(0, 245, 0));
-		super.draw(g);
-	}
 }

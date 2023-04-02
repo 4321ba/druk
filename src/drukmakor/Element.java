@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 /**
  * Belőle áll a pálya, minden egyes elem belőle származik. Számontartja, hogy van-e benne víz,
 tud karaktert elfogadni, illetve értesíteni lehet, hogy egy ellépett róla. Továbbá definiál
@@ -9,7 +7,7 @@ különböző leszármazott-specifikus függvényeket is, amikkel különböző 
 végrehajtani.
  *
  */
-public abstract class Element implements Drawable {
+public abstract class Element {
 	/**
 	 * van-e benne víz
 	 */
@@ -100,20 +98,4 @@ lehetséges. Visszaadja a sikerességet.
 	}
 	
 	
-	
-	
-	abstract Coords getCoords();
-	
-	Button b;
-	
-	@Override
-	public void draw(Graphics g) {
-		b.c=getCoords();
-		b.draw(g);
-		if (!hasWater)
-			return;
-		Coords c = getCoords();
-		g.setColor(new Color(100, 100, 245));
-		g.fillOval(c.x-2, c.y+6, 5, 12);
-	}
 }

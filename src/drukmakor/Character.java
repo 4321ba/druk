@@ -1,13 +1,12 @@
 package drukmakor;
 
-import java.awt.Graphics;
 import java.security.InvalidParameterException;
 /**
  * A Mechanic és Saboteur osztályok ősosztálya, a két szerep típus azonos lehetőségeit valósítja
 meg, így a mozgást és a pumpák víznyomásának irányát.
  *
  */
-public abstract class Character implements Drawable {
+public abstract class Character {
 	/**
 	 * az az elem, amelyiken a Character áll, nem lehet null
 	 */
@@ -50,12 +49,4 @@ sikerült-e)
 	}
 	
 	
-	
-	boolean soros = false;
-	@Override public void draw(Graphics g) {
-		Coords c = currentPosition.getCoords();
-		g.drawRect(c.x-5, c.y-15, 10, 20);
-		if (soros)
-			g.fillOval(c.x-5, c.y-25, 10, 10);
-	}
 }

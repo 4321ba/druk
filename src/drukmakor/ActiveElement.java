@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.Random;
 
 /**
@@ -105,52 +103,13 @@ leszármazottak definiálhatják felül
 	 * meghívja a saját pushWater és pullWater függvényét, illetve a
 randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
-	public void tick(boolean isPushing) {
-		if (isPushing)
-			pushWater();
-		else
-			pullWater();
+	public void tick() {
+		pushWater();
+		pullWater();
 	    Random rand = new Random();
-	    if (rand.nextDouble() < 0.5)
+	    if (rand.nextDouble() < 0.01)//TODO tesztelőtől kérdezni
 	    	randomEvent();
 	}
 	
 	
-	public ActiveElement(Coords c) {
-		Main.d.drl.add(this);
-		WaterController.get().add(this);
-		this.c = c;
-		b = new Button(getCoords(), this);
-	}
-	
-	Coords getCoordsForIdx(int idx) {
-		Coords c2 = c.copy();
-		double phi = 2*Math.PI*idx / MAX_CONNECTIONS;
-		c2.x += Math.cos(phi) * 30;
-		c2.y += Math.sin(phi) * 30;
-		return c2;
-	}
-	Coords getCoordsForPipe(Pipe p) {
-		for (int i = 0; i < MAX_CONNECTIONS; ++i)
-			if (pipes[i] == p)
-				return getCoordsForIdx(i);
-		throw new RuntimeException("nincs is benne a pipe");
-	}
-	
-	Coords c;
-	@Override public void draw(Graphics g) {//színbeállítás a gyerekeknél kötelező
-		g.fillOval(c.x-6, c.y-6, 12, 12);
-		g.setColor(new Color(0, 0, 50));
-		for (int i = 0; i < MAX_CONNECTIONS; ++i) {
-			Coords nc = getCoordsForIdx(i);
-			g.drawRect(nc.x-4, nc.y-4, 9, 9);
-			g.drawString(Integer.toString(i), nc.x-3, nc.y+6);
-		}
-		super.draw(g);
-	}
-	
-	@Override
-	Coords getCoords() {
-		return c;
-	}
 }

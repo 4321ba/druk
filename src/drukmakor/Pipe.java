@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.security.InvalidParameterException;
 /**
  * Ezen az objektumon keresztül folyik a víz. Csövek kötik össze a pumpákat és a pumpákat
@@ -48,7 +46,6 @@ víz is kifolyik, ha volt benne
 		boolean prevIsBroken = isPierced;
 		isPierced = true;
 		if (hasWater) {
-			PointCounter.get().addSaboteurPoint();
 			hasWater = false;
 		}
 		return !prevIsBroken;
@@ -75,8 +72,6 @@ nem sikerül, kivételt dob
 				throw new InvalidParameterException("Failed to connect to Pump!");
 			}
 		}
-		b = new Button(getCoords(), this);
-		Main.d.drl.add(this);
 	}
 	/**
 	 * lecsatlakoztatja az ae véget, amennyiben
@@ -156,7 +151,6 @@ nem foglalt, illetve nem viszik éppen
 		if (hasWater)
 			return false;
 		if (isPierced) {
-			PointCounter.get().addSaboteurPoint();
 			return true;
 		}
 		hasWater = true;
@@ -179,7 +173,6 @@ nem foglalt, illetve nem viszik éppen
 	 */
 	public boolean wasteWater() {
 		if ((end1 == null || end2 == null) && !isCarried) {// dangling: azaz az egyik vége null, és nem szállítják
-			PointCounter.get().addSaboteurPoint();
 			return true;
 		}
 		return false;
@@ -192,55 +185,14 @@ nem foglalt, illetve nem viszik éppen
 		assert(end1!=null&&end2!=null);
 		boolean previsocc = isOccupied;//azért kell, mert occupied csövet nem lehet felszedni
 		isOccupied = false;
-		p.c=getCoords();
 		ActiveElement prevend1 = end1;
 		boolean res1 = end1.disconnectPipe(this);
 		assert(res1);
 		new Pipe(prevend1, p);
 		boolean res2 = p.connectPipe(this, -1);
 		assert(res2);
-		b.c=getCoords();
 		isOccupied = previsocc;
 		return true;
 	}
 
-	
-	
-	
-	
-	
-	
-	public void drawfromplayer(Coords playerc, Graphics g) {
-		assert(end2==null);
-		g.setColor(new Color(isPierced? 200 : 50 , end2==null?200:0, isOccupied?255:0));
-		Coords e1 = end1.getCoordsForPipe(this);
-		Coords e2 = playerc;
-		Coords c = new Coords((e1.x+e2.x)/2, (e1.y+e2.y)/2);
-		g.drawLine(e1.x, e1.y, e2.x, e2.y);
-		b.c=c;
-		b.draw(g);
-		if (!hasWater)
-			return;
-		g.setColor(new Color(100, 100, 245));
-		g.fillOval(c.x-2, c.y+6, 5, 12);
-	}
-
-	@Override public void draw(Graphics g) {
-		if (end2 == null && isCarried)
-			return;
-		g.setColor(new Color(isPierced? 200 : 50 , end2==null?200:0, isOccupied?255:0));
-		Coords e1 = end1.getCoordsForPipe(this);
-		Coords e2 = end2!=null?end2.getCoordsForPipe(this):new Coords(e1.x-10, e1.y-10);
-		g.drawLine(e1.x, e1.y, e2.x, e2.y);
-		super.draw(g);
-	}
-	
-	@Override
-	Coords getCoords() {
-		Coords e1 = end1.getCoordsForPipe(this);
-		Coords masik = e1.copy();
-		masik.y-=20;
-		Coords e2 = end2==null?masik:end2.getCoordsForPipe(this);//TODO mi használná még ezt, pl vízcsepp kirajzolás? idk
-		return new Coords((e1.x+e2.x)/2, (e1.y+e2.y)/2);
-	}
 }

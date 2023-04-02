@@ -1,7 +1,5 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
 /**
  * Aktív elem, ami mozgatja a vizet a bemenetéből saját magába, illetve saját magából a
 kimenetébe. El tud romlani. Állhat rajta akár több Mechanic és Saboteur is. Ők állíthatják a
@@ -11,9 +9,7 @@ Tudja milyen csövek kapcsolódnak bele.
  */
 public class Pump extends ActiveElement {
 
-	public Pump(Coords c) {
-		super(c);
-		// TODO Auto-generated constructor stub
+	public Pump() {
 	}
 	/**
 	 * bemeneti cső indexe
@@ -81,17 +77,4 @@ nincs már eleve a pumpában víz, akkor megkéri a bemeneti csövet, hogy adjon
 	}
 	
 	
-	
-	
-	
-	@Override public void draw(Graphics g) {
-		Coords nc = getCoordsForIdx(inPipeIdx);
-		g.setColor(new Color(0, 230, 0));//zöldből a pirosba pumpál
-		g.drawRect(nc.x-3, nc.y-3, 7, 7);
-		nc = getCoordsForIdx(outPipeIdx);
-		g.setColor(new Color(230, 0, 0));
-		g.drawRect(nc.x-3, nc.y-3, 7, 7);
-		g.setColor(new Color(isBroken? 200 : 50, 0, 0));
-		super.draw(g);
-	}
 }
