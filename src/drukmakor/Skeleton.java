@@ -58,7 +58,7 @@ public class Skeleton {
 		int i = Pr.inInt("5.3.4.?");
 		if (i >= 1 && i <= 4) seq_5_3_4_1();
 		else if (i >= 5 && i <= 7) seq_5_3_4_5();
-		else if (i >= 8 && i <= 9) seq_5_3_4_8();
+		else if (i >= 8 && i <= 8) seq_5_3_4_8();
 	}
 	
 	
@@ -172,14 +172,14 @@ public class Skeleton {
 	}
 	private static void seq_5_3_2_3() {
 		Pr.fv("Skeleton", "seq_5_3_2_3");
-		ini_5_4_1();
-		m.moveTo(pi3);
+		ini_5_4_5();
+		s.moveTo(pi1);
 		Pr.ret();
 	}
 	private static void seq_5_3_2_4() {
 		Pr.fv("Skeleton", "seq_5_3_2_4");
 		ini_5_4_6();
-		s.moveTo(pi1);
+		s.moveTo(p1);
 		Pr.ret();
 	}
 	
