@@ -1,7 +1,6 @@
 package drukmakor;
 
 import java.security.InvalidParameterException;
-import java.util.Random;
 
 /**
  * Képes egy csatlakozó csőből magába vizet húzni, és/vagy egy csatlakozó csőbe magából vizet
@@ -127,8 +126,7 @@ randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklus�
 		Pr.fv(this, "tick");
 		pushWater();
 		pullWater();
-	    Random rand = new Random();
-	    if (rand.nextDouble() < 0.01)//TODO tesztelőtől kérdezni
+	    if (Pr.inBool("random"))
 	    	randomEvent();
 	    Pr.ret();
 	}

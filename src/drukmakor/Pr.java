@@ -13,6 +13,9 @@ public class Pr {
 	public static void setMuted(boolean b) {
 		muted = b;
 	}
+	public static void resetIdent() {
+		ident = 0;
+	}
 	private static void println(String s) {
 		if (!muted)
 			System.out.println(s);
