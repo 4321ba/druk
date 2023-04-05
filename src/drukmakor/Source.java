@@ -2,9 +2,9 @@ package drukmakor;
 
 /**
  * Innen kell eljuttatni a vizet a ciszternákba a szerelőknek. Csövek kapcsolódnak hozzá.
-A szerelők új csöveket is csatlakoztathatnak hozzá. Mindig pumpál vizet a hozzá kapcsolódó
-csövekbe.
-Tudja melyik csövek kapcsolódnak bele.
+ * A szerelők új csöveket is csatlakoztathatnak hozzá. Mindig pumpál vizet a hozzá kapcsolódó
+ * csövekbe.
+ * Tudja melyik csövek kapcsolódnak bele.
  *
  */
 public class Source extends ActiveElement {

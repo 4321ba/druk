@@ -2,9 +2,9 @@ package drukmakor;
 
 /**
  * Ide kell eljuttatni a vizet a szerelőknek. Csövek kapcsolódhatnak hozzá. Időközönként
-termelődik itt új cső. Tudja mennyi víz jutott el bele. A szerelők itt vehetnek fel új pumpát,
-bármennyit. Mindig kiszívja a vizet a hozzá kapcsolódó csövekből.
-Tudja milyen csövek kapcsolódnak bele.
+ * termelődik itt új cső. Tudja mennyi víz jutott el bele. A szerelők itt vehetnek fel új pumpát,
+ * bármennyit. Mindig kiszívja a vizet a hozzá kapcsolódó csövekből.
+ * Tudja milyen csövek kapcsolódnak bele.
  *
  */
 public class Cistern extends ActiveElement {
@@ -29,7 +29,7 @@ public class Cistern extends ActiveElement {
 	}
 	/**
 	 * végigmegy az összes rákötött csövön, és kiszívja
-belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőknek
+	 * belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőknek
 	 */
 	@Override public void pullWater() {
 		Pr.fv(this, "pullWater");
@@ -41,8 +41,8 @@ belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőkne
 	
 	/**
 	 *  a dangling pipeokba belétol 1-1 vizet, és
-ezzel analóg módon levon egy-egy pontot a szerelőktől (és a pipe-ok adnak egy-egy
-pontot a szabotőröknek)
+	 *  ezzel analóg módon levon egy-egy pontot a szerelőktől (és a pipe-ok adnak egy-egy
+	 *  pontot a szabotőröknek)
 	 */
 	@Override public void pushWater() {
 		Pr.fv(this, "pushWater");
@@ -56,7 +56,7 @@ pontot a szabotőröknek)
 	}
 	/**
 	 * egy új pumpát ad vissza mindig: bármikor lehet
-új pumpát felvenni a ciszternánál
+	 * új pumpát felvenni a ciszternánál
 	 */
 	@Override public Pump pickUpPump() {
 		Pr.fv(this, "pickUpPump");

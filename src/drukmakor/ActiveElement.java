@@ -4,7 +4,7 @@ import java.security.InvalidParameterException;
 
 /**
  * Képes egy csatlakozó csőből magába vizet húzni, és/vagy egy csatlakozó csőbe magából vizet
-juttatni. Ugyanakkor lehetővé teszi, hogy csövet csatlakoztassanak hozzá.
+ * juttatni. Ugyanakkor lehetővé teszi, hogy csövet csatlakoztassanak hozzá.
  *
  */
 public abstract class ActiveElement extends Element {
@@ -16,7 +16,7 @@ public abstract class ActiveElement extends Element {
 	protected Pipe[] pipes = new Pipe[MAX_CONNECTIONS];
 	/**
 	 *  rá enged lépni egy karaktert, ha
-csatlakozik from elemhez
+	 *  csatlakozik from elemhez
 	 */
 	@Override public boolean acceptCharacter(Element from) {
 		Pr.fv(this, "acceptCharacter", from);
@@ -30,8 +30,8 @@ csatlakozik from elemhez
 	
 	/**
 	 * csatlakoztat egy eddig egyik végén
-szabad csövet magához, a megadott indexű helyre. Ellenőrzi, hogy elég hely van-e a
-listában, hogy lenne-e hurokél, -1-es paraméter esetén bárhova lehet kötni
+	 * szabad csövet magához, a megadott indexű helyre. Ellenőrzi, hogy elég hely van-e a
+	 * listában, hogy lenne-e hurokél, -1-es paraméter esetén bárhova lehet kötni
 	 */
 	@Override public boolean connectPipe(Pipe p, int idx) {
 		Pr.fv(this, "connectPipe", p, idx);
@@ -53,7 +53,7 @@ listában, hogy lenne-e hurokél, -1-es paraméter esetén bárhova lehet kötni
 	}
 	/**
 	 * felszedi a paraméterként kapottadik indexű
-cső saját oldalán levő végét és azt visszaadja
+	 * cső saját oldalán levő végét és azt visszaadja
 	 */
 	@Override public Pipe disconnectPipe(int idx) {
 		Pr.fv(this, "disconnectPipe", idx);
@@ -68,7 +68,7 @@ cső saját oldalán levő végét és azt visszaadja
 	}
 	/**
 	 * p pipe-ot lecsatolja, és
-a pipe-ot is megkéri, hogy frissítse magát, híváskor kötelező, hogy p és this egymásra legyenek kapcsolva
+	 * a pipe-ot is megkéri, hogy frissítse magát, híváskor kötelező, hogy p és this egymásra legyenek kapcsolva
 	 * @param p
 	 */
 	public void disconnectPipe(Pipe p) {
@@ -86,7 +86,7 @@ a pipe-ot is megkéri, hogy frissítse magát, híváskor kötelező, hogy p és
 	}
 	/**
 	 *  felveszi az indexedik helyen levő
-lelógó csövet erről az elemről, nullt ad vissza, ha sikertelen
+	 *  lelógó csövet erről az elemről, nullt ad vissza, ha sikertelen
 	 */
 	@Override public Pipe pickUpDanglingPipe(int idx) {
 		Pr.fv(this, "pickUpDanglingPipe", idx);
@@ -96,7 +96,7 @@ lelógó csövet erről az elemről, nullt ad vissza, ha sikertelen
 	}
 	/**
 	 *  a beállított kimeneti csö(vek)be megpróbálja benyomni a vizet,
-alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
+	 *  alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	 */
 	public void pushWater() {
 		Pr.fv(this, "pushWater");
@@ -104,7 +104,7 @@ alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	}
 	/**
 	 * a beállított bemeneti csö(vek)ből megpróbál vízhez jutni,
-alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
+	 * alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	 */
 	public void pullWater() {
 		Pr.fv(this, "pullWater");
@@ -112,7 +112,7 @@ alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	}
 	/**
 	 * néha meghívódik, alapértelmezetten nem csinál semmit,
-leszármazottak definiálhatják felül
+	 * leszármazottak definiálhatják felül
 	 */
 	public void randomEvent() {
 		Pr.fv(this, "randomEvent");
@@ -120,7 +120,7 @@ leszármazottak definiálhatják felül
 	}
 	/**
 	 * meghívja a saját pushWater és pullWater függvényét, illetve a
-randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
+	 * randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
 	public void tick() {
 		Pr.fv(this, "tick");

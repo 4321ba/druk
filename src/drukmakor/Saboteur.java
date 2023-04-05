@@ -2,8 +2,8 @@ package drukmakor;
 
 /**
  * A játékos olyan változata, aki tud szabotálni, vagyis elrontani pumpákat, illetve kilyukasztani
-csöveket.
-Tudja, hogy melyik elemen áll és (csak) azt képes elrontani/átállítani.
+ * csöveket.
+ * Tudja, hogy melyik elemen áll és (csak) azt képes elrontani/átállítani.
  *
  */
 public class Saboteur extends Character {
@@ -15,8 +15,7 @@ public class Saboteur extends Character {
 		super(cp);
 	}
 	/**
-	 * kiszúrja az elemet, amin áll (csak akkor lehet sikeres, ha csövön
-áll)
+	 * kiszúrja az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll)
 	 * @return
 	 */
 	public boolean piercePipe() {

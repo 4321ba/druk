@@ -3,7 +3,7 @@ package drukmakor;
 import java.security.InvalidParameterException;
 /**
  * A Mechanic és Saboteur osztályok ősosztálya, a két szerep típus azonos lehetőségeit valósítja
-meg, így a mozgást és a pumpák víznyomásának irányát.
+ * meg, így a mozgást és a pumpák víznyomásának irányát.
  *
  */
 public abstract class Character {
@@ -13,8 +13,8 @@ public abstract class Character {
 	protected Element currentPosition;
 	/**
 	 * Konstruktor, a currentPosition értékét állítja, és befogadtatja
-vele a karaktert (acceptCharacter). Különben a cső például nem tudna arról, hogy
-állnak rajta
+	 * vele a karaktert (acceptCharacter). Különben a cső például nem tudna arról, hogy
+	 * állnak rajta
 	 * @param cp
 	 */
 	public Character(Element cp) {
@@ -27,9 +27,9 @@ vele a karaktert (acceptCharacter). Különben a cső például nem tudna arról
 	}
 	/**
 	 * amennyiben pump-on áll, beállítja
-pump bemeneti csövének a paraméterként kapott inPipeIdx indexű pipe-ot, és
-kimeneti csőnek a paraméterként kapott outPipeIdx indexűt (és visszaadja, hogy
-sikerült-e)
+	 * pump bemeneti csövének a paraméterként kapott inPipeIdx indexű pipe-ot, és
+	 * kimeneti csőnek a paraméterként kapott outPipeIdx indexűt (és visszaadja, hogy
+	 * sikerült-e)
 	 * @param inPipeIdx
 	 * @param outPipeIdx
 	 * @return

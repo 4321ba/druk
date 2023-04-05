@@ -2,9 +2,9 @@ package drukmakor;
 
 /**
  * Aktív elem, ami mozgatja a vizet a bemenetéből saját magába, illetve saját magából a
-kimenetébe. El tud romlani. Állhat rajta akár több Mechanic és Saboteur is. Ők állíthatják a
-bemenetét és a kimenetét. Véges számú cső kapcsolódhat bele.
-Tudja milyen csövek kapcsolódnak bele.
+ * kimenetébe. El tud romlani. Állhat rajta akár több Mechanic és Saboteur is. Ők állíthatják a
+ * bemenetét és a kimenetét. Véges számú cső kapcsolódhat bele.
+ * Tudja milyen csövek kapcsolódnak bele.
  *
  */
 public class Pump extends ActiveElement {
@@ -29,8 +29,7 @@ public class Pump extends ActiveElement {
 		Pr.ret();
 	}
 	/**
-	 * beállítja a kimeneti és a
-bemeneti cső indexet
+	 * beállítja a kimeneti és a bemeneti cső indexet
 	 */
 	@Override public boolean alterPump(int inPipeIdx, int outPipeIdx) {
 		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
@@ -42,7 +41,7 @@ bemeneti cső indexet
 	}
 	/**
 	 * ha nincs eltörve, és van kimeneti cső beállítva, és van
-benne víz, akkor átadja a vizet outPipe-nak, amennyiben az befogadja
+	 * benne víz, akkor átadja a vizet outPipe-nak, amennyiben az befogadja
 	 */
 	@Override
 	public void pushWater() {
@@ -57,7 +56,7 @@ benne víz, akkor átadja a vizet outPipe-nak, amennyiben az befogadja
 	}	
 	/**
 	 * ha nincs eltörve, és van bemeneti cső beállítva, és
-nincs már eleve a pumpában víz, akkor megkéri a bemeneti csövet, hogy adjon vizet
+	 * nincs már eleve a pumpában víz, akkor megkéri a bemeneti csövet, hogy adjon vizet
 	 */
 	@Override
 	public void pullWater() {

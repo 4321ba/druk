@@ -3,10 +3,10 @@ package drukmakor;
 import java.security.InvalidParameterException;
 /**
  * Ezen az objektumon keresztül folyik a víz. Csövek kötik össze a pumpákat és a pumpákat
-ilyen elem köti a forrásokhoz/ciszternákhoz. A pumpák és ciszternák szívják belőle ki a vizet,
-illetve a pumpák és a források nyomják bele azt. Egyszerre csak egy játékos állhat rajta.
-Tudja, hogy melyik pumpákat/ciszternát/forrást köti össze, illetve hogy folyik-e rajta keresztül
-víz.
+ * ilyen elem köti a forrásokhoz/ciszternákhoz. A pumpák és ciszternák szívják belőle ki a vizet,
+ * illetve a pumpák és a források nyomják bele azt. Egyszerre csak egy játékos állhat rajta.
+ * Tudja, hogy melyik pumpákat/ciszternát/forrást köti össze, illetve hogy folyik-e rajta keresztül
+ * víz.
  *
  */
 public class Pipe extends Element {
@@ -28,7 +28,7 @@ public class Pipe extends Element {
 	}
 	/**
 	 * kilyukasztja a csövet, ha eddig nem volt; a benne levő
-víz is kifolyik, ha volt benne
+	 * víz is kifolyik, ha volt benne
 	 */
 	@Override public boolean piercePipe() {
 		Pr.fv(this, "piercePipe");
@@ -38,9 +38,9 @@ víz is kifolyik, ha volt benne
 	
 	/**
 	 * konstruktor: létrehozza a csövet ae1
-és ae2 között. Ae1-et és ae2-t is frissíti, hozzáadja magát a listájukhoz. Ae2 lehet null,
-ekkor csak egy vége van a csőnek, a másik vége a játékosnál lesz. Ha a csatlakoztatás
-nem sikerül, kivételt dob
+	 * és ae2 között. Ae1-et és ae2-t is frissíti, hozzáadja magát a listájukhoz. Ae2 lehet null,
+	 * ekkor csak egy vége van a csőnek, a másik vége a játékosnál lesz. Ha a csatlakoztatás
+	 * nem sikerül, kivételt dob
 	 * @param ae1
 	 * @param ae2
 	 */
@@ -62,8 +62,8 @@ nem sikerül, kivételt dob
 	}
 	/**
 	 * lecsatlakoztatja az ae véget, amennyiben
-	nem áll a csövön senki. Ha állnak rajta, akkor nem lehet lecsatlakoztatni. A hívás
-	feltétele, hogy a cső egyik vége ae legyen
+	 * nem áll a csövön senki. Ha állnak rajta, akkor nem lehet lecsatlakoztatni. A hívás
+	 * feltétele, hogy a cső egyik vége ae legyen
 	 * @param ae
 	 * @return
 	 */
@@ -83,7 +83,7 @@ nem sikerül, kivételt dob
 	}
 	/**
 	 * rácsatlakoztatja ae-t a szabad végére. A hívás
-feltétele, hogy legyen a csőnek szabad vége. Hurokélt nem enged meg
+	 * feltétele, hogy legyen a csőnek szabad vége. Hurokélt nem enged meg
 	 * @param ae
 	 * @return
 	 */
@@ -102,7 +102,7 @@ feltétele, hogy legyen a csőnek szabad vége. Hurokélt nem enged meg
 	}
 	/**
 	 * visszaadja önmagát, ha ez egy dangling pipe (azaz egyik
-vége null és nem isCarried), egyébként nullt ad vissza.
+	 * vége null és nem isCarried), egyébként nullt ad vissza.
 	 * @return
 	 */
 	public Pipe pickUpDangling() {
@@ -114,7 +114,7 @@ vége null és nem isCarried), egyébként nullt ad vissza.
 	}
 	/**
 	 *  rá enged lépni egy karaktert, ha
-nem foglalt, illetve nem viszik éppen
+	 *  nem foglalt, illetve nem viszik éppen
 	 */
 	@Override public boolean acceptCharacter(Element from) {
 		Pr.fv(this, "acceptCharacter", from);
@@ -168,7 +168,7 @@ nem foglalt, illetve nem viszik éppen
 	}
 	/**
 	 * leteszi p pumpát középre, magát
-átcsatlakoztatja hozzá, és létrehoz még egy csövet az új pumpa, és a másik vég között.
+	 * átcsatlakoztatja hozzá, és létrehoz még egy csövet az új pumpa, és a másik vég között.
 	 */
 	@Override public boolean placePump(Pump p) {
 		Pr.fv(this, "placePump", p);

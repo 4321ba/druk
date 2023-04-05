@@ -2,9 +2,9 @@ package drukmakor;
 
 /**
  * Olyan játékos, aki képes megjavítani a szabotált/elromlott dolgokat, és módosítani a pályát
-pumpák és csövek elhelyezésével, vagy csövek mozgatásával. Fel tudnak venni új csövet,
-illetve pumpát a ciszternáknál.
-Tudja, hogy melyik elemen áll, és (csak) azt képes javítani/átállítani.
+ * pumpák és csövek elhelyezésével, vagy csövek mozgatásával. Fel tudnak venni új csövet,
+ * illetve pumpát a ciszternáknál.
+ * Tudja, hogy melyik elemen áll, és (csak) azt képes javítani/átállítani.
  *
  */
 public class Mechanic extends Character {
@@ -33,8 +33,8 @@ public class Mechanic extends Character {
 	}
 	/**
 	 * arról a pumpáról, amin áll, megkísérli lekapcsolni a
-	paraméterként kapott indexű csatlakozón lévő (lista eleme) Pipe-ot. Amennyiben ez
-	sikeres, ez lesz a holdingPipe.
+	 * paraméterként kapott indexű csatlakozón lévő (lista eleme) Pipe-ot. Amennyiben ez
+	 * sikeres, ez lesz a holdingPipe.
 	 * @param index
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class Mechanic extends Character {
 	}
 	/**
 	 * megkísérli a holdingPipe csövet csatlakoztatni ahhoz
-az elemhez, amin áll, ahhoz a csatlakozóhoz
+	 * az elemhez, amin áll, ahhoz a csatlakozóhoz
 	 * @param index
 	 * @return
 	 */
@@ -62,7 +62,7 @@ az elemhez, amin áll, ahhoz a csatlakozóhoz
 	}
 	/**
 	 * felveszi az indexedik helyen levő lelógó
-csövet (a ciszternánál), ha sikerül
+	 * csövet (a ciszternánál), ha sikerül
 	 * @param idx
 	 * @return
 	 */
@@ -75,7 +75,7 @@ csövet (a ciszternánál), ha sikerül
 	}
 	/**
 	 * felvesz egy pumpát (a ciszternánál), ha sikerül ez lesz a
-holdingPump
+	 * holdingPump
 	 * @return
 	 */
 	public boolean pickUpPump() {
