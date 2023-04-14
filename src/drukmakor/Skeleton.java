@@ -2,7 +2,9 @@ package drukmakor;
 
 public class Skeleton {
 	public static void main(String[] args) {
-		System.out.println("Welcome to Drukmákor! Type in the number of your favourite sequence diagram!");
+		System.out.println("Welcome to Drukmákor! Do you want to see the magic behind the initialization?");
+		printIni = Pr.inBool("printIni");
+		System.out.println("Type in the number of your favourite sequence diagram!");
 		while(true) {
 			int i = Pr.inInt("5.3.? (0: exit)");
 			try {
@@ -17,6 +19,8 @@ public class Skeleton {
 			}
 		}
 	}
+	
+	private static boolean printIni = true;
 	
 	private static Mechanic m;
 	private static Saboteur s;
@@ -64,6 +68,8 @@ public class Skeleton {
 	
 	private static void ini_5_4_1() {
 		Pr.fv("Skeleton", "ini_5_4_1");
+		if (!printIni)
+			Pr.setMuted(true);
 		p1 = new Pump();
 		s1 = new Source();
 		c1 = new Cistern();
@@ -75,19 +81,25 @@ public class Skeleton {
 		m.moveTo(pi2);
 		m.moveTo(p1);
 		m.disconnectPipe(0);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	private static void ini_5_4_2() {
 		Pr.fv("Skeleton", "ini_5_4_2");
+		if (!printIni)
+			Pr.setMuted(true);
 		p1 = new Pump();
 		c1 = new Cistern();
 		pi1 = new Pipe(c1, null);
 		pi2 = new Pipe(p1, c1);
 		m = new Mechanic(c1);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	private static void ini_5_4_3() {
 		Pr.fv("Skeleton", "ini_5_4_3");
+		if (!printIni)
+			Pr.setMuted(true);
 		p1 = new Pump();
 		c1 = new Cistern();
 		pi1 = new Pipe(p1, c1);
@@ -96,32 +108,42 @@ public class Skeleton {
 		m.disconnectPipe(1);
 		m.pickUpPump();
 		m.moveTo(pi1);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	private static void ini_5_4_4() {
 		Pr.fv("Skeleton", "ini_5_4_4");
+		if (!printIni)
+			Pr.setMuted(true);
 		p1 = new Pump();
 		p2 = new Pump();
 		pi1 = new Pipe(p1, p2);
 		m = new Mechanic(pi1);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	private static void ini_5_4_5() {
 		Pr.fv("Skeleton", "ini_5_4_5");
+		if (!printIni)
+			Pr.setMuted(true);
 		s1 = new Source();
 		c1 = new Cistern();
 		p1 = new Pump();
 		pi1 = new Pipe(s1, p1);
 		pi2 = new Pipe(s1, c1);
 		s = new Saboteur(s1);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	private static void ini_5_4_6() {
 		Pr.fv("Skeleton", "ini_5_4_6");
+		if (!printIni)
+			Pr.setMuted(true);
 		c1 = new Cistern();
 		p1 = new Pump();
 		pi1 = new Pipe(c1, p1);
 		s = new Saboteur(pi1);
+		Pr.setMuted(false);
 		Pr.ret();
 	}
 	
