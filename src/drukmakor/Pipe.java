@@ -23,8 +23,7 @@ public class Pipe extends Element {
 	 */
 	@Override public boolean fix() {
 		Pr.fv(this, "fix");
-		boolean prevIsBroken = Pr.inBool("isPierced");
-		return Pr.ret(prevIsBroken);
+		return Pr.ret(Pr.inBool("isPierced"));
 	}
 	/**
 	 * kilyukasztja a csövet, ha eddig nem volt; a benne levő
@@ -32,8 +31,7 @@ public class Pipe extends Element {
 	 */
 	@Override public boolean piercePipe() {
 		Pr.fv(this, "piercePipe");
-		boolean prevIsBroken = Pr.inBool("isPierced");
-		return Pr.ret(!prevIsBroken);
+		return Pr.ret(!Pr.inBool("isPierced"));
 	}
 	
 	/**
@@ -73,7 +71,6 @@ public class Pipe extends Element {
 			return Pr.ret(false);
 		if (end1 == null || end2 == null)
 			return Pr.ret(false);
-		assert(end1 != end2);
 		if (ae != end1 && ae != end2)
 			throw new RuntimeException("A cső egyik vége sem ae!");
 		if (ae == end1)
@@ -87,14 +84,14 @@ public class Pipe extends Element {
 	 * @param ae
 	 * @return
 	 */
-	public boolean connectTo(ActiveElement ae) {//ctorból hívva még mindkettő null lesz!
+	public boolean connectTo(ActiveElement ae) { // ctorból hívva még mindkettő null lesz!
 		Pr.fv(this, "connectTo", ae);
 		if (end2 != null)
 			throw new RuntimeException("Mindkét végén foglalt csőhöz történő csatlakoztatás!");
 		if (end1 == ae)
 			return Pr.ret(false);
 		end2 = ae;
-		if (end1 == null) {//ha ctorból van hívva és mindkettő null
+		if (end1 == null) { // ha ctorból van hívva és mindkettő null
 			end1 = end2;
 			end2 = null;
 		}
@@ -107,7 +104,7 @@ public class Pipe extends Element {
 	 */
 	public Pipe pickUpDangling() {
 		Pr.fv(this, "pickUpDangling");
-		if ((end1 == null || end2 == null) && !Pr.inBool("isCarried")) {//ha egyik vége null de nem viszik: ekkor dangling
+		if ((end1 == null || end2 == null) && !Pr.inBool("isCarried")) { // ha egyik vége null de nem viszik: ekkor dangling
 			return Pr.ret(this);
 		}
 		return Pr.ret((Pipe)null);
@@ -118,7 +115,7 @@ public class Pipe extends Element {
 	 */
 	@Override public boolean acceptCharacter(Element from) {
 		Pr.fv(this, "acceptCharacter", from);
-		if (Pr.inBool("isOccupied") || end2 == null)//ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
+		if (Pr.inBool("isOccupied") || end2 == null) // ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
 			return Pr.ret(false);
 		if (from != end1 && from != end2 && from != null)
 			return Pr.ret(false);
@@ -139,9 +136,6 @@ public class Pipe extends Element {
 		Pr.fv(this, "addWater");
 		if (Pr.inBool("hasWater"))
 			return Pr.ret(false);
-		if (Pr.inBool("isPierced")) {
-			return Pr.ret(true);
-		}
 		return Pr.ret(true);
 	}
 	/**
@@ -161,7 +155,7 @@ public class Pipe extends Element {
 	 */
 	public boolean wasteWater() {
 		Pr.fv(this, "wasteWater");
-		if ((end1 == null || end2 == null) && !Pr.inBool("isCarried")) {// dangling: azaz az egyik vége null, és nem szállítják
+		if ((end1 == null || end2 == null) && !Pr.inBool("isCarried")) { // dangling: azaz az egyik vége null, és nem szállítják
 			return Pr.ret(true);
 		}
 		return Pr.ret(false);
@@ -172,13 +166,13 @@ public class Pipe extends Element {
 	 */
 	@Override public boolean placePump(Pump p) {
 		Pr.fv(this, "placePump", p);
-		assert(end1!=null&&end2!=null);
 		// occupied csövet nem lehet felszedni!
 		ActiveElement prevend1 = end1;
 		end1.disconnectPipe(this);
 		new Pipe(prevend1, p);
 		boolean res2 = p.connectPipe(this, -1);
-		assert(res2);
+		if (!res2)
+			throw new RuntimeException("A cső csatlakoztatása az új pumpához sikertelen!");
 		return Pr.ret(true);
 	}
 

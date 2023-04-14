@@ -18,8 +18,7 @@ public class Pump extends ActiveElement {
 	 */
 	@Override public boolean fix() {
 		Pr.fv(this, "fix");
-		boolean prevIsBroken = Pr.inBool("isBroken");
-		return Pr.ret(prevIsBroken);
+		return Pr.ret(Pr.inBool("isBroken"));
 	}
 	/**
 	 * isBroken igaz lesz

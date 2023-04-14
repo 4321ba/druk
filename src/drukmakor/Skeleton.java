@@ -5,7 +5,7 @@ public class Skeleton {
 		System.out.println("Welcome to Drukmákor! Do you want to see the magic behind the initialization?");
 		printIni = Pr.inBool("printIni");
 		System.out.println("Type in the number of your favourite sequence diagram!");
-		while(true) {
+		while (true) {
 			int i = Pr.inInt("5.3.? (0: exit)");
 			try {
 				if (i == 0) break;

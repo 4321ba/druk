@@ -18,7 +18,7 @@ public class Cistern extends ActiveElement {
 	 */
 	@Override public void randomEvent() {
 		Pr.fv(this, "randomEvent");
-		for (Pipe p : pipes) {// van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot (különben exceptiont dob)
+		for (Pipe p : pipes) { // van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot (különben exceptiont dob)
 			if (p == null) {
 				new Pipe(this, null);
 				Pr.ret();
@@ -34,8 +34,8 @@ public class Cistern extends ActiveElement {
 	@Override public void pullWater() {
 		Pr.fv(this, "pullWater");
 		for (Pipe p : pipes)
-			if (p != null && p.drainWater()) {
-			}
+			if (p != null)
+				p.drainWater();
 		Pr.ret();
 	}
 	
@@ -46,12 +46,9 @@ public class Cistern extends ActiveElement {
 	 */
 	@Override public void pushWater() {
 		Pr.fv(this, "pushWater");
-		for (Pipe p : pipes) {
-			if (p != null && Pr.inInt("waterLevel") > 0) {
-				if (p.wasteWater()) {
-				}
-			}
-		}
+		for (Pipe p : pipes)
+			if (p != null && Pr.inInt("waterLevel") > 0)
+				p.wasteWater();
 		Pr.ret();
 	}
 	/**

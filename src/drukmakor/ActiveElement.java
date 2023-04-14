@@ -75,7 +75,7 @@ public abstract class ActiveElement extends Element {
 		Pr.fv(this, "disconnectPipe", p);
 		Pipe dcd = null;
 		for (int i = 0; i < MAX_CONNECTIONS; ++i) {
-			if (pipes[i] == p){//referencia szerinti hasonlítás
+			if (pipes[i] == p) { // referencia szerinti hasonlítás
 				dcd = disconnectPipe(i);
 				break;
 			}
@@ -90,7 +90,7 @@ public abstract class ActiveElement extends Element {
 	 */
 	@Override public Pipe pickUpDanglingPipe(int idx) {
 		Pr.fv(this, "pickUpDanglingPipe", idx);
-		if (pipes[idx]!= null)
+		if (pipes[idx] != null)
 			return Pr.ret(pipes[idx].pickUpDangling());
 		return Pr.ret((Pipe)null);
 	}
