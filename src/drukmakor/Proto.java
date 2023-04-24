@@ -137,7 +137,7 @@ public class Proto {
 	}
 	private static int parseInt(String s) {
 		try {
-			return Integer.parseInt(s);//TODO ez milyen hibaüzenetet ír ki??? kell ez egyáltalán
+			return Integer.parseInt(s);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Could not parse \"" + s + "\" as an integer value!");
 		}
@@ -433,7 +433,7 @@ public class Proto {
 	}
 	
 	private static void tick(String[] args) {
-		testArgsLength(args, 1);
+		testArgsLength(args, 2);
 		parseTickable(args[1]).tick();
 	}
 }
