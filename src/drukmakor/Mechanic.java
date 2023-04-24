@@ -107,6 +107,11 @@ public class Mechanic extends Character {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public Object[] get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

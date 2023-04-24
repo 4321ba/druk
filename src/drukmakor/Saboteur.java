@@ -18,5 +18,11 @@ public class Saboteur extends Character {
 	public boolean slipperyPipe() {
 		return currentPosition.slipperyPipe();
 	}
+
+	@Override
+	public Object[] get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

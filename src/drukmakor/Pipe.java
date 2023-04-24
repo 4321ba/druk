@@ -250,5 +250,10 @@ public class Pipe extends Element {
 		isSlippery = 3;
 		return true;
 	}
+	@Override
+	public Object[] get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

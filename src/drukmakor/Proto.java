@@ -126,6 +126,24 @@ public class Proto {
 	}
 	
 	
+	// parszolunk sima típusokat
+	private static boolean parseBool(String s) {
+		s = s.toLowerCase();
+		if (s.equals("y") || s.equals("t") || s.equals("yes") || s.equals("true"))
+			return true;
+		if (s.equals("n") || s.equals("f") || s.equals("no") || s.equals("false"))
+			return false;
+		throw new IllegalArgumentException("Could not parse \"" + s + "\" as a boolean value!");
+	}
+	private static int parseInt(String s) {
+		try {
+			return Integer.parseInt(s);//TODO ez milyen hibaüzenetet ír ki??? kell ez egyáltalán
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Could not parse \"" + s + "\" as an integer value!");
+		}
+	}
+	
+	
 	
 	// névből csinálunk objektumot
 	// tryParse null-t ad vissza, ha sikertelen a parszolás, de más típussá még lehet esetleg parszolni
@@ -136,14 +154,10 @@ public class Proto {
 			return null;
 		// innentől biztos, hogy a típus jó, szóval innentől exceptiont dobunk, mivel
 		// hiba esetén biztosan rossz a formátum
-		try {
-			int idx = Integer.parseInt(s.substring(2)) - 1;
-			return listOfObjects.get(idx);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Invalid number \"" + s.substring(2) + "\"!");
-		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalArgumentException("Number \"" + s.substring(2) + "\" out of range! Valid range is from 1 to " + listOfObjects.size() + ".");
-		}
+		int idx = parseInt(s.substring(2)) - 1;
+		if (idx < 0 || idx >= listOfObjects.size())
+			throw new IllegalArgumentException("Number \"" + s.substring(2) + "\" out of range! Valid range is from 1 to " + listOfObjects.size() + " inclusive.");
+		return listOfObjects.get(idx);
 	}
 	// ezeket is lehetne generikusan, de valószínűleg classcastexceptionöket kéne elkapni, ami nem olyan szép
 	private static Tickable parseTickable(String s) {
@@ -187,6 +201,8 @@ public class Proto {
 		if (sa == null) throw new IllegalArgumentException("Could not parse \"" + s + "\" as a name of a Saboteur!");
 		return sa;
 	}
+	// ezekre perpillanat nincs szükség, unused kód volna, ha nem lennének kikommentezve
+	/*
 	private static Pipe parsePipe(String s) {
 		Pipe pi = tryParse(s, "pi", piList);
 		if (pi == null) throw new IllegalArgumentException("Could not parse \"" + s + "\" as a name of a Pipe!");
@@ -207,16 +223,8 @@ public class Proto {
 		if (so == null) throw new IllegalArgumentException("Could not parse \"" + s + "\" as a name of a Source!");
 		return so;
 	}
+	*/
 	
-	
-	private static boolean parseBool(String s) {
-		s = s.toLowerCase();
-		if (s.equals("y") || s.equals("t") || s.equals("yes") || s.equals("true"))
-			return true;
-		if (s.equals("n") || s.equals("f") || s.equals("no") || s.equals("false"))
-			return false;
-		throw new IllegalArgumentException("Could not parse \"" + s + "\" as a boolean value!");
-	}
 	
 	
 	
@@ -234,28 +242,44 @@ public class Proto {
 		commands.put("clear", Proto::clear);
 		commands.put("load", Proto::load);
 		commands.put("get", Proto::get);
+		commands.put("random", Proto::random);
+		commands.put("moveto", Proto::moveto);
+		commands.put("alterpump", Proto::alterpump);
+		commands.put("piercepipe", Proto::piercepipe);
+		commands.put("fix", Proto::fix);
+		commands.put("disconnectpipe", Proto::disconnectpipe);
+		commands.put("connectpipe", Proto::connectpipe);
+		commands.put("pickupdanglingpipe", Proto::pickupdanglingpipe);
+		commands.put("pickuppump", Proto::pickuppump);
+		commands.put("placepump", Proto::placepump);
+		commands.put("stickypipe", Proto::stickypipe);
+		commands.put("slipperypipe", Proto::slipperypipe);
+		commands.put("tick", Proto::tick);
 	}
 
+
+	private static void testArgsLength(String[] args, int length) {
+		if (args.length != length)
+			throw new IllegalArgumentException(args.length > length ? "Too many arguments!" : "Too few arguments!");
+	}
+	
 	private static void hashtag(String[] args) {
 	}
 	
 	private static void exit(String[] args) {
-		if (args.length != 1)
-			throw new IllegalArgumentException("No argument should be given!");
+		testArgsLength(args, 1);
 		isExiting = true;
 	}
 	
 	private static void add(String[] args) {
 		if (args.length < 2)
-			throw new IllegalArgumentException("At least one argument is required!");
+			throw new IllegalArgumentException("Too few arguments!");
 		String type = args[1];
 		if (type.equals("me")) {
-			if (args.length != 3)
-				throw new IllegalArgumentException(args.length > 3 ? "Too many arguments!" : "Too few arguments!");
+			testArgsLength(args, 3);
 			condPr(nameOf(newMechanic(parseElement(args[2]))));
 		} else if (type.equals("sa")) {
-			if (args.length != 3)
-				throw new IllegalArgumentException(args.length > 3 ? "Too many arguments!" : "Too few arguments!");
+			testArgsLength(args, 3);
 			condPr(nameOf(newSaboteur(parseElement(args[2]))));
 		} else if (type.equals("pi")) {
 			if (args.length != 3 && args.length != 4)
@@ -265,16 +289,13 @@ public class Proto {
 				end2 = parseActiveElement(args[3]);
 			condPr(nameOf(newPipe(parseActiveElement(args[2]), end2)));
 		} else if (type.equals("pu")) {
-			if (args.length > 2)
-				throw new IllegalArgumentException("Too many arguments!");
+			testArgsLength(args, 2);
 			condPr(nameOf(newPump()));
 		} else if (type.equals("ci")) {
-			if (args.length > 2)
-				throw new IllegalArgumentException("Too many arguments!");
+			testArgsLength(args, 2);
 			condPr(nameOf(newCistern()));
 		} else if (type.equals("so")) {
-			if (args.length > 2)
-				throw new IllegalArgumentException("Too many arguments!");
+			testArgsLength(args, 2);
 			condPr(nameOf(newSource()));
 		} else {
 			throw new IllegalArgumentException("Non-existent type \"" + type + "\"! Available ones are me, sa, pi, pu, ci and so.");
@@ -282,8 +303,7 @@ public class Proto {
 	}
 	
 	private static void clear(String[] args) {
-		if (args.length != 1)
-			throw new IllegalArgumentException("No argument should be given!");
+		testArgsLength(args, 1);
 		meList.clear();
 		saList.clear();
 		piList.clear();
@@ -294,10 +314,8 @@ public class Proto {
 	}
 	
 	private static void load(String[] args) {
-		if (args.length < 2)
-			throw new IllegalArgumentException("Too few arguments!");
-		if (args.length > 3)
-			throw new IllegalArgumentException("Too many arguments!");
+		if (args.length != 2 && args.length != 3)
+			throw new IllegalArgumentException(args.length > 2 ? "Too many arguments!" : "Too few arguments!");
 		boolean silent = false;
 		if (args.length == 3)
 			silent = parseBool(args[2]);
@@ -314,8 +332,108 @@ public class Proto {
 	}
 	
 	private static void get(String[] args) {
-		if (args.length != 2)
-			throw new IllegalArgumentException(args.length > 2 ? "Too many arguments!" : "Too few arguments!");
-		
+		testArgsLength(args, 2);
+		Object[] states = parseTickable(args[1]).get();
+		String fullStr = ""; // nem túl költséghatékony, de nekünk tökéletes lesz
+		boolean first = true;
+		for (Object state : states) {
+			String s = state.toString();
+			try {
+				s = nameOf(state);
+			// ez az exception akkor dobódik, ha az objektum nincs az adatbázisban; erre van a fentebbi toString
+			} catch (IllegalArgumentException e) {}
+			fullStr += (first ? "" : " ") + s;
+			first = false;
+		}
+		condPr(fullStr);
+	}
+	
+	private static void random(String[] args) {
+		if (args.length > 2)
+			throw new IllegalArgumentException("Too many arguments!");
+		if (args.length == 1) {
+			randVal = -1.0;
+			return;
+		}	
+		double val = -1.0;
+		try {
+			val = Double.parseDouble(args[1]);
+			if (val > 1.0 || val < 0.0)
+				throw new IllegalArgumentException("\"" + args[1] + "\" is out of range! Valid range is between 0.0 and 1.0.");
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Could not parse \"" + args[1] + "\" as a double value!");
+		}
+		randVal = val;
+	}
+	
+	private static void moveto(String[] args) {
+		testArgsLength(args, 3);
+		Boolean result = parseCharacter(args[1]).moveTo(parseElement(args[2]));
+		condPr(result.toString());
+	}
+	
+	private static void alterpump(String[] args) {
+		testArgsLength(args, 4);
+		Boolean result = parseCharacter(args[1]).alterPump(parseInt(args[2]), parseInt(args[3]));
+		condPr(result.toString());
+	}
+	
+	private static void piercepipe(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseCharacter(args[1]).piercePipe();
+		condPr(result.toString());
+	}
+	
+	private static void fix(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseMechanic(args[1]).fix();
+		condPr(result.toString());
+	}
+	
+	private static void disconnectpipe(String[] args) {
+		testArgsLength(args, 3);
+		Boolean result = parseMechanic(args[1]).disconnectPipe(parseInt(args[2]));
+		condPr(result.toString());
+	}
+	
+	private static void connectpipe(String[] args) {
+		testArgsLength(args, 3);
+		Boolean result = parseMechanic(args[1]).connectPipe(parseInt(args[2]));
+		condPr(result.toString());
+	}
+	
+	private static void pickupdanglingpipe(String[] args) {
+		testArgsLength(args, 3);
+		Boolean result = parseMechanic(args[1]).pickUpDanglingPipe(parseInt(args[2]));
+		condPr(result.toString());
+	}
+	
+	private static void pickuppump(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseMechanic(args[1]).pickUpPump();
+		condPr(result.toString());
+	}
+	
+	private static void placepump(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseMechanic(args[1]).placePump();
+		condPr(result.toString());
+	}
+	
+	private static void stickypipe(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseCharacter(args[1]).stickyPipe();
+		condPr(result.toString());
+	}
+	
+	private static void slipperypipe(String[] args) {
+		testArgsLength(args, 2);
+		Boolean result = parseSaboteur(args[1]).slipperyPipe();
+		condPr(result.toString());
+	}
+	
+	private static void tick(String[] args) {
+		testArgsLength(args, 1);
+		parseTickable(args[1]).tick();
 	}
 }

@@ -68,6 +68,11 @@ public class Pump extends ActiveElement {
 			pipes[Pr.inInt("inPipeIdx")].drainWater();
 		Pr.ret();
 	}
+	@Override
+	public Object[] get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

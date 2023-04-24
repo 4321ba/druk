@@ -24,7 +24,7 @@ public abstract class Character implements Tickable {
 	public Character(Element cp) {
 
 		isStuck = 0;
-		boolean res = cp.acceptCharacter(null, this);
+		boolean res =null!= cp.acceptCharacter(null, this);
 		if (!res)
 			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
 		currentPosition = cp;
@@ -47,7 +47,7 @@ public abstract class Character implements Tickable {
 	 * @return
 	 */
 	public boolean moveTo(Element e) {
-		if (!e.acceptCharacter(currentPosition, this))
+		if (null==e.acceptCharacter(currentPosition, this))
 			return false;
 		currentPosition.characterExited();
 		currentPosition = e;
