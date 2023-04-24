@@ -1,8 +1,12 @@
 package drukmakor;
 
 public interface Tickable {
-	public void tick();
+	/**
+	 * Tick fv, amit minden felülír
+	 */
+	abstract public void tick();
 	
 	// státuszlekérdező függvény
 	public Object[] get();
+	
 }

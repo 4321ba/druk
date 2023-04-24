@@ -8,6 +8,10 @@ import java.security.InvalidParameterException;
  */
 public abstract class Character implements Tickable {
 	/**
+	 * Változó, ami eltárolja, hogy képesek vagyunk-e mozogni
+	 */
+	protected int isStuck;
+	/**
 	 * az az elem, amelyiken a Character áll, nem lehet null
 	 */
 	protected Element currentPosition;
@@ -18,12 +22,12 @@ public abstract class Character implements Tickable {
 	 * @param cp
 	 */
 	public Character(Element cp) {
-		Pr.fv(this, "Character", cp);
-		boolean res = cp.acceptCharacter(null);
+
+		isStuck = 0;
+		boolean res = cp.acceptCharacter(null, this);
 		if (!res)
 			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
 		currentPosition = cp;
-		Pr.ret();
 	}
 	/**
 	 * amennyiben pump-on áll, beállítja
@@ -35,8 +39,7 @@ public abstract class Character implements Tickable {
 	 * @return
 	 */
 	public boolean alterPump(int inPipeIdx, int outPipeIdx) {
-		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
-		return Pr.ret(currentPosition.alterPump(inPipeIdx, outPipeIdx));
+		return currentPosition.alterPump(inPipeIdx, outPipeIdx);
 	}
 	/**
 	 * a paraméterként kapott Element-re próbál rálépni
@@ -44,13 +47,33 @@ public abstract class Character implements Tickable {
 	 * @return
 	 */
 	public boolean moveTo(Element e) {
-		Pr.fv(this, "moveTo", e); 
-		if (!e.acceptCharacter(currentPosition))
-			return Pr.ret(false);
+		if (!e.acceptCharacter(currentPosition, this))
+			return false;
 		currentPosition.characterExited();
 		currentPosition = e;
-		return Pr.ret(true);
+		return true;
 	}
 	
+	public boolean stickyPipe() {
+		return currentPosition.stickyPipe();
+	}
+	
+	/**
+	 * kiszúrja az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll)
+	 * @return
+	 */
+	public boolean piercePipe() {
+		return currentPosition.piercePipe();
+	}
+	
+	
+	public void getStickied() {
+		isStuck = 2;
+	}
+	
+	@Override
+	public void tick() {
+		isStuck--;
+	}
 	
 }

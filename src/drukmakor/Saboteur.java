@@ -14,19 +14,9 @@ public class Saboteur extends Character {
 	public Saboteur(Element cp) {
 		super(cp);
 	}
-	/**
-	 * kiszúrja az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll)
-	 * @return
-	 */
-	public boolean piercePipe() {
-		Pr.fv(this, "piercePipe");
-		return Pr.ret(currentPosition.piercePipe());
+	
+	public boolean slipperyPipe() {
+		return currentPosition.slipperyPipe();
 	}
-	@Override
-	public void tick() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 }

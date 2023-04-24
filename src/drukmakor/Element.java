@@ -14,8 +14,7 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public boolean fix() {
-		Pr.fv(this, "fix");
-		return Pr.ret(false);
+		return false;
 	}
 	/**
 	 * az elem reakcióját írja elő a rajta álló szabotőr “piercePipe”
@@ -23,8 +22,7 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public boolean piercePipe() {
-		Pr.fv(this, "piercePipe");
-		return Pr.ret(false);
+		return false;
 	}
 	/**
 	 * egy karakter rá szeretne lépni from elem
@@ -32,16 +30,13 @@ public abstract class Element implements Tickable {
 	 * @param from
 	 * @return
 	 */
-	public boolean acceptCharacter(Element from) {
-		Pr.fv(this, "acceptCharacter", from);
-		return Pr.ret(false);
+	public Element acceptCharacter(Element from, Character who) {
+		return null;
 	}
 	/**
 	 * egy karakter lelépett erről az elemről
 	 */
 	public void characterExited() {
-		Pr.fv(this, "characterExited");
-		Pr.ret();
 	}
 	/**
 	 * leteszi p cső végét erre az elemre, az idxedik
@@ -52,8 +47,7 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public boolean connectPipe(Pipe p, int idx) {
-		Pr.fv(this, "connectPipe", p, idx);
-		return Pr.ret(false);
+		return false;
 	}
 	/**
 	 * amennyiben sikerül az adott pozícióból pipe-ot
@@ -62,8 +56,7 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public Pipe disconnectPipe(int idx) {
-		Pr.fv(this, "disconnectPipe", idx);
-		return Pr.ret((Pipe)null);
+		return null;
 	}
 	/**
 	 * beállítja a kimeneti és a bemeneti
@@ -73,8 +66,7 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public boolean alterPump(int inPipeIdx, int outPipeIdx) {
-		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
-		return Pr.ret(false);
+		return false;
 	}
 	/**
 	 * felveszi az indexedik helyen levő lelógó
@@ -83,16 +75,14 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public Pipe pickUpDanglingPipe(int idx) {
-		Pr.fv(this, "pickUpDanglingPipe", idx);
-		return Pr.ret((Pipe)null);
+		return null;
 	}
 	/**
 	 * felvesz egy pumpát erről az elemről
 	 * @return
 	 */
 	public Pump pickUpPump() {
-		Pr.fv(this, "pickUpPump");
-		return Pr.ret((Pump)null);
+		return null;
 	}
 	/**
 	 * letesz egy pumpát, amennyiben ez az adott elemen
@@ -101,9 +91,16 @@ public abstract class Element implements Tickable {
 	 * @return
 	 */
 	public boolean placePump(Pump p) {
-		Pr.fv(this, "placePump", p);
-		return Pr.ret(false);
+		return false;
 	}
+	public boolean slipperyPipe() {
+		return false;
+	}
+	public boolean stickyPipe() {
+		return false;
+	}
+	
+	
 	
 	
 }
