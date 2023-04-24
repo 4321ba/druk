@@ -175,5 +175,10 @@ public class Pipe extends Element {
 			throw new RuntimeException("A cső csatlakoztatása az új pumpához sikertelen!");
 		return Pr.ret(true);
 	}
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

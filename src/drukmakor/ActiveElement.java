@@ -122,7 +122,7 @@ public abstract class ActiveElement extends Element {
 	 * meghívja a saját pushWater és pullWater függvényét, illetve a
 	 * randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
-	public void tick() {
+	@Override public void tick() {
 		Pr.fv(this, "tick");
 		pushWater();
 		pullWater();

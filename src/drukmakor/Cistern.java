@@ -59,5 +59,19 @@ public class Cistern extends ActiveElement {
 		Pr.fv(this, "pickUpPump");
 		return Pr.ret(new Pump());
 	}
+	
+	
+	
+	@Override
+	public Object[] get() {
+		int noValidPipes = MAX_CONNECTIONS;
+		while (noValidPipes > 0 && pipes[noValidPipes - 1] == null)
+			noValidPipes--;
+		Object[] ret = new Object[noValidPipes + 1]; // <csövek> <vízszint (egész szám)>
+		for (int i = 0; i < noValidPipes; ++i)
+			ret[i] = pipes[i];
+		ret[noValidPipes] = 0; // TODO kicserélni waterLevel-re ha fel lesz véve
+		return ret;
+	}
 
 }

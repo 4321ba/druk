@@ -22,6 +22,11 @@ public class Saboteur extends Character {
 		Pr.fv(this, "piercePipe");
 		return Pr.ret(currentPosition.piercePipe());
 	}
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }

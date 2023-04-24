@@ -6,7 +6,7 @@ import java.security.InvalidParameterException;
  * meg, így a mozgást és a pumpák víznyomásának irányát.
  *
  */
-public abstract class Character {
+public abstract class Character implements Tickable {
 	/**
 	 * az az elem, amelyiken a Character áll, nem lehet null
 	 */

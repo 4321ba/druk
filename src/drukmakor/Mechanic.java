@@ -102,6 +102,11 @@ public class Mechanic extends Character {
 		holdingPump = null;
 		return Pr.ret(true);
 	}
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

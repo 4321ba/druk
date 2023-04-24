@@ -8,8 +8,7 @@ import java.util.Scanner;
  * 
  */
 public class Pr {
-    private static Scanner scanner = new Scanner(System.in);
-	private static boolean muted = false;
+	private static boolean muted = true;
 	public static void setMuted(boolean b) {
 		muted = b;
 	}
@@ -87,11 +86,10 @@ public class Pr {
 	public static boolean inBool(String s) {
 		while (true) {
 			prident(' ');
-			System.out.print("Bool value needed (" + s + "): ");
+			System.out.println("Bool value needed (" + s + "): false");
 			try {
-				return scanner.nextBoolean();
+				return false;
 			} catch (InputMismatchException e) {
-				scanner.nextLine();
 				prident(' ');
                 System.out.println("Invalid input!");
             }
@@ -100,11 +98,10 @@ public class Pr {
 	public static int inInt(String s) {
 		while (true) {
 			prident(' ');
-			System.out.print("Int value needed (" + s + "): ");
+			System.out.println("Int value needed (" + s + "): 0");
 			try {
-				return scanner.nextInt();
+				return 0;
 			} catch (InputMismatchException e) {
-				scanner.nextLine();
 				prident(' ');
                 System.out.println("Invalid input!");
             }

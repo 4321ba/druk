@@ -7,7 +7,7 @@ package drukmakor;
  * végrehajtani.
  *
  */
-public abstract class Element {
+public abstract class Element implements Tickable {
 	/**
 	 * az elem reakcióját írja elő a rajta álló szerelő “fix” akciójára,
 	 * alapértelmezetten sikertelen, leszármazottaknak célszerű felüldefiniálni
