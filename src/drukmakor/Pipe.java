@@ -160,7 +160,8 @@ public class Pipe extends Element {
 		if (from != end1 && from != end2 && from != null) {
 			return null;
 		}
-		from.characterExited();
+		if (from != null)
+			from.characterExited();
 		if(isSticky > 0) {
 			who.getStickied();
 		}
