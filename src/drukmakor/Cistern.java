@@ -8,35 +8,32 @@ package drukmakor;
  *
  */
 public class Cistern extends ActiveElement {
-
-	public Cistern() {
-		Pr.fv(this, "Cistern");
-		Pr.ret();
-	}
+	/**
+	 * a ciszternában levő víz szintje
+	 * eltárolja, hogy mennyi víz érkezett a cisternába
+	 */
+	private int waterLevel = 0;
 	/**
 	 * keletkezik egy új cső, ami lelóg róla
 	 */
 	@Override public void randomEvent() {
-		Pr.fv(this, "randomEvent");
 		for (Pipe p : pipes) { // van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot (különben exceptiont dob)
 			if (p == null) {
 				new Pipe(this, null);
-				Pr.ret();
 				return;
 			}
 		}
-		Pr.ret();
 	}
 	/**
 	 * végigmegy az összes rákötött csövön, és kiszívja
 	 * belőlük a vizet, növelve ezzel waterLevelt, és pontot szerezve a szerelőknek
 	 */
 	@Override public void pullWater() {
-		Pr.fv(this, "pullWater");
 		for (Pipe p : pipes)
-			if (p != null)
-				p.drainWater();
-		Pr.ret();
+			if (p != null && p.drainWater()) {
+				// 50 PONT A GRIFFENDÉLNEK
+				++waterLevel;
+			}
 	}
 	
 	/**
@@ -45,19 +42,19 @@ public class Cistern extends ActiveElement {
 	 *  pontot a szabotőröknek)
 	 */
 	@Override public void pushWater() {
-		Pr.fv(this, "pushWater");
 		for (Pipe p : pipes)
-			if (p != null && Pr.inInt("waterLevel") > 0)
-				p.wasteWater();
-		Pr.ret();
+			if (p != null && waterLevel > 0)
+				if (p.wasteWater()) {
+					// -50 PONT A GRIFFENDÉLNEK
+					--waterLevel;
+				}
 	}
 	/**
 	 * egy új pumpát ad vissza mindig: bármikor lehet
 	 * új pumpát felvenni a ciszternánál
 	 */
 	@Override public Pump pickUpPump() {
-		Pr.fv(this, "pickUpPump");
-		return Pr.ret(new Pump());
+		return Proto.newPump();
 	}
 	
 	
@@ -70,7 +67,7 @@ public class Cistern extends ActiveElement {
 		Object[] ret = new Object[noValidPipes + 1]; // <csövek> <vízszint (egész szám)>
 		for (int i = 0; i < noValidPipes; ++i)
 			ret[i] = pipes[i];
-		ret[noValidPipes] = 0; // TODO kicserélni waterLevel-re ha fel lesz véve
+		ret[noValidPipes] = waterLevel;
 		return ret;
 	}
 

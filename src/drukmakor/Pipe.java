@@ -10,16 +10,37 @@ import java.security.InvalidParameterException;
  *
  */
 public class Pipe extends Element {
+	/**
+	 * van-e benne víz
+	 */
 	private boolean hasWater;
 	/**
 	 * eltárolja, hogy áll-e rajta játékos
 	 */
 	private boolean isOccupied;
+	/**
+	 * eltárolja, hogy ki van-e lyukaszva
+	 */
 	private boolean isPierced;
+	/**
+	 * az 1-es vég játékosnál van-e
+	 */
 	private boolean end1Carried;
+	/**
+	 * a 2-es vég játékosnál van-e
+	 */
 	private boolean end2Carried;
+	/**
+	 * stickyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
+	 */
 	private int isSticky;
+	/**
+	 * slipperyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
+	 */
 	private int isSlippery;
+	/**
+	 * fix() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
+	 */
 	private int notPiercable;
 	/**
 	 * a cső egyik vége ide van csatlakoztatva, nem lehet null
@@ -33,6 +54,7 @@ public class Pipe extends Element {
 	@Override public boolean fix() {
 		if(isPierced) {
 			isPierced = false;
+			notPiercable = (int) (2 + Proto.randomNextDouble() * 3);
 			return true;
 		}else {
 			return false;
@@ -43,12 +65,14 @@ public class Pipe extends Element {
 	 * víz is kifolyik, ha volt benne
 	 */
 	@Override public boolean piercePipe() {
+		if (notPiercable > 0 || isPierced)
+			return false;
 		isPierced = true;
 		if (hasWater) {
 			hasWater = false;
 			//50 PONT A GRIFFENDÉLNEK
 		}
-		return isPierced;
+		return true;
 	}
 	
 	/**
@@ -100,10 +124,8 @@ public class Pipe extends Element {
 			end2Carried = true;
 			end2 = null;
 			return true;
-		}else if(ae != end1 && ae != end2) {
-			throw new RuntimeException("A cső egyik vége sem ae!");
 		}
-		return false;
+		throw new RuntimeException("A cső egyik vége sem ae!");
 	}
 	/**
 	 * rácsatlakoztatja ae-t a szabad végére. A hívás
@@ -112,22 +134,22 @@ public class Pipe extends Element {
 	 * @return
 	 */
 	public boolean connectTo(ActiveElement ae) { // ctorból hívva még mindkettő null lesz!
-		if (end2 == null && end2Carried) {
-			end2 = ae;
-			end2Carried = false;
-			return true;
-		}else if(end1 == null && end1Carried) {
+		if(end1 == ae || end2 == ae) {
+			return false;
+		}else if (end1 == null && end1Carried) {
 			end1 = ae;
 			end1Carried = false;
 			return true;
-		}else if(end2 == null && !end2Carried) { //construktorból volt
+		}else if(end2 == null && end2Carried) {
 			end2 = ae;
+			end2Carried = false;
 			return true;
-		}else if(end1 == null && !end1Carried) {
+		}else if(end1 == null && !end1Carried) { //construktorból volt
 			end1 = ae;
 			return true;
-		}else if(end1 == ae || end2 == ae) {
-			return false;
+		}else if(end2 == null && !end2Carried) {
+			end2 = ae;
+			return true;
 		}else {
 			throw new RuntimeException("Connection problems in the... piping, ifyouknowwhatImean O_-' ");
 		}
@@ -154,7 +176,7 @@ public class Pipe extends Element {
 	 *  ha csúszós véletlenszerűen egyik végére dob
 	 */
 	@Override public Element acceptCharacter(Element from, Character who) {
-		if (isOccupied || end2 == null || end1 == null){ // ha fel van véve az egyik fele, akkor lehessen-e rálépni? perpillanat ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
+		if (isOccupied || end2 == null || end1 == null){ // ha fel van véve az egyik fele, akkor lehessen-e rálépni? ha rajta áll valaki, akkor nem lehet felvenni, tehát szimmetriai okokból ne lehessen rálépni
 			return null;
 		}
 		if (from != end1 && from != end2 && from != null) {
@@ -166,7 +188,7 @@ public class Pipe extends Element {
 			who.getStickied();
 		}
 		if (isSlippery > 0) {
-			if(Proto.randomNextDouble() > 0.50) {
+			if(Proto.randomNextDouble() >= 0.50) {
 				return end1.acceptCharacter(this, who); 
 			}else {
 				return end2.acceptCharacter(this, who);
@@ -186,12 +208,12 @@ public class Pipe extends Element {
 	 * @return
 	 */
 	public boolean addWater() {
-		if (hasWater) {
+		if (hasWater)
 			return false;
-		}else {
-			hasWater = true;
+		if (isPierced)
 			return true;
-		}
+		hasWater = true;
+		return true;
 	}
 	/**
 	 * Szívnak belőle vizet, visszaadja, hogy volt-e benne
@@ -235,27 +257,45 @@ public class Pipe extends Element {
 		
 		return true;
 	}
+	/**
+	 * csökkenti a belső változók értékét, ahogy telik az idő (isSticky, isSlippery, notPiercable)
+	 */
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
 		if(isSticky > 0) isSticky--;
 		if(isSlippery > 0) isSlippery--;
+		if(notPiercable > 0) notPiercable--;
 
 	}
+	/**
+	 * ragacsossá teszi a csövet. Ha már eleve 3 körig ragadós, hamist ad vissza. 
+	 * Egyébként true-t ad vissza és átállítja az isSticky-t 3-ra (3 körig lesz ragadós)
+	 */
 	@Override
 	public boolean stickyPipe() {
+		if (isSticky == 3)
+			return false;
 		isSticky = 3;
 		return true;
 	}
+	/**
+	 * csúszóssá teszi a csövet. Ha már eleve 3 körig csúszós, hamist ad vissza. 
+	 * Egyébként true-t ad vissza és átállítja az isSlippery-t 3-ra (3 körig lesz csúszós)
+	 */
 	@Override
 	public boolean slipperyPipe() {
+		if (isSlippery == 3)
+			return false;
 		isSlippery = 3;
 		return true;
 	}
 	@Override
 	public Object[] get() {
-		// TODO Auto-generated method stub
-		return null;
+		//<egyik vég> <másik vég> <egyik vég carried-e> <másik vég
+		//carried-e> <van-e benne víz> <kiszúrt-e> <foglalt-e> <csúszós (egész
+		//		szám)> <ragadós (egész szám)> <mennyi ideig nem lyukasztható (egész
+		//		szám)>
+		return new Object[] { end1, end2, end1Carried, end2Carried, hasWater, isPierced, isOccupied, isSlippery, isSticky, notPiercable };
 	}
 
 }

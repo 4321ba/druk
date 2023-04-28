@@ -9,34 +9,50 @@ package drukmakor;
  */
 public class Pump extends ActiveElement {
 
-	public Pump() {
-		Pr.fv(this, "Pump");
-		Pr.ret();
-	}
+	/**
+	 * van-e benne víz
+	 */
+	private boolean hasWater;
+	/**
+	 * bemeneti cső indexe
+	 */
+	private int inPipeIdx = 0;
+	/**
+	 * kimeneti cső, indexe
+	 */
+	private int outPipeIdx = 1;
+
+	/**
+	 * el van-e törve
+	 */
+	private boolean isBroken = false;
 	/**
 	 * megjavítja a pumpát
 	 */
 	@Override public boolean fix() {
-		Pr.fv(this, "fix");
-		return Pr.ret(Pr.inBool("isBroken"));
+		boolean prevIsBroken = isBroken;
+		isBroken = false;
+		return prevIsBroken;
 	}
 	/**
 	 * isBroken igaz lesz
 	 */
 	@Override public void randomEvent() {
-		Pr.fv(this, "randomEvent");
-		Pr.ret();
+		isBroken = true;
 	}
 	/**
 	 * beállítja a kimeneti és a bemeneti cső indexet
 	 */
 	@Override public boolean alterPump(int inPipeIdx, int outPipeIdx) {
-		Pr.fv(this, "alterPump", inPipeIdx, outPipeIdx);
 		if (inPipeIdx == outPipeIdx)
-			return Pr.ret(false);
+			return false;
+		if (inPipeIdx == this.inPipeIdx && outPipeIdx == this.outPipeIdx)
+			return false;
 		if (inPipeIdx < 0 || inPipeIdx >= MAX_CONNECTIONS || outPipeIdx < 0 || outPipeIdx >= MAX_CONNECTIONS)
-			return Pr.ret(false);
-		return Pr.ret(true);
+			return false;
+		this.inPipeIdx = inPipeIdx;
+		this.outPipeIdx = outPipeIdx;
+		return true;
 	}
 	/**
 	 * ha nincs eltörve, és van kimeneti cső beállítva, és van
@@ -44,14 +60,10 @@ public class Pump extends ActiveElement {
 	 */
 	@Override
 	public void pushWater() {
-		Pr.fv(this, "pushWater");
-		if (pipes[Pr.inInt("outPipeIdx")] == null || Pr.inBool("isBroken")) {
-			Pr.ret();
+		if (pipes[outPipeIdx] == null || isBroken)
 			return;
-		}
-		if (Pr.inBool("hasWater"))
-			pipes[Pr.inInt("outPipeIdx")].addWater();
-		Pr.ret();
+		if (hasWater)
+			hasWater = !pipes[outPipeIdx].addWater();
 	}	
 	/**
 	 * ha nincs eltörve, és van bemeneti cső beállítva, és
@@ -59,19 +71,25 @@ public class Pump extends ActiveElement {
 	 */
 	@Override
 	public void pullWater() {
-		Pr.fv(this, "pullWater");
-		if (pipes[Pr.inInt("inPipeIdx")] == null || Pr.inBool("isBroken")) {
-			Pr.ret();
+		if (pipes[inPipeIdx] == null || isBroken)
 			return;
-		}
-		if (!Pr.inBool("hasWater"))
-			pipes[Pr.inInt("inPipeIdx")].drainWater();
-		Pr.ret();
+		if (!hasWater)
+			hasWater = pipes[inPipeIdx].drainWater();
 	}
+
 	@Override
 	public Object[] get() {
-		// TODO Auto-generated method stub
-		return null;
+		int noValidPipes = MAX_CONNECTIONS; // number of valid pipes
+		while (noValidPipes > 0 && pipes[noValidPipes - 1] == null)
+			noValidPipes--;
+		Object[] ret = new Object[noValidPipes + 4]; // <csövek> <van-e benne víz> <eltört-e> <bemeneti index> <kimeneti index>
+		for (int i = 0; i < noValidPipes; ++i)
+			ret[i] = pipes[i];
+		ret[noValidPipes] = hasWater;
+		ret[noValidPipes+1] = isBroken;
+		ret[noValidPipes+2] = inPipeIdx;
+		ret[noValidPipes+3] = outPipeIdx;
+		return ret;
 	}
 	
 	

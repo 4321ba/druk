@@ -9,23 +9,24 @@ package drukmakor;
  */
 public class Source extends ActiveElement {
 
-	public Source() {
-		Pr.fv(this, "Source");
-		Pr.ret();
-	}
 	/**
 	 *  az összes kimeneti csőbe megpróbál vizet benyomni
 	 */
 	@Override public void pushWater() {
-		Pr.fv(this, "pushWater");
 		for (Pipe p : pipes)
 			if (p != null)
 				p.addWater();
-		Pr.ret();
 	}
+	
+	
 	@Override
 	public Object[] get() {
-		// TODO Auto-generated method stub
-		return null;
+		int noValidPipes = MAX_CONNECTIONS; // number of valid pipes
+		while (noValidPipes > 0 && pipes[noValidPipes - 1] == null)
+			noValidPipes--;
+		Object[] ret = new Object[noValidPipes]; // <csövek>
+		for (int i = 0; i < noValidPipes; ++i)
+			ret[i] = pipes[i];
+		return ret;
 	}
 }

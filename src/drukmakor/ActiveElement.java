@@ -23,7 +23,10 @@ public abstract class ActiveElement extends Element {
 			return this;
 		for (Pipe p: pipes)
 			if (p == from) // referencia szerinti hasonlítás
+			{
+				from.characterExited();
 				return this;
+			}
 		return null;
 	}
 	
@@ -33,7 +36,6 @@ public abstract class ActiveElement extends Element {
 	 * listában, hogy lenne-e hurokél, -1-es paraméter esetén bárhova lehet kötni
 	 */
 	@Override public boolean connectPipe(Pipe p, int idx) {
-		Pr.fv(this, "connectPipe", p, idx);
 		if (idx == -1) {//bármilyen szabad helyre
 			idx = MAX_CONNECTIONS; // hogy bekrepáljon ha nincs szabad hely
 			for (int i = 0; i < MAX_CONNECTIONS; ++i) {
@@ -43,27 +45,26 @@ public abstract class ActiveElement extends Element {
 				}
 			}
 		}
-		if (idx >= MAX_CONNECTIONS || pipes[idx] != null)
-			return Pr.ret(false);
+		if (idx >= MAX_CONNECTIONS || pipes[idx] != null || idx < 0)
+			return false;
 		boolean res = p.connectTo(this);
 		if (res)
 			pipes[idx] = p;
-		return Pr.ret(res);
+		return res;
 	}
 	/**
 	 * felszedi a paraméterként kapottadik indexű
 	 * cső saját oldalán levő végét és azt visszaadja
 	 */
 	@Override public Pipe disconnectPipe(int idx) {
-		Pr.fv(this, "disconnectPipe", idx);
 		if (pipes[idx] == null)
-			return Pr.ret((Pipe)null);
+			return null;
 		Pipe p = pipes[idx];
 		boolean res2 = p.disconnectFrom(this);
 		if (!res2) 
-			return Pr.ret((Pipe)null);
+			return null;
 		pipes[idx] = null;
-		return Pr.ret(p);
+		return p;
 	}
 	/**
 	 * p pipe-ot lecsatolja, és
@@ -71,7 +72,6 @@ public abstract class ActiveElement extends Element {
 	 * @param p
 	 */
 	public void disconnectPipe(Pipe p) {
-		Pr.fv(this, "disconnectPipe", p);
 		Pipe dcd = null;
 		for (int i = 0; i < MAX_CONNECTIONS; ++i) {
 			if (pipes[i] == p) { // referencia szerinti hasonlítás
@@ -81,53 +81,43 @@ public abstract class ActiveElement extends Element {
 		}
 		if (dcd == null)
 			throw new InvalidParameterException("Nem sikerült a lecsatlakoztatás!");
-		Pr.ret();
 	}
 	/**
 	 *  felveszi az indexedik helyen levő
 	 *  lelógó csövet erről az elemről, nullt ad vissza, ha sikertelen
 	 */
 	@Override public Pipe pickUpDanglingPipe(int idx) {
-		Pr.fv(this, "pickUpDanglingPipe", idx);
 		if (pipes[idx] != null)
-			return Pr.ret(pipes[idx].pickUpDangling());
-		return Pr.ret((Pipe)null);
+			return pipes[idx].pickUpDangling();
+		return null;
 	}
 	/**
 	 *  a beállított kimeneti csö(vek)be megpróbálja benyomni a vizet,
 	 *  alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	 */
 	public void pushWater() {
-		Pr.fv(this, "pushWater");
-		Pr.ret();
 	}
 	/**
 	 * a beállított bemeneti csö(vek)ből megpróbál vízhez jutni,
 	 * alapértelmezetten nem csinál semmit, leszármazottak definiálhatják felül
 	 */
 	public void pullWater() {
-		Pr.fv(this, "pullWater");
-		Pr.ret();
 	}
 	/**
 	 * néha meghívódik, alapértelmezetten nem csinál semmit,
 	 * leszármazottak definiálhatják felül
 	 */
 	public void randomEvent() {
-		Pr.fv(this, "randomEvent");
-		Pr.ret();
 	}
 	/**
 	 * meghívja a saját pushWater és pullWater függvényét, illetve a
 	 * randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
 	@Override public void tick() {
-		Pr.fv(this, "tick");
 		pushWater();
 		pullWater();
-	    if (Pr.inBool("random"))
+	    if (Proto.randomNextDouble() >= 0.9)
 	    	randomEvent();
-	    Pr.ret();
 	}
 	
 	
