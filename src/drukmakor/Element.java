@@ -93,9 +93,19 @@ public abstract class Element implements Tickable {
 	public boolean placePump(Pump p) {
 		return false;
 	}
+	/**
+	 * csúszóssá teszi az elemet alapértelmezetten sikertelen, 
+	 * leszármazottaknak célszerű felüldefiniálni
+	 * @return
+	 */
 	public boolean slipperyPipe() {
 		return false;
 	}
+	/**
+	 * csúszóssá teszi az elemet alapértelmezetten sikertelen,
+	 * leszármazottaknak célszerű felüldefiniálni
+	 * @return
+	 */
 	public boolean stickyPipe() {
 		return false;
 	}

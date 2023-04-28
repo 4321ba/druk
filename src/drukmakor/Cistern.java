@@ -64,7 +64,7 @@ public class Cistern extends ActiveElement {
 	
 	@Override
 	public Object[] get() {
-		int noValidPipes = MAX_CONNECTIONS;
+		int noValidPipes = MAX_CONNECTIONS; // number of valid pipes
 		while (noValidPipes > 0 && pipes[noValidPipes - 1] == null)
 			noValidPipes--;
 		Object[] ret = new Object[noValidPipes + 1]; // <csövek> <vízszint (egész szám)>

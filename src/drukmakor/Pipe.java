@@ -160,14 +160,15 @@ public class Pipe extends Element {
 		if (from != end1 && from != end2 && from != null) {
 			return null;
 		}
+		from.characterExited();
 		if(isSticky > 0) {
 			who.getStickied();
 		}
 		if (isSlippery > 0) {
 			if(Proto.randomNextDouble() > 0.50) {
-				return end1; 
+				return end1.acceptCharacter(this, who); 
 			}else {
-				return end2;
+				return end2.acceptCharacter(this, who);
 			}
 		}
 		isOccupied = true;

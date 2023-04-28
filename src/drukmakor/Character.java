@@ -24,10 +24,9 @@ public abstract class Character implements Tickable {
 	public Character(Element cp) {
 
 		isStuck = 0;
-		boolean res =null!= cp.acceptCharacter(null, this);
-		if (!res)
+		currentPosition = cp.acceptCharacter(null, this);
+		if (currentPosition == null)
 			throw new InvalidParameterException("Nem fogadta be a cp a karaktert!");
-		currentPosition = cp;
 	}
 	/**
 	 * amennyiben pump-on áll, beállítja
@@ -47,13 +46,19 @@ public abstract class Character implements Tickable {
 	 * @return
 	 */
 	public boolean moveTo(Element e) {
-		if (null==e.acceptCharacter(currentPosition, this))
+		if (isStuck > 0)
 			return false;
-		currentPosition.characterExited();
-		currentPosition = e;
+		Element new_ = e.acceptCharacter(currentPosition, this);
+		if (new_ == null)
+			return false;
+		currentPosition = new_;
 		return true;
 	}
-	
+
+	/**
+	 * ragacsozza az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll)
+	 * @return
+	 */
 	public boolean stickyPipe() {
 		return currentPosition.stickyPipe();
 	}
@@ -66,14 +71,19 @@ public abstract class Character implements Tickable {
 		return currentPosition.piercePipe();
 	}
 	
-	
+	/**
+	 * összeragasztózza a karaktert, beállítja isStuck-ot 2-re (2 körig lesz ragasztós)
+	 */
 	public void getStickied() {
 		isStuck = 2;
 	}
-	
+	/**
+	 * isStuckot csökkenti 1-gyel, ha >0
+	 */
 	@Override
 	public void tick() {
-		isStuck--;
+		if (isStuck > 0)
+			isStuck--;
 	}
 	
 }

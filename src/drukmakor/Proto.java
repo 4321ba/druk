@@ -337,6 +337,8 @@ public class Proto {
 		String fullStr = ""; // nem túl költséghatékony, de nekünk tökéletes lesz
 		boolean first = true;
 		for (Object state : states) {
+			if (state == null)
+				state = "null";
 			String s = state.toString();
 			try {
 				s = nameOf(state);

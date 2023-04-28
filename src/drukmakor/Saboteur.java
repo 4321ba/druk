@@ -14,15 +14,18 @@ public class Saboteur extends Character {
 	public Saboteur(Element cp) {
 		super(cp);
 	}
-	
+	/**
+	 *  csúszósozza az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll), 
+	 *  visszaadja, amit az Element azonos nevű függvényétől kapott
+	 * @return
+	 */
 	public boolean slipperyPipe() {
 		return currentPosition.slipperyPipe();
 	}
 
 	@Override
 	public Object[] get() {
-		// TODO Auto-generated method stub
-		return null;
+		//<aktuális pozíció> <meddig ragad (egész szám)>
+		return new Object[] { currentPosition, isStuck };
 	}
-	
 }

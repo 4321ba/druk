@@ -28,8 +28,7 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean fix() {
-		Pr.fv(this, "fix");
-		return Pr.ret(currentPosition.fix());
+		return currentPosition.fix();
 	}
 	/**
 	 * arról a pumpáról, amin áll, megkísérli lekapcsolni a
@@ -39,11 +38,10 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean disconnectPipe(int index) {
-		Pr.fv(this, "disconnectPipe", index);
 		if (holdingPipe != null)
-			return Pr.ret(false);
+			return false;
 		holdingPipe = currentPosition.disconnectPipe(index);
-		return Pr.ret(holdingPipe != null);
+		return holdingPipe != null;
 	}
 	/**
 	 * megkísérli a holdingPipe csövet csatlakoztatni ahhoz
@@ -52,13 +50,12 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean connectPipe(int index) {
-		Pr.fv(this, "connectPipe", index);
 		if (holdingPipe == null)
-			return Pr.ret(false);
+			return false;
 		boolean res = currentPosition.connectPipe(holdingPipe, index);
 		if (res)
 			holdingPipe = null;
-		return Pr.ret(res);
+		return res;
 	}
 	/**
 	 * felveszi az indexedik helyen levő lelógó
@@ -67,11 +64,10 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean pickUpDanglingPipe(int idx) {
-		Pr.fv(this, "pickUpDanglingPipe", idx);
 		if (holdingPipe != null)
-			return Pr.ret(false);
+			return false;
 		holdingPipe = currentPosition.pickUpDanglingPipe(idx);
-		return Pr.ret(holdingPipe != null);
+		return holdingPipe != null;
 	}
 	/**
 	 * felvesz egy pumpát (a ciszternánál), ha sikerül ez lesz a
@@ -79,38 +75,32 @@ public class Mechanic extends Character {
 	 * @return
 	 */
 	public boolean pickUpPump() {
-		Pr.fv(this, "pickUpPump");
 		if (holdingPump != null)
-			return Pr.ret(false);
+			return false;
 		holdingPump = currentPosition.pickUpPump();
-		return Pr.ret(holdingPump != null);
+		return holdingPump != null;
 	}
 	/**
 	 * megkéri az elemet, amin áll, hogy rakja le a pumpát (ha van nála)
 	 * @return
 	 */
 	public boolean placePump() {
-		Pr.fv(this, "placePump");
 		if(holdingPump == null)
-			return Pr.ret(false);
+			return false;
 		boolean res1 = currentPosition.placePump(holdingPump);
 		if (!res1)
-			return Pr.ret(false);
+			return false;
 		boolean res2 = moveTo(holdingPump);
 		if (!res2)
 			throw new RuntimeException("Nem jól bekötött, nem tudunk átlépni a pumpára!");
 		holdingPump = null;
-		return Pr.ret(true);
+		return true;
 	}
-	@Override
-	public void tick() {
-		// TODO Auto-generated method stub
-		
-	}
+
 	@Override
 	public Object[] get() {
-		// TODO Auto-generated method stub
-		return null;
+		//<aktuális pozíció> <hordozott cső> <hordozott pumpa> <meddig ragad (egész szám)>
+		return new Object[] { currentPosition, holdingPipe, holdingPump, isStuck };
 	}
 	
 	

@@ -18,12 +18,11 @@ public abstract class ActiveElement extends Element {
 	 *  rá enged lépni egy karaktert, ha
 	 *  csatlakozik from elemhez
 	 */
-	@Override public Element acceptCharacter(Element from, Character c) {// TODO szebb argumentumnév ...
-		Pr.fv(this, "acceptCharacter", from);
+	@Override public Element acceptCharacter(Element from, Character who) {
 		if (from == null)
-			return this;//Pr.ret(true);
+			return this;
 		for (Pipe p: pipes)
-			if (p == from)//referencia szerinti hasonlítás
+			if (p == from) // referencia szerinti hasonlítás
 				return this;
 		return null;
 	}
