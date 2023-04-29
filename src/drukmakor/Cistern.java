@@ -19,7 +19,7 @@ public class Cistern extends ActiveElement {
 	@Override public void randomEvent() {
 		for (Pipe p : pipes) { // van-e még szabad hely a ciszternán, ha nincs akkor nem hozunk létre új pipeot (különben exceptiont dob)
 			if (p == null) {
-				new Pipe(this, null);
+				Proto.newPipe(this, null);
 				return;
 			}
 		}
