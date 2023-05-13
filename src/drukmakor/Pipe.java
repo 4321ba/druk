@@ -50,7 +50,9 @@ public class Pipe extends Element {
 	 * a cső másik vége ide van csatlakoztatva, null, ha játékos fogja, vagy dangling
 	 */
 	private ActiveElement end2;
-	
+	/**
+	 * megjavítja a csövet, beállítja a szúrhatatlanságot is, amennyiben sikerült a javítás
+	 */
 	@Override public boolean fix() {
 		if(isPierced) {
 			isPierced = false;
@@ -289,6 +291,11 @@ public class Pipe extends Element {
 		isSlippery = 3;
 		return true;
 	}
+	
+
+	/**
+	 * A get parancs által kiírandó értékeket adja vissza a megfelelő sorrendben, így megvalósítva az állapotok lekérdezését.
+	 */
 	@Override
 	public Object[] get() {
 		//<egyik vég> <másik vég> <egyik vég carried-e> <másik vég

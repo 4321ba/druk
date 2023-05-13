@@ -58,7 +58,10 @@ public class Cistern extends ActiveElement {
 	}
 	
 	
-	
+
+	/**
+	 * A get parancs által kiírandó értékeket adja vissza a megfelelő sorrendben, így megvalósítva az állapotok lekérdezését.
+	 */
 	@Override
 	public Object[] get() {
 		int noValidPipes = MAX_CONNECTIONS; // number of valid pipes

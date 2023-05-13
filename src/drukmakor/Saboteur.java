@@ -23,6 +23,12 @@ public class Saboteur extends Character {
 		return currentPosition.slipperyPipe();
 	}
 
+	
+	
+
+	/**
+	 * A get parancs által kiírandó értékeket adja vissza a megfelelő sorrendben, így megvalósítva az állapotok lekérdezését.
+	 */
 	@Override
 	public Object[] get() {
 		//<aktuális pozíció> <meddig ragad (egész szám)>

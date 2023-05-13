@@ -12,13 +12,23 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Proto {
+	/**
+	 * itt indul a program, és meghívja az értelmező függvényt a standard bemeneten
+	 */
 	public static void main(String[] args) {
 		interpret(System.in);
 	}
 	
+	/**
+	 * eltárolja, hogy történt-e exit parancs hívása, ami miatt ki kell lépni a programból
+	 */
 	private static boolean isExiting = false;
 	
-	// feldolgozza az is-ben jövő parancsokat
+	/**
+	 *  feldolgozza az is-ben jövő parancsokat
+	 *  figyelni kell, mert rekurzívan többször is meghívódhat, load parancsok hatására
+	 *  ha isExiting, akkor mindből ki kell lépni
+	 */
 	private static void interpret(InputStream is) {
 		Scanner sc = new Scanner(is);
 		while (!isExiting && sc.hasNextLine()) {
@@ -42,9 +52,14 @@ public class Proto {
 	}
 
 	
-	
-	// muteolható kiírás
+	/**
+	 * eltárolja, hogy éppen silent load-ban vagyunk-e, ami miatt nem írunk normál üzeneteket
+	 * csak hibaüzeneteket, a kimenetre
+	 */
 	private static boolean isMuted = false;
+	/**
+	 *  muteolható kiírás
+	 */
 	private static void condPr(String s) {
 		if (!isMuted)
 			System.out.println(s);
@@ -52,18 +67,27 @@ public class Proto {
 	
 	
 	
-	// random
+	/**
+	 * legutóbb beállított random érték, a random parancsból
+	 */
 	private static double randVal = -1.0; // <0.0 esetén igazi random értéket adunk
+	/**
+	 * random objektum az igazi random számításhoz
+	 */
 	private static Random random = new Random();
+	/**
+	 * a modellből hívott függvény, ami a fentiek alapján visszaadja a specifikált választ
+	 */
 	public static double randomNextDouble() {
 		if (randVal < 0.0)
 			return random.nextDouble();
 		return randVal;
 	}
 	
-	
-	// az eltárolt objektumok listái
-	// a nevekben az index 1-gyel el van tolva! Ami itt a 0-s index, az a me1 pl
+	/**
+	 * az eltárolt objektumok listái
+	 * a nevekben az index 1-gyel el van tolva! Ami a meListben a 0-s index, az a me1 pl
+	 */
 	private static List<Mechanic> meList = new LinkedList<>();
 	private static List<Saboteur> saList = new LinkedList<>();
 	private static List<Pipe> piList = new LinkedList<>();
@@ -72,10 +96,11 @@ public class Proto {
 	private static List<Source> soList = new LinkedList<>();
 	
 	
-	
-	// új objektumot regisztrálva létrehozó függvények
-	// ezeket a függvényeket a modell is használhatja, sőt, ezeket kell használnia,
-	// hogy rendesen nevet is kapjanak a futás közben létrehozott objektumok
+	/**
+	 * új objektumot regisztrálva létrehozó függvények
+	 * ezeket a függvényeket a modell is használhatja, sőt, ezeket kell használnia,
+	 * hogy rendesen nevet is kapjanak a futás közben létrehozott objektumok
+	 */
 	public static Mechanic newMechanic(Element cp) {
 		Mechanic me = new Mechanic(cp);
 		meList.add(me);
@@ -108,7 +133,11 @@ public class Proto {
 	}
 	
 	
-	// objektumból csinálunk nevet
+	
+	
+	/**
+	 *  objektumból csinálunk nevet
+	 */
 	private static String nameOf(Object obj) {
 		if (meList.contains(obj))
 			return "me" + (meList.indexOf(obj) + 1);
@@ -126,7 +155,9 @@ public class Proto {
 	}
 	
 	
-	// parszolunk sima típusokat
+	/**
+	 * parszolunk boolt
+	 */
 	private static boolean parseBool(String s) {
 		s = s.toLowerCase();
 		if (s.equals("y") || s.equals("t") || s.equals("yes") || s.equals("true"))
@@ -135,6 +166,9 @@ public class Proto {
 			return false;
 		throw new IllegalArgumentException("Could not parse \"" + s + "\" as a boolean value!");
 	}
+	/**
+	 * parszolunk intet
+	 */
 	private static int parseInt(String s) {
 		try {
 			return Integer.parseInt(s);
@@ -145,8 +179,14 @@ public class Proto {
 	
 	
 	
-	// névből csinálunk objektumot
-	// tryParse null-t ad vissza, ha sikertelen a parszolás, de más típussá még lehet esetleg parszolni
+	/**
+	 *  névből csinálunk objektumot
+	 *  tryParse null-t ad vissza, ha sikertelen a parszolás, de más típussá még lehet esetleg parszolni
+	 *  kivételt dob, ha biztos, hogy más típussá sem lehet parszolni
+	 * @param twoLetterTypeName pl: me, ci, so, ...
+	 * @param listOfObjects az objektumokat tartalmazó lista
+	 * @return a megtalált objektum
+	 */
 	private static <T> T tryParse(String s, String twoLetterTypeName, List<T> listOfObjects) {
 		if (s.length() < 3)
 			throw new IllegalArgumentException("\"" + s + "\" is too short to be a name of an object!");
@@ -159,7 +199,14 @@ public class Proto {
 			throw new IllegalArgumentException("Number \"" + s.substring(2) + "\" out of range! Valid range is from 1 to " + listOfObjects.size() + " inclusive.");
 		return listOfObjects.get(idx);
 	}
-	// ezeket is lehetne generikusan, de valószínűleg classcastexceptionöket kéne elkapni, ami nem olyan szép
+	/**
+	 * névből csinálunk objektumot, a tryparse felhasználásával
+	 * ezeket könnyebb hívni a parancsok implementációjából, mert nem kell twolettertypename-et és listát adni neki
+	 * és biztosan tudja, hogy adott absztrakt vagy nem absztrakt osztályt sikerült-e parszolni, vagy nem
+	 * ezeket is lehetne generikusan, de valószínűleg classcastexceptionöket kéne elkapni, ami nem olyan szép
+	 * @param s az objektum neve
+	 * @return maga az objektum
+	 */
 	private static Tickable parseTickable(String s) {
 		Tickable t = tryParse(s, "me", meList);
 		if (t == null) t = tryParse(s, "sa", saList);
@@ -228,11 +275,13 @@ public class Proto {
 	
 	
 	
-	// parancsok
-	// Egy parancs egy String[]-et kapó függvény, paraméterként kapja az argumentumokat,
-	// úgy, hogy a parancsot magát is megkapja, a 0. indexben.
-	// kiírni a condPr függvénnyel ír, hogyha silent load történik, akkor el lehessen némítani
-	// a hibákat kivétel dobásával jelzi, melyet a hívó elkap, és kiírja a felhasználónak a hibát.
+	/**
+	 * parancsok map-je
+	 * Egy parancs egy String[]-et kapó függvény, paraméterként kapja az argumentumokat,
+	 * úgy, hogy a parancsot magát is megkapja, a 0. indexben.
+	 * kiírni a condPr függvénnyel ír, hogyha silent load történik, akkor el lehessen némítani
+	 * a hibákat kivétel dobásával jelzi, melyet a hívó elkap, és kiírja a felhasználónak a hibát.
+	 */
 	private static Map<String, Consumer<String[]>> commands;
 	static {
 		commands = new HashMap<>();
@@ -257,20 +306,31 @@ public class Proto {
 		commands.put("tick", Proto::tick);
 	}
 
-
+	/**
+	 * leteszteli, hogy megfelelő hosszúságú-e az argumentumok tömbje, egyébként kivételt dob
+	 */
 	private static void testArgsLength(String[] args, int length) {
 		if (args.length != length)
 			throw new IllegalArgumentException(args.length > length ? "Too many arguments!" : "Too few arguments!");
 	}
 	
+	/**
+	 * a kommentet megvalósító parancs implementációja
+	 */
 	private static void hashtag(String[] args) {
 	}
-	
+
+	/**
+	 * a kilépést megvalósító parancs implementációja
+	 */
 	private static void exit(String[] args) {
 		testArgsLength(args, 1);
 		isExiting = true;
 	}
-	
+
+	/**
+	 * az új objektum hozzáadását megvalósító parancs implementációja
+	 */
 	private static void add(String[] args) {
 		if (args.length < 2)
 			throw new IllegalArgumentException("Too few arguments!");
@@ -301,7 +361,10 @@ public class Proto {
 			throw new IllegalArgumentException("Non-existent type \"" + type + "\"! Available ones are me, sa, pi, pu, ci and so.");
 		}
 	}
-	
+
+	/**
+	 * a megjegyzett dolgok törlését megvalósító parancs implementációja
+	 */
 	private static void clear(String[] args) {
 		testArgsLength(args, 1);
 		meList.clear();
@@ -312,7 +375,10 @@ public class Proto {
 		soList.clear();
 		randVal = -1.0;
 	}
-	
+
+	/**
+	 * a fájlból inicializáció betöltését megvalósító parancs implementációja
+	 */
 	private static void load(String[] args) {
 		if (args.length != 2 && args.length != 3)
 			throw new IllegalArgumentException(args.length > 2 ? "Too many arguments!" : "Too few arguments!");
@@ -330,7 +396,10 @@ public class Proto {
 		}
 		isMuted = prevMuted;
 	}
-	
+
+	/**
+	 * az állapotlekérdezést megvalósító parancs implementációja
+	 */
 	private static void get(String[] args) {
 		testArgsLength(args, 2);
 		Object[] states = parseTickable(args[1]).get();
@@ -349,7 +418,10 @@ public class Proto {
 		}
 		condPr(fullStr);
 	}
-	
+
+	/**
+	 * a random értékek determinisztikussá tevését megvalósító parancs implementációja
+	 */
 	private static void random(String[] args) {
 		if (args.length > 2)
 			throw new IllegalArgumentException("Too many arguments!");
@@ -367,73 +439,109 @@ public class Proto {
 		}
 		randVal = val;
 	}
-	
+
+	/**
+	 * a karakterek mozgatását megvalósító parancs implementációja
+	 */
 	private static void moveto(String[] args) {
 		testArgsLength(args, 3);
 		Boolean result = parseCharacter(args[1]).moveTo(parseElement(args[2]));
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a pumpa beállítását megvalósító parancs implementációja
+	 */
 	private static void alterpump(String[] args) {
 		testArgsLength(args, 4);
 		Boolean result = parseCharacter(args[1]).alterPump(parseInt(args[2]), parseInt(args[3]));
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a cső kiszúrását megvalósító parancs implementációja
+	 */
 	private static void piercepipe(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseCharacter(args[1]).piercePipe();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a javítást megvalósító parancs implementációja
+	 */
 	private static void fix(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseMechanic(args[1]).fix();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a csőlecsatlakoztatást megvalósító parancs implementációja
+	 */
 	private static void disconnectpipe(String[] args) {
 		testArgsLength(args, 3);
 		Boolean result = parseMechanic(args[1]).disconnectPipe(parseInt(args[2]));
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a csőfelcsatlakoztatást megvalósító parancs implementációja
+	 */
 	private static void connectpipe(String[] args) {
 		testArgsLength(args, 3);
 		Boolean result = parseMechanic(args[1]).connectPipe(parseInt(args[2]));
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a lelógó cső felvételét megvalósító parancs implementációja
+	 */
 	private static void pickupdanglingpipe(String[] args) {
 		testArgsLength(args, 3);
 		Boolean result = parseMechanic(args[1]).pickUpDanglingPipe(parseInt(args[2]));
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a pumpafelvételt megvalósító parancs implementációja
+	 */
 	private static void pickuppump(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseMechanic(args[1]).pickUpPump();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a pumpaletételt megvalósító parancs implementációja
+	 */
 	private static void placepump(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseMechanic(args[1]).placePump();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a cső ragacsossá tételét megvalósító parancs implementációja
+	 */
 	private static void stickypipe(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseCharacter(args[1]).stickyPipe();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * a cső csúszóssá tételét megvalósító parancs implementációja
+	 */
 	private static void slipperypipe(String[] args) {
 		testArgsLength(args, 2);
 		Boolean result = parseSaboteur(args[1]).slipperyPipe();
 		condPr(result.toString());
 	}
-	
+
+	/**
+	 * egy adott objektumnak történő időeltelés-jelzést megvalósító parancs implementációja
+	 */
 	private static void tick(String[] args) {
 		testArgsLength(args, 2);
 		parseTickable(args[1]).tick();

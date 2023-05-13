@@ -8,7 +8,7 @@ public interface Tickable {
 	abstract public void tick();
 	
 	/**
-	 * A get parancs által kiírt értékeket adja vissza, így megvalósítva az állapotok lekérdezését.
+	 * A get parancs által kiírandó értékeket adja vissza a megfelelő sorrendben, így megvalósítva az állapotok lekérdezését.
 	 *  Ezt minden nem absztrakt leszármazott implementálja, melyben visszaadja a saját állapotát 
 	 *  (tagváltozók összességét).
 	 *  Ugyanemiatt került a Tickable interfészhez ez a függvény, 

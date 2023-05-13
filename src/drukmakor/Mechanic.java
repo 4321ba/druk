@@ -97,6 +97,9 @@ public class Mechanic extends Character {
 		return true;
 	}
 
+	/**
+	 * A get parancs által kiírandó értékeket adja vissza a megfelelő sorrendben, így megvalósítva az állapotok lekérdezését.
+	 */
 	@Override
 	public Object[] get() {
 		//<aktuális pozíció> <hordozott cső> <hordozott pumpa> <meddig ragad (egész szám)>
