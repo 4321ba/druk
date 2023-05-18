@@ -14,6 +14,7 @@ public class Pipe extends Element {
 	 * van-e benne víz
 	 */
 	private boolean hasWater;
+	public boolean getHasWater() { return hasWater; }
 	/**
 	 * eltárolja, hogy áll-e rajta játékos
 	 */
@@ -22,6 +23,7 @@ public class Pipe extends Element {
 	 * eltárolja, hogy ki van-e lyukaszva
 	 */
 	private boolean isPierced;
+	public boolean getIsPierced() { return isPierced; }
 	/**
 	 * az 1-es vég játékosnál van-e
 	 */
@@ -34,10 +36,12 @@ public class Pipe extends Element {
 	 * stickyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */
 	private int isSticky;
+	public boolean getIsSticky() { return isSticky > 0; }
 	/**
 	 * slipperyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */
 	private int isSlippery;
+	public boolean getIsSlippery() { return isSlippery > 0; }
 	/**
 	 * fix() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */

@@ -14,6 +14,7 @@ public abstract class ActiveElement extends Element {
 	 * azok a csövek, amelyek hozzá csatlakoznak
 	 */
 	protected Pipe[] pipes = new Pipe[MAX_CONNECTIONS];
+	public Pipe[] getPipes() { return pipes; }
 	/**
 	 *  rá enged lépni egy karaktert, ha
 	 *  csatlakozik from elemhez
@@ -114,6 +115,7 @@ public abstract class ActiveElement extends Element {
 	 * randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
 	@Override public void tick() {
+		//if ()
 		pushWater();
 		pullWater();
 	    if (Proto.randomNextDouble() >= 0.9)

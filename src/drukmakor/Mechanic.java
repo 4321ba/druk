@@ -12,10 +12,12 @@ public class Mechanic extends Character {
 	 * a cső, aminek a végét tartja. Null, ha nem fog csövet
 	 */
 	private Pipe holdingPipe = null;
+	public Pipe getHoldingPipe() { return holdingPipe; }
 	/**
 	 * A pumpa, ami a mechaniknál van, ha null, akkor nincs nála
 	 */
 	private Pump holdingPump = null;
+	public Pump getHoldingPump() { return holdingPump; }
 	/**
 	 * meghívja az ősosztály konstruktorát
 	 * @param cp

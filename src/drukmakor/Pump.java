@@ -13,19 +13,24 @@ public class Pump extends ActiveElement {
 	 * van-e benne víz
 	 */
 	private boolean hasWater;
+	public boolean getHasWater() { return hasWater; }
+	
 	/**
 	 * bemeneti cső indexe
 	 */
 	private int inPipeIdx = 0;
+	public int getInPipeIdx() { return inPipeIdx; }
 	/**
 	 * kimeneti cső, indexe
 	 */
 	private int outPipeIdx = 1;
+	public int getOutPipeIdx() { return outPipeIdx; }
 
 	/**
 	 * el van-e törve
 	 */
 	private boolean isBroken = false;
+	public boolean getIsBroken() { return isBroken; }
 	/**
 	 * megjavítja a pumpát
 	 */
@@ -98,6 +103,6 @@ public class Pump extends ActiveElement {
 	}
 	
 	private PumpView view;
-	public PumpView getView() { return view; }
+	@Override public PumpView getView() { return view; }
 	public void setView(PumpView v) { view = v; }
 }

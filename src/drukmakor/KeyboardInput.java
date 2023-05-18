@@ -8,25 +8,25 @@ public class KeyboardInput implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == 's')
-			Main.skip();
+			Grafikus.skip();
 		if (e.getKeyChar() == 'b')
-			Main.saboteurbreakpipe();
+			Grafikus.saboteurbreakpipe();
 		if (e.getKeyChar() == 'f')
-			Main.mechanicfix();
+			Grafikus.mechanicfix();
 		if (e.getKeyChar() == 'a')
-			Main.alterpump();
+			Grafikus.alterpump();
 		if (e.getKeyChar() == 'c')
-			Main.connectpipe();
+			Grafikus.connectpipe();
 		if (e.getKeyChar() == 'd')
-			Main.disconnectpipe();
+			Grafikus.disconnectpipe();
 		if (e.getKeyChar() == 'p')
-			Main.pickuppump();
+			Grafikus.pickuppump();
 		if (e.getKeyChar() == 'o')
-			Main.placepump();
+			Grafikus.placepump();
 		if (e.getKeyChar() == 'e')
-			Main.danglingpipe();
+			Grafikus.danglingpipe();
 		if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9')
-			Main.numberinput(e.getKeyChar()-'0');
+			Grafikus.numberinput(e.getKeyChar()-'0');
 		
 	}
 

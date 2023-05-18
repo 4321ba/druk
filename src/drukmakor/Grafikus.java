@@ -3,6 +3,8 @@ package drukmakor;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -18,58 +20,60 @@ public class Grafikus {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container pane = frame.getContentPane();
         //pane.setLayout(new GridBagLayout());
-        pane.add(d);
+        pane.add(desert);
         frame.setVisible(true);
-        d.grabFocus();//setvisible alatt kell különben nem érzi!!!!
+        desert.grabFocus();//setvisible alatt kell különben nem érzi!!!!
         
         KeyboardInput ki = new KeyboardInput();
-        d.addKeyListener(ki);
+        desert.addKeyListener(ki);
         
         Timer timer = new Timer(17, (e) -> pane.repaint());
         timer.start();
         
 
 	}
-	static Character[] players = new Character[4];
-	static int currPlIdx = 0;
+	private static List<Character> players = new LinkedList<>();
+	public static void addPlayer(Character c) {
+		players.add(c);
+	}
+	static int currPlIdx = 0;//TODO minden ilyen private
 	static void incr() {
-		players[currPlIdx].soros = false;
+		players.get(currPlIdx).getView().setSoros(false);
 		++currPlIdx;
-		if (currPlIdx>=4)
-			currPlIdx-=4;
-		players[currPlIdx].soros = true;
+		if (currPlIdx>=players.size())
+			currPlIdx-=players.size();
+		players.get(currPlIdx).getView().setSoros(true);
 	}
 
-	static WaterController wc = WaterController.get();
 	public static void main(String[] args) throws IOException {
 		
-        Timer timer2 = new Timer(500, (e) -> wc.tick());
+        Timer timer2 = new Timer(500, (e) -> Proto.tick());
         timer2.start();
         
-        d.drl.add(PointCounter.get());
+        desert.addDrawable(PointCounter.get());
         
-		Source s1 = new Source(new Coords(900, 400));
-		Source s2 = new Source(new Coords(1100, 600));
-		Source s3 = new Source(new Coords(730, 500));
-		Cistern c1 = new Cistern(new Coords(150, 450));
-		Cistern c2 = new Cistern(new Coords(260, 450));
-		Cistern c3 = new Cistern(new Coords(170, 340));
+		Source s1 = Proto.newSource(new Coords(900, 400));
+		Source s2 = Proto.newSource(new Coords(1100, 600));
+		Source s3 = Proto.newSource(new Coords(730, 500));
+		Cistern c1 = Proto.newCistern(new Coords(150, 450));
+		Cistern c2 = Proto.newCistern(new Coords(260, 450));
+		Cistern c3 = Proto.newCistern(new Coords(170, 340));
 		
-		Pump p1 = new Pump(new Coords(500, 100));
-		Pump p2 = new Pump(new Coords(600, 300));
-		Pump p3 = new Pump(new Coords(550, 600));
-		Pump p4 = new Pump(new Coords(720, 650));
+		Pump p1 = Proto.newPump(new Coords(500, 100));
+		Pump p2 = Proto.newPump(new Coords(600, 300));
+		Pump p3 = Proto.newPump(new Coords(550, 600));
+		Pump p4 = Proto.newPump(new Coords(720, 650));
 		
-		Pipe pi1 = new Pipe(s1, p1);
-		Pipe pi2 = new Pipe(s2, p2);
-		Pipe pi3 = new Pipe(s3, p3);
-		Pipe pi4 = new Pipe(p1, p2);
-		Pipe pi5 = new Pipe(p1, c1);
-		Pipe pi6 = new Pipe(p3, c2);
-		Pipe pi7 = new Pipe(p4, c3);
-		Pipe pi8 = new Pipe(p2, p4);
-		Pipe pi9 = new Pipe(p3, p1);
-		Pipe pi10 = new Pipe(p4, s2);
+		Pipe pi1 = Proto.newPipe(s1, p1);
+		Pipe pi2 = Proto.newPipe(s2, p2);
+		Pipe pi3 = Proto.newPipe(s3, p3);
+		Pipe pi4 = Proto.newPipe(p1, p2);
+		Pipe pi5 = Proto.newPipe(p1, c1);
+		Pipe pi6 = Proto.newPipe(p3, c2);
+		Pipe pi7 = Proto.newPipe(p4, c3);
+		Pipe pi8 = Proto.newPipe(p2, p4);
+		Pipe pi9 = Proto.newPipe(p3, p1);
+		Pipe pi10 = Proto.newPipe(p4, s2);
 		
 		p1.alterPump(0, 2);
 		//p2.alter(pi2, pi4);
@@ -77,41 +81,32 @@ public class Grafikus {
 		p4.alterPump(2, 0);
 		
 		
-		Mechanic m1 = new Mechanic(p1);
-		players[0] = m1;
-		d.drl.add(m1);
-		m1.soros = true;
-		Mechanic m2 = new Mechanic(c1);
-		players[1] = m2;
-		d.drl.add(m2);
-		Saboteur sz1 = new Saboteur(p2);
-		players[2] = sz1;
-		d.drl.add(sz1);
-		Saboteur sz2 = new Saboteur(s2);
-		players[3] = sz2;
-		d.drl.add(sz2);
+		Mechanic m1 = Proto.newMechanic(p1);
+		m1.getView().setSoros(true);
+		Mechanic m2 = Proto.newMechanic(c1);
+		Saboteur sz1 = Proto.newSaboteur(p2);
+		Saboteur sz2 = Proto.newSaboteur(s2);
 		
-        SwingUtilities.invokeLater(() -> Main.createAndShowGUI());
+        SwingUtilities.invokeLater(() -> Grafikus.createAndShowGUI());
         
 
-		//Proto.interpret(System.in);
+		Proto.interpret(System.in);
 	}
 
-	
-	
+
 	static void playergoto(Element e) {
-		if (players[currPlIdx].moveTo(e))
+		if (players.get(currPlIdx).moveTo(e))
 			incr();
 	}
 	static void skip() {
 		incr();
 	}
 	static void saboteurbreakpipe() {
-		if (players[currPlIdx] instanceof Saboteur && ((Saboteur)players[currPlIdx]).piercePipe())
+		if (players.get(currPlIdx) instanceof Saboteur && ((Saboteur)players.get(currPlIdx)).piercePipe())
 			incr();
 	}
 	static void mechanicfix() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).fix())
+		if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).fix())
 			incr();
 	}
 	
@@ -133,24 +128,24 @@ public class Grafikus {
 				if (prevalter == -1)
 					prevalter = n;
 				else {
-					if (players[currPlIdx].alterPump(prevalter, n))
+					if (players.get(currPlIdx).alterPump(prevalter, n))
 						incr();
 					prevalter = -1;
 					doingSomething = dst.NOTHING;
 				}
 				break;
 			case DCPIPE:
-				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).disconnectPipe(n))
+				if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).disconnectPipe(n))
 					incr();
 				doingSomething = dst.NOTHING;
 				break;
 			case CONNECTPIPE:
-				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).connectPipe(n))
+				if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).connectPipe(n))
 					incr();
 				doingSomething = dst.NOTHING;
 				break;
 			case PICKUPDANGLING:
-				if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpDanglingPipe(n))
+				if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).pickUpDanglingPipe(n))
 					incr();
 				doingSomething = dst.NOTHING;
 				break;
@@ -168,11 +163,11 @@ public class Grafikus {
 		doingSomething = dst.DCPIPE;
 	}
 	static void pickuppump() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).pickUpPump())
+		if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).pickUpPump())
 			incr();
 	}
 	static void placepump() {
-		if (players[currPlIdx] instanceof Mechanic && ((Mechanic)players[currPlIdx]).placePump())
+		if (players.get(currPlIdx) instanceof Mechanic && ((Mechanic)players.get(currPlIdx)).placePump())
 			incr();
 	}
 	static void danglingpipe() {

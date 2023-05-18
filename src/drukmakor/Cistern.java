@@ -14,6 +14,7 @@ public class Cistern extends ActiveElement {
 	 * eltárolja, hogy mennyi víz érkezett a cisternába
 	 */
 	private int waterLevel = 0;
+	public int getWaterLevel() { return waterLevel; }
 	/**
 	 * keletkezik egy új cső, ami lelóg róla
 	 */
@@ -55,7 +56,7 @@ public class Cistern extends ActiveElement {
 	 * új pumpát felvenni a ciszternánál
 	 */
 	@Override public Pump pickUpPump() {
-		return Proto.newPump();
+		return Proto.newPump(new Coords(0,0));
 	}
 	
 	

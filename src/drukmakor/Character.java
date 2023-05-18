@@ -15,6 +15,7 @@ public abstract class Character implements Tickable {
 	 * az az elem, amelyiken a Character áll, nem lehet null
 	 */
 	protected Element currentPosition;
+	public Element getCurrentPosition() { return currentPosition; }
 	/**
 	 * Konstruktor, a currentPosition értékét állítja, és befogadtatja
 	 * vele a karaktert (acceptCharacter). Különben a cső például nem tudna arról, hogy
@@ -85,5 +86,17 @@ public abstract class Character implements Tickable {
 		if (isStuck > 0)
 			isStuck--;
 	}
+
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public abstract CharacterView getView();
 }

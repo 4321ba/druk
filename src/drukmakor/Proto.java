@@ -88,11 +88,26 @@ public class Proto {
 	private static List<Cistern> ciList = new LinkedList<>();
 	private static List<Source> soList = new LinkedList<>();
 	
+	
+	/*public static boolean isUpdateCyclePull() {
+		return 
+	}*/
 	/**
 	 * frissít egyszer mindenkit
 	 */
-	public static void tick() {
-		
+	public static void tick() {//TODO bool pulling?
+		for (Mechanic t : meList)
+			t.tick();
+		for (Saboteur t : saList)
+			t.tick();
+		for (Pump t : puList)
+			t.tick();
+		for (Cistern t : ciList)
+			t.tick();
+		for (Source t : soList)
+			t.tick();
+		for (Pipe t : piList)
+			t.tick();
 	}
 	
 	
@@ -106,6 +121,7 @@ public class Proto {
 		MechanicView view = new MechanicView(me);
 		me.setView(view);
 		Grafikus.getDesert().addDrawable(view);
+		Grafikus.addPlayer(me);
 		meList.add(me);
 		return me;
 	}
@@ -114,6 +130,7 @@ public class Proto {
 		SaboteurView view = new SaboteurView(sa);
 		sa.setView(view);
 		Grafikus.getDesert().addDrawable(view);
+		Grafikus.addPlayer(sa);
 		saList.add(sa);
 		return sa;
 	}
@@ -125,25 +142,25 @@ public class Proto {
 		piList.add(pi);
 		return pi;
 	}
-	public static Pump newPump() {
+	public static Pump newPump(Coords coords) {
 		Pump pu = new Pump();
-		PumpView view = new PumpView(pu);
+		PumpView view = new PumpView(pu, coords);
 		pu.setView(view);
 		Grafikus.getDesert().addDrawable(view);
 		puList.add(pu);
 		return pu;
 	}
-	public static Cistern newCistern() {
+	public static Cistern newCistern(Coords coords) {
 		Cistern ci = new Cistern();
-		CisternView view = new CisternView(ci);
+		CisternView view = new CisternView(ci, coords);
 		ci.setView(view);
 		Grafikus.getDesert().addDrawable(view);
 		ciList.add(ci);
 		return ci;
 	}
-	public static Source newSource() {
+	public static Source newSource(Coords coords) {
 		Source so = new Source();
-		SourceView view = new SourceView(so);
+		SourceView view = new SourceView(so, coords);
 		so.setView(view);
 		Grafikus.getDesert().addDrawable(view);
 		soList.add(so);
@@ -368,13 +385,13 @@ public class Proto {
 			condPr(nameOf(newPipe(parseActiveElement(args[2]), end2)));
 		} else if (type.equals("pu")) {
 			testArgsLength(args, 2);
-			condPr(nameOf(newPump()));
+			condPr(nameOf(newPump(new Coords(random.nextInt(300), random.nextInt(300)) )));
 		} else if (type.equals("ci")) {
 			testArgsLength(args, 2);
-			condPr(nameOf(newCistern()));
+			condPr(nameOf(newCistern(new Coords(random.nextInt(300), random.nextInt(300)) )));
 		} else if (type.equals("so")) {
 			testArgsLength(args, 2);
-			condPr(nameOf(newSource()));
+			condPr(nameOf(newSource(new Coords(random.nextInt(300), random.nextInt(300)) )));
 		} else {
 			throw new IllegalArgumentException("Non-existent type \"" + type + "\"! Available ones are me, sa, pi, pu, ci and so.");
 		}
