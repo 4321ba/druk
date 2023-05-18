@@ -33,4 +33,10 @@ public class Source extends ActiveElement {
 			ret[i] = pipes[i];
 		return ret;
 	}
+	
+	
+
+	private SourceView view;
+	public SourceView getView() { return view; }
+	public void setView(SourceView v) { view = v; }
 }

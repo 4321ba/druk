@@ -97,5 +97,7 @@ public class Pump extends ActiveElement {
 		return ret;
 	}
 	
-	
+	private PumpView view;
+	public PumpView getView() { return view; }
+	public void setView(PumpView v) { view = v; }
 }

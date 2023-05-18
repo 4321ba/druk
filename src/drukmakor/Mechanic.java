@@ -106,6 +106,7 @@ public class Mechanic extends Character {
 		return new Object[] { currentPosition, holdingPipe, holdingPump, isStuck };
 	}
 	
-	
-	
+	private MechanicView view;
+	public MechanicView getView() { return view; }
+	public void setView(MechanicView v) { view = v; }
 }

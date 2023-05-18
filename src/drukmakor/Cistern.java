@@ -8,6 +8,7 @@ package drukmakor;
  *
  */
 public class Cistern extends ActiveElement {
+	
 	/**
 	 * a ciszternában levő víz szintje
 	 * eltárolja, hogy mennyi víz érkezett a cisternába
@@ -73,5 +74,11 @@ public class Cistern extends ActiveElement {
 		ret[noValidPipes] = waterLevel;
 		return ret;
 	}
+	
+
+	private CisternView view;
+	public CisternView getView() { return view; }
+	public void setView(CisternView v) { view = v; }
+	
 
 }

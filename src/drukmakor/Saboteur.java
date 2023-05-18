@@ -34,4 +34,11 @@ public class Saboteur extends Character {
 		//<aktuális pozíció> <meddig ragad (egész szám)>
 		return new Object[] { currentPosition, isStuck };
 	}
+	
+	
+	
+
+	private SaboteurView view;
+	public SaboteurView getView() { return view; }
+	public void setView(SaboteurView v) { view = v; }
 }

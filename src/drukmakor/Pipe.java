@@ -106,7 +106,6 @@ public class Pipe extends Element {
 		isSticky = 0;
 		isSlippery = 0;
 		notPiercable = 0;
-		
 	}
 	/**
 	 * lecsatlakoztatja az ae véget, amennyiben
@@ -305,4 +304,8 @@ public class Pipe extends Element {
 		return new Object[] { end1, end2, end1Carried, end2Carried, hasWater, isPierced, isOccupied, isSlippery, isSticky, notPiercable };
 	}
 
+	
+	private PipeView view;
+	public PipeView getView() { return view; }
+	public void setView(PipeView v) { view = v; }
 }

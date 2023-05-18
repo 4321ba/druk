@@ -13,13 +13,6 @@ import java.util.function.Consumer;
 
 public class Proto {
 	/**
-	 * itt indul a program, és meghívja az értelmező függvényt a standard bemeneten
-	 */
-	public static void main(String[] args) {
-		interpret(System.in);
-	}
-	
-	/**
 	 * eltárolja, hogy történt-e exit parancs hívása, ami miatt ki kell lépni a programból
 	 */
 	private static boolean isExiting = false;
@@ -29,7 +22,7 @@ public class Proto {
 	 *  figyelni kell, mert rekurzívan többször is meghívódhat, load parancsok hatására
 	 *  ha isExiting, akkor mindből ki kell lépni
 	 */
-	private static void interpret(InputStream is) {
+	public static void interpret(InputStream is) {
 		Scanner sc = new Scanner(is);
 		while (!isExiting && sc.hasNextLine()) {
 			String[] args = sc.nextLine().split(" ");
@@ -95,6 +88,13 @@ public class Proto {
 	private static List<Cistern> ciList = new LinkedList<>();
 	private static List<Source> soList = new LinkedList<>();
 	
+	/**
+	 * frissít egyszer mindenkit
+	 */
+	public static void tick() {
+		
+	}
+	
 	
 	/**
 	 * új objektumot regisztrálva létrehozó függvények
@@ -103,31 +103,49 @@ public class Proto {
 	 */
 	public static Mechanic newMechanic(Element cp) {
 		Mechanic me = new Mechanic(cp);
+		MechanicView view = new MechanicView(me);
+		me.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		meList.add(me);
 		return me;
 	}
 	public static Saboteur newSaboteur(Element cp) {
 		Saboteur sa = new Saboteur(cp);
+		SaboteurView view = new SaboteurView(sa);
+		sa.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		saList.add(sa);
 		return sa;
 	}
 	public static Pipe newPipe(ActiveElement ae1, ActiveElement ae2) {
 		Pipe pi = new Pipe(ae1, ae2);
+		PipeView view = new PipeView(pi);
+		pi.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		piList.add(pi);
 		return pi;
 	}
 	public static Pump newPump() {
 		Pump pu = new Pump();
+		PumpView view = new PumpView(pu);
+		pu.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		puList.add(pu);
 		return pu;
 	}
 	public static Cistern newCistern() {
 		Cistern ci = new Cistern();
+		CisternView view = new CisternView(ci);
+		ci.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		ciList.add(ci);
 		return ci;
 	}
 	public static Source newSource() {
 		Source so = new Source();
+		SourceView view = new SourceView(so);
+		so.setView(view);
+		Grafikus.getDesert().addDrawable(view);
 		soList.add(so);
 		return so;
 	}
