@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class PumpView extends ActiveElementView {
 	Pump pump;
 	public PumpView(Pump p, Coords co) {
-		super(p, co);
+		super(co);
 		pump = p;
 	}
 	@Override public void draw(Graphics g) {
@@ -27,5 +27,9 @@ public class PumpView extends ActiveElementView {
 	}
 	public void setCoords(Coords c) {
 		coords = c.copy();
+	}
+	@Override
+	protected Pump getModel() {
+		return pump;
 	}
 }

@@ -6,11 +6,15 @@ import java.awt.Graphics;
 public class SourceView extends ActiveElementView {
 	Source source;
 	public SourceView(Source s, Coords co) {
-		super(s, co);
+		super(co);
 		source = s;
 	}
 	@Override public void draw(Graphics g) {
 		g.setColor(new Color(0, 0, 245));
 		super.draw(g);
+	}
+	@Override
+	protected Source getModel() {
+		return source;
 	}
 }
