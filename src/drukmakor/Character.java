@@ -95,6 +95,74 @@ public abstract class Character implements Tickable {
 	
 	
 	
+	// innentől leszármazottak függvényei, a könnyebb meghívhatóság érdekében
+	// alapértelmezetten mind false-t ad
+
+	/**
+	 * megpróbálja megjavítani az elemet, amin áll
+	 * @return
+	 */
+	public boolean fix() {
+		return false;
+	}
+	/**
+	 * arról a pumpáról, amin áll, megkísérli lekapcsolni a
+	 * paraméterként kapott indexű csatlakozón lévő (lista eleme) Pipe-ot. Amennyiben ez
+	 * sikeres, ez lesz a holdingPipe.
+	 * @param index
+	 * @return
+	 */
+	public boolean disconnectPipe(int index) {
+		return false;
+	}
+	/**
+	 * megkísérli a holdingPipe csövet csatlakoztatni ahhoz
+	 * az elemhez, amin áll, ahhoz a csatlakozóhoz
+	 * @param index
+	 * @return
+	 */
+	public boolean connectPipe(int index) {
+		return false;
+	}
+	/**
+	 * felveszi az indexedik helyen levő lelógó
+	 * csövet (a ciszternánál), ha sikerül
+	 * @param idx
+	 * @return
+	 */
+	public boolean pickUpDanglingPipe(int idx) {
+		return false;
+	}
+	/**
+	 * felvesz egy pumpát (a ciszternánál), ha sikerül ez lesz a
+	 * holdingPump
+	 * @return
+	 */
+	public boolean pickUpPump() {
+		return false;
+	}
+	/**
+	 * megkéri az elemet, amin áll, hogy rakja le a pumpát (ha van nála)
+	 * @return
+	 */
+	public boolean placePump() {
+		return false;
+	}
+
+	
+	
+
+	/**
+	 *  csúszósozza az elemet, amin áll (csak akkor lehet sikeres, ha csövön áll), 
+	 *  visszaadja, amit az Element azonos nevű függvényétől kapott
+	 * @return
+	 */
+	public boolean slipperyPipe() {
+		return false;
+	}
+
+	
+	
 	
 	
 	

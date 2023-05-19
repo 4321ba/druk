@@ -28,7 +28,7 @@ public class PointCounter implements Drawable {
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(new Color(240,240,240));
-		g.drawString("Mechanic points: " + mechanicPoints, 10, 70);
-		g.drawString("Saboteur points: " + saboteurPoints, 10, 90);
+		g.drawString("Mechanic points: " + mechanicPoints, 10, 30);
+		g.drawString("Saboteur points: " + saboteurPoints, 10, 50);
 	}
 }

@@ -312,4 +312,9 @@ public class Pipe extends Element {
 	private PipeView view;
 	public PipeView getView() { return view; }
 	public void setView(PipeView v) { view = v; }
+	
+	@Override
+	public ActiveElement[] getNeighbours() {
+		return new ActiveElement[] { end1, end2 };
+	}
 }

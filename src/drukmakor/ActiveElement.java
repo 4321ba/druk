@@ -9,12 +9,12 @@ import java.security.InvalidParameterException;
  */
 public abstract class ActiveElement extends Element {
 
-	static final int MAX_CONNECTIONS = 8;
+	static final int MAX_CONNECTIONS = 4;
 	/**
 	 * azok a csövek, amelyek hozzá csatlakoznak
 	 */
 	protected Pipe[] pipes = new Pipe[MAX_CONNECTIONS];
-	public Pipe[] getPipes() { return pipes; }
+	@Override public Pipe[] getNeighbours() { return pipes; }
 	/**
 	 *  rá enged lépni egy karaktert, ha
 	 *  csatlakozik from elemhez
@@ -118,7 +118,7 @@ public abstract class ActiveElement extends Element {
 		//if ()
 		pushWater();
 		pullWater();
-	    if (Proto.randomNextDouble() >= 0.9)
+	    if (Proto.randomNextDouble() >= 0.999)
 	    	randomEvent();
 	}
 	

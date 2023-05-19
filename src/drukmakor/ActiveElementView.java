@@ -32,8 +32,8 @@ public abstract class ActiveElementView extends ElementView {
 		g.setColor(new Color(0, 0, 50));
 		for (int i = 0; i < ActiveElement.MAX_CONNECTIONS; ++i) {
 			Coords nc = getCoordsForIdx(i);
-			if (getModel().getPipes()[i] != null)
-				getModel().getPipes()[i].getView().setCoords(nc);
+			if (getModel().getNeighbours()[i] != null)
+				getModel().getNeighbours()[i].getView().setCoords(nc);
 			g.drawRect(nc.x-4, nc.y-4, 9, 9);
 			g.drawString(Integer.toString(i), nc.x-3, nc.y+6);
 		}

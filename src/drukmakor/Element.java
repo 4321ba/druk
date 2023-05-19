@@ -112,5 +112,6 @@ public abstract class Element implements Tickable {
 	
 	
 	public abstract ElementView getView();
+	public abstract Element[] getNeighbours();
 	
 }

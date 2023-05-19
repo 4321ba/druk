@@ -15,22 +15,22 @@ public class Desert extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private List<Drawable> drawableList = new ArrayList<Drawable>();
-	public void addDrawable(Drawable d) {
+	public synchronized void addDrawable(Drawable d) {
 		drawableList.add(d);
 	}
-	public void clearDrawable() {
+	public synchronized void clearDrawable() {
 		drawableList.clear();
 		addDrawable(PointCounter.get());
 	}
 
-	@Override protected void paintComponent(Graphics g) {
+	@Override protected synchronized void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	    g.setColor(new Color(140, 78, 7));
 		g.fillRect(0, 0, getWidth(), getHeight());
-	    //g.setColor(new Color(40,100,40));
-		//g.drawRoundRect(1, 2, 30, 40, 3, 4);
-		g.setColor(new Color(0,0,0));
-		g.drawString("s:skip b:breakpipe f:fix a:alterpump c:connectpipe d:dcpipe p:pickuppump o:placepump e:pickupdanglingpipe numbers:inputforpreviousthings", 10, 30);
+		g.setColor(new Color(255,180,170));
+		int i = 0;
+		for (String s : KeyboardInput.getLayout())
+			g.drawString(s, 10, 90 + 20 * i++);
 		for (Drawable dr : drawableList)
 			dr.draw(g);
 	}
