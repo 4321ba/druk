@@ -1,0 +1,59 @@
+# 		Source s1 = Proto.newSource(new Coords(900, 400));
+# 		Source s2 = Proto.newSource(new Coords(1100, 600));
+# 		Source s3 = Proto.newSource(new Coords(730, 500));
+add so 900 400
+add so 1100 600
+add so 730 500
+# 		Cistern c1 = Proto.newCistern(new Coords(150, 450));
+# 		Cistern c2 = Proto.newCistern(new Coords(260, 450));
+# 		Cistern c3 = Proto.newCistern(new Coords(170, 340));
+add ci 150 450
+add ci 260 450
+add ci 170 340
+# 		
+# 		Pump p1 = Proto.newPump(new Coords(500, 100));
+# 		Pump p2 = Proto.newPump(new Coords(600, 300));
+# 		Pump p3 = Proto.newPump(new Coords(550, 600));
+# 		Pump p4 = Proto.newPump(new Coords(720, 650));
+add pu 500 100
+add pu 600 300
+add pu 550 600
+add pu 720 650
+# 		
+# 		Pipe pi1 = Proto.newPipe(s1, p1);
+add pi so1 pu1
+# 		Pipe pi2 = Proto.newPipe(s2, p2);
+add pi so2 pu2
+# 		Pipe pi3 = Proto.newPipe(s3, p3);
+add pi so3 pu3
+# 		Pipe pi4 = Proto.newPipe(p1, p2);
+add pi pu1 pu2
+# 		Pipe pi5 = Proto.newPipe(p1, c1);
+add pi pu1 ci1
+# 		Pipe pi6 = Proto.newPipe(p3, c2);
+add pi pu3 ci2
+# 		Pipe pi7 = Proto.newPipe(p4, c3);
+add pi pu4 ci3
+# 		Pipe pi8 = Proto.newPipe(p2, p4);
+add pi pu2 pu4
+# 		Pipe pi9 = Proto.newPipe(p3, p1);
+add pi pu3 pu1
+# 		Pipe pi10 = Proto.newPipe(p4, s2);
+add pi pu4 so2
+# 		
+# 		p1.alterPump(0, 2);
+# 		//p2.alter(pi2, pi4);
+# 		p3.alterPump(0, 1);
+# 		p4.alterPump(2, 0);
+# 		
+# 		
+# 		Mechanic m1 = Proto.newMechanic(p1);
+# 		Mechanic m2 = Proto.newMechanic(c1);
+# 		Saboteur sz1 = Proto.newSaboteur(p2);
+# 		Saboteur sz2 = Proto.newSaboteur(s2);
+add me pu1
+add me ci1
+add sa pu2
+add sa so2
+
+alterpump me1 0 2
