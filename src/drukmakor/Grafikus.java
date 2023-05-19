@@ -53,6 +53,8 @@ public class Grafikus {
 	}
 	static int currPlIdx = 0;
 	static void incr() {
+		if (!areTherePlayers())
+			return;
 		players.get(currPlIdx).getView().setSoros(false);
 		++currPlIdx;
 		if (currPlIdx>=players.size())
