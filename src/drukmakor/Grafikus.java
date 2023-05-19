@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-//TODO mozgás, teszt, characterbe függvények, mindennek jó láthatóság, ..., clear
+//TODO mindennek jó láthatóság, pont számítása
 
 
 
@@ -44,7 +43,7 @@ public class Grafikus {
 	}
 	public static void clearPlayers() {
 		players.clear();
-		currPlIdx = 0;//TODO ha ekkor van billentyűlenyomás??
+		currPlIdx = 0;
 	}
 	public static boolean areTherePlayers() {
 		return !players.isEmpty();
@@ -71,6 +70,8 @@ public class Grafikus {
 		if (showgui) {
 			Timer timer2 = new Timer(500, (e) -> Proto.tick());
 			timer2.start();
+			Timer timer3 = new Timer(5000, (e) -> incr());
+			timer3.start();
 			Desert.get().clearDrawable();
 			SwingUtilities.invokeLater(() -> Grafikus.createAndShowGUI());
 		}
