@@ -10,22 +10,24 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+//TODO mozgás, teszt, filebol koord, nogui/stdingui, characterbe függvények, mindennek jó láthatóság, ..., clear
+
+
+
 public class Grafikus {
-	private static Desert desert = new Desert();
-	public static Desert getDesert() { return desert; }
+	
 	public static void createAndShowGUI() {
 		JFrame frame = new JFrame("Drukmakor");
         frame.setSize(1280, 720);
         frame.setMinimumSize(new Dimension(320, 240));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container pane = frame.getContentPane();
-        //pane.setLayout(new GridBagLayout());
-        pane.add(desert);
+        pane.add(Desert.get());
         frame.setVisible(true);
-        desert.grabFocus();//setvisible alatt kell különben nem érzi!!!!
+        Desert.get().grabFocus(); // setvisible után kell, különben nem érzi
         
         KeyboardInput ki = new KeyboardInput();
-        desert.addKeyListener(ki);
+        Desert.get().addKeyListener(ki);
         
         Timer timer = new Timer(17, (e) -> pane.repaint());
         timer.start();
@@ -34,14 +36,20 @@ public class Grafikus {
 	}
 	private static List<Character> players = new LinkedList<>();
 	public static void addPlayer(Character c) {
+		if (players.isEmpty())
+			c.getView().setSoros(true);
 		players.add(c);
 	}
-	static int currPlIdx = 0;//TODO minden ilyen private
+	public static void clearPlayers() {
+		players.clear();
+		currPlIdx = 0;//TODO ha ekkor van billentyűlenyomás??
+	}
+	static int currPlIdx = 0;
 	static void incr() {
 		players.get(currPlIdx).getView().setSoros(false);
 		++currPlIdx;
 		if (currPlIdx>=players.size())
-			currPlIdx-=players.size();
+			currPlIdx = 0;
 		players.get(currPlIdx).getView().setSoros(true);
 	}
 
@@ -49,44 +57,7 @@ public class Grafikus {
 		
         Timer timer2 = new Timer(500, (e) -> Proto.tick());
         timer2.start();
-        
-        desert.addDrawable(PointCounter.get());
-        
-		Source s1 = Proto.newSource(new Coords(900, 400));
-		Source s2 = Proto.newSource(new Coords(1100, 600));
-		Source s3 = Proto.newSource(new Coords(730, 500));
-		Cistern c1 = Proto.newCistern(new Coords(150, 450));
-		Cistern c2 = Proto.newCistern(new Coords(260, 450));
-		Cistern c3 = Proto.newCistern(new Coords(170, 340));
-		
-		Pump p1 = Proto.newPump(new Coords(500, 100));
-		Pump p2 = Proto.newPump(new Coords(600, 300));
-		Pump p3 = Proto.newPump(new Coords(550, 600));
-		Pump p4 = Proto.newPump(new Coords(720, 650));
-		
-		Pipe pi1 = Proto.newPipe(s1, p1);
-		Pipe pi2 = Proto.newPipe(s2, p2);
-		Pipe pi3 = Proto.newPipe(s3, p3);
-		Pipe pi4 = Proto.newPipe(p1, p2);
-		Pipe pi5 = Proto.newPipe(p1, c1);
-		Pipe pi6 = Proto.newPipe(p3, c2);
-		Pipe pi7 = Proto.newPipe(p4, c3);
-		Pipe pi8 = Proto.newPipe(p2, p4);
-		Pipe pi9 = Proto.newPipe(p3, p1);
-		Pipe pi10 = Proto.newPipe(p4, s2);
-		
-		p1.alterPump(0, 2);
-		//p2.alter(pi2, pi4);
-		p3.alterPump(0, 1);
-		p4.alterPump(2, 0);
-		
-		
-		Mechanic m1 = Proto.newMechanic(p1);
-		m1.getView().setSoros(true);
-		Mechanic m2 = Proto.newMechanic(c1);
-		Saboteur sz1 = Proto.newSaboteur(p2);
-		Saboteur sz2 = Proto.newSaboteur(s2);
-		
+        Desert.get().clearDrawable();
         SwingUtilities.invokeLater(() -> Grafikus.createAndShowGUI());
         
 

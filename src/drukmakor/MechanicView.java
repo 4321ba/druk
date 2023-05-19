@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class MechanicView extends CharacterView {
-	Mechanic mechanic;
+	Mechanic model;
 	public MechanicView(Mechanic m) {
-		mechanic = m;
+		model = m;
 	}
 	@Override public void draw(Graphics g) {
-		Pump hp = mechanic.getHoldingPump();
-		Pipe hpi = mechanic.getHoldingPipe();
-		Coords cpc = mechanic.getCurrentPosition().getView().getCoords();
+		Pump hp = model.getHoldingPump();
+		Pipe hpi = model.getHoldingPipe();
+		Coords cpc = model.getCurrentPosition().getView().getCoords();
 		if (hp!=null)
 			hp.getView().setCoords(new Coords(cpc.x+6, cpc.y-14));
 		if (hpi!=null)
@@ -21,6 +21,6 @@ public class MechanicView extends CharacterView {
 	}
 	@Override
 	protected Mechanic getModel() {
-		return mechanic;
+		return model;
 	}
 }

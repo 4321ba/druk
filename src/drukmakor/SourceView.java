@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class SourceView extends ActiveElementView {
-	Source source;
-	public SourceView(Source s, Coords co) {
-		super(co);
-		source = s;
+	Source model;
+	public SourceView(Source m, Coords c) {
+		super(c);
+		model = m;
 	}
 	@Override public void draw(Graphics g) {
 		g.setColor(new Color(0, 0, 245));
@@ -15,6 +15,6 @@ public class SourceView extends ActiveElementView {
 	}
 	@Override
 	protected Source getModel() {
-		return source;
+		return model;
 	}
 }

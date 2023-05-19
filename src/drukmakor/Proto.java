@@ -120,7 +120,7 @@ public class Proto {
 		Mechanic me = new Mechanic(cp);
 		MechanicView view = new MechanicView(me);
 		me.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		Grafikus.addPlayer(me);
 		meList.add(me);
 		return me;
@@ -129,7 +129,7 @@ public class Proto {
 		Saboteur sa = new Saboteur(cp);
 		SaboteurView view = new SaboteurView(sa);
 		sa.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		Grafikus.addPlayer(sa);
 		saList.add(sa);
 		return sa;
@@ -138,7 +138,7 @@ public class Proto {
 		Pipe pi = new Pipe(ae1, ae2);
 		PipeView view = new PipeView(pi);
 		pi.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		piList.add(pi);
 		return pi;
 	}
@@ -146,7 +146,7 @@ public class Proto {
 		Pump pu = new Pump();
 		PumpView view = new PumpView(pu, coords);
 		pu.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		puList.add(pu);
 		return pu;
 	}
@@ -154,7 +154,7 @@ public class Proto {
 		Cistern ci = new Cistern();
 		CisternView view = new CisternView(ci, coords);
 		ci.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		ciList.add(ci);
 		return ci;
 	}
@@ -162,7 +162,7 @@ public class Proto {
 		Source so = new Source();
 		SourceView view = new SourceView(so, coords);
 		so.setView(view);
-		Grafikus.getDesert().addDrawable(view);
+		Desert.get().addDrawable(view);
 		soList.add(so);
 		return so;
 	}
@@ -364,6 +364,17 @@ public class Proto {
 	}
 
 	/**
+	 * visszaadja a koordinátákat, vagy random koordinátát, ha nincs koordináta megadva
+	 * az argumentumtömb méretét is ellenőrzi
+	 */
+	private static Coords getCoordsForAddAE(String[] args) {
+		if (args.length != 2 && args.length != 4)
+			throw new IllegalArgumentException("Wrong number of arguments!");
+		if (args.length == 4)
+			return new Coords(parseInt(args[2]), parseInt(args[3]));
+		return new Coords(random.nextInt(1000) + 140, random.nextInt(440) + 140);
+	}
+	/**
 	 * az új objektum hozzáadását megvalósító parancs implementációja
 	 */
 	private static void add(String[] args) {
@@ -384,14 +395,11 @@ public class Proto {
 				end2 = parseActiveElement(args[3]);
 			condPr(nameOf(newPipe(parseActiveElement(args[2]), end2)));
 		} else if (type.equals("pu")) {
-			testArgsLength(args, 2);
-			condPr(nameOf(newPump(new Coords(random.nextInt(300), random.nextInt(300)) )));
+			condPr(nameOf(newPump(getCoordsForAddAE(args))));
 		} else if (type.equals("ci")) {
-			testArgsLength(args, 2);
-			condPr(nameOf(newCistern(new Coords(random.nextInt(300), random.nextInt(300)) )));
+			condPr(nameOf(newCistern(getCoordsForAddAE(args))));
 		} else if (type.equals("so")) {
-			testArgsLength(args, 2);
-			condPr(nameOf(newSource(new Coords(random.nextInt(300), random.nextInt(300)) )));
+			condPr(nameOf(newSource(getCoordsForAddAE(args))));
 		} else {
 			throw new IllegalArgumentException("Non-existent type \"" + type + "\"! Available ones are me, sa, pi, pu, ci and so.");
 		}
@@ -409,6 +417,9 @@ public class Proto {
 		ciList.clear();
 		soList.clear();
 		randVal = -1.0;
+		Desert.get().clearDrawable();
+		PointCounter.get().clear();
+		Grafikus.clearPlayers();
 	}
 
 	/**

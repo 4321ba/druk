@@ -9,10 +9,18 @@ import javax.swing.JPanel;
 
 public class Desert extends JPanel {
 
+	private static Desert desert = new Desert();
+	public static Desert get() { return desert; }
+	private Desert() {}
+	
 	private static final long serialVersionUID = 1L;
-	private List<Drawable> drl = new ArrayList<Drawable>();
+	private List<Drawable> drawableList = new ArrayList<Drawable>();
 	public void addDrawable(Drawable d) {
-		drl.add(d);
+		drawableList.add(d);
+	}
+	public void clearDrawable() {
+		drawableList.clear();
+		addDrawable(PointCounter.get());
 	}
 
 	@Override protected void paintComponent(Graphics g) {
@@ -23,7 +31,7 @@ public class Desert extends JPanel {
 		//g.drawRoundRect(1, 2, 30, 40, 3, 4);
 		g.setColor(new Color(0,0,0));
 		g.drawString("s:skip b:breakpipe f:fix a:alterpump c:connectpipe d:dcpipe p:pickuppump o:placepump e:pickupdanglingpipe numbers:inputforpreviousthings", 10, 30);
-		for (Drawable dr : drl)
+		for (Drawable dr : drawableList)
 			dr.draw(g);
 	}
 }

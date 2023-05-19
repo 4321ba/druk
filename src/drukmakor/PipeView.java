@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class PipeView extends ElementView {
-	Pipe pipe;
-	public PipeView(Pipe p) {
-		pipe = p;
+	Pipe model;
+	public PipeView(Pipe m) {
+		model = m;
 		coords[0] = new Coords(0, 0);
 		coords[1] = new Coords(0, 0);
 	}
@@ -26,11 +26,11 @@ public class PipeView extends ElementView {
 	}
 
 	@Override public void draw(Graphics g) {
-		g.setColor(new Color(pipe.getIsPierced() ? 200 : 50 , pipe.getIsSticky() ? 200:0, pipe.getIsSlippery() ? 255:0));
+		g.setColor(new Color(model.getIsPierced() ? 200 : 50 , model.getIsSticky() ? 200:0, model.getIsSlippery() ? 255:0));
 		Coords e1 = coords[0];
 		Coords e2 = coords[0].x == coords[1].x && coords[0].y == coords[1].y ? new Coords(e1.x-10, e1.y-10) : coords[1];
 		g.drawLine(e1.x, e1.y, e2.x, e2.y);
-		if (!pipe.getHasWater())
+		if (!model.getHasWater())
 			return;
 		g.setColor(new Color(100, 100, 245));
 		g.fillOval(getCoords().x-2, getCoords().y+6, 5, 12);

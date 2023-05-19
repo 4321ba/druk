@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class SaboteurView extends CharacterView {
-	Saboteur saboteur;
-	public SaboteurView(Saboteur s) {
-		saboteur = s;
+	Saboteur model;
+	public SaboteurView(Saboteur m) {
+		model = m;
 	}
 	@Override public void draw(Graphics g) {
 		g.setColor(new Color(255,128,128));
@@ -14,6 +14,6 @@ public class SaboteurView extends CharacterView {
 	}
 	@Override
 	protected Saboteur getModel() {
-		return saboteur;
+		return model;
 	}
 }

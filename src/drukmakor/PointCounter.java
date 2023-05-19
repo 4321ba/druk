@@ -21,6 +21,10 @@ public class PointCounter implements Drawable {
 	void subtractMechanicPoint() {
 		--mechanicPoints;
 	}
+	public void clear() {
+		mechanicPoints = 0;
+		saboteurPoints = 0;
+	}
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(new Color(240,240,240));
