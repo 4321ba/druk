@@ -108,7 +108,16 @@ public class Mechanic extends Character {
 		return new Object[] { currentPosition, holdingPipe, holdingPump, isStuck };
 	}
 	
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private MechanicView view;
-	public MechanicView getView() { return view; }
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
+	@Override public MechanicView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(MechanicView v) { view = v; }
 }

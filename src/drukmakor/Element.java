@@ -110,8 +110,14 @@ public abstract class Element implements Tickable {
 		return false;
 	}
 	
-	
+
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
 	public abstract ElementView getView();
+	/**
+	 * getter a szomszédokhoz (pipe esetén a két vége, aktív elem esetén a csövek listája)
+	 */
 	public abstract Element[] getNeighbours();
 	
 }

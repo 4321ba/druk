@@ -2,16 +2,39 @@ package drukmakor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+/**
+ * Megjeleníti a vele összekapcsolt, hozzá tartozó típusú modell objektumot.
+ * Absztrakt őse az aktív elemeket megjelenítő viewknak. Ki tudja rajzolni az aktív elemet,
+ * és a szomszédos pipe-ok pozícióira számokat ír, hogy lehessen látni,
+ * melyik indexen melyik pipe van.
+ */
 public abstract class ActiveElementView extends ElementView {
 
+	/**
+	 * visszaadja a viewhoz tartozó modell objektumot
+	 */
 	protected abstract ActiveElement getModel();
+	/**
+	 * konstruktor, beállítja az elem pozícióját
+	 */
 	public ActiveElementView(Coords c) {
 		coords = c;
 	}
 
+	/**
+	 * az aktív elem pozíciója a képernyőn
+	 */
 	protected Coords coords;
-	
+	/**
+	 * visszaadja az aktív elem pozícióját
+	 */
+	@Override public Coords getCoords() {
+		return coords;
+	}
+	/**
+	 * visszaadja az idx-edik slot / pipecsatlakozó pozícióját
+	 * (egy picit odébb van, az elem körül)
+	 */
 	protected Coords getCoordsForIdx(int idx) {
 		Coords c2 = coords.copy();
 		double phi = 2*Math.PI*idx / ActiveElement.MAX_CONNECTIONS;
@@ -19,15 +42,10 @@ public abstract class ActiveElementView extends ElementView {
 		c2.y += Math.sin(phi) * 30;
 		return c2;
 	}
-	/*
-	private Coords getCoordsForPipe(Pipe p) {
-		for (int i = 0; i < ActiveElement.MAX_CONNECTIONS; ++i)
-			if (activeElement.getPipes()[i] == p)
-				return getCoordsForIdx(i);
-		throw new RuntimeException("nincs is benne a pipe");
-	}*/
-	
-	@Override public void draw(Graphics g) {//színbeállítás a gyerekeknél kötelező
+	/**
+	 * kirajzolja g-re az aktív elemet
+	 */
+	@Override public void draw(Graphics g) { // színbeállítás a gyerekeknél kötelező
 		g.fillOval(coords.x-6, coords.y-6, 12, 12);
 		g.setColor(new Color(0, 0, 50));
 		for (int i = 0; i < ActiveElement.MAX_CONNECTIONS; ++i) {
@@ -39,7 +57,4 @@ public abstract class ActiveElementView extends ElementView {
 		}
 	}
 	
-	@Override public Coords getCoords() {
-		return coords;
-	}
 }

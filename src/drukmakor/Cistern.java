@@ -79,8 +79,17 @@ public class Cistern extends ActiveElement {
 	}
 	
 
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private CisternView view;
-	public CisternView getView() { return view; }
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
+	@Override public CisternView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(CisternView v) { view = v; }
 	
 

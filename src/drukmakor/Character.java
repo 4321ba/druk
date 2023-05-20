@@ -165,6 +165,8 @@ public abstract class Character implements Tickable {
 	
 	
 	
-	
+	/**
+	 * @return visszaadja a characterhez tartozó viewt
+	 */
 	public abstract CharacterView getView();
 }

@@ -38,7 +38,16 @@ public class Saboteur extends Character {
 	
 	
 
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private SaboteurView view;
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
 	public SaboteurView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(SaboteurView v) { view = v; }
 }

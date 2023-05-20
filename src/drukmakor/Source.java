@@ -36,7 +36,16 @@ public class Source extends ActiveElement {
 	
 	
 
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private SourceView view;
-	public SourceView getView() { return view; }
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
+	@Override public SourceView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(SourceView v) { view = v; }
 }

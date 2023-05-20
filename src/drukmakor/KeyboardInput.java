@@ -3,8 +3,17 @@ package drukmakor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Megkapja a billentyűzet bemenetet, és meghívja az eredeti
+ * modell megfelelő tagfüggvényeit, azaz továbbítja feléjük a kéréseket.
+ * Több billentyűlenyomást igénylő művelet esetén eltárolja a végzendő műveletet.
+ */
 public class KeyboardInput implements KeyListener {
 
+	/**
+	 * ha valamilyen több billentyű lenyomását is igénylő akció van
+	 * folyamatban, akkor ez azonosítja, hogy melyik akcióról van szó
+	 */
 	private enum DoingSomething {
 		NOTHING,
 	    MOVETO,
@@ -13,6 +22,10 @@ public class KeyboardInput implements KeyListener {
 	    CONNECTPIPE,
 	    PICKUPDANGLINGPIPE,
 	}
+	/**
+	 * eltárolja a végezhető műveleteket szöveges formában, hogyha valaki ki
+	 * szeretné írni valahova, akkor az lehetséges legyen
+	 */
 	private static String[] layout = new String[] {
 		"f: Fix",
 		"b: Pierce Pipe",
@@ -27,11 +40,20 @@ public class KeyboardInput implements KeyListener {
 		"r + number: Pick Up Dangling Pipe",
 		"q + number + number: Alter Pump",
 	};
+	/**
+	 * visszaad egy stringtömböt, amiben a végezhető műveletek/akciók
+	 * szöveges leírása van, illetve a billentyűkiosztás (layout)
+	 */
 	public static String[] getLayout() {
 		return layout;
 	}
+	/**
+	 * eltárolja, hogy éppen milyen művelet van folyamatban
+	 */
 	private DoingSomething doingSomething = DoingSomething.NOTHING;
-	
+	/**
+	 * itt érkezik meg a billentyűbemenet a grafikus rendszer felől
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (!Grafikus.areTherePlayers())
@@ -69,6 +91,9 @@ public class KeyboardInput implements KeyListener {
 	@Override public void keyPressed(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
 	
+	/**
+	 * w, a, s, vagy d bemenet jött, a mozgás elég komplex ahhoz, hogy egy külön függvénybe kiemeljük
+	 */
 	private void wasdInput(char wasd) {
 		Element[] neighbours = Grafikus.getSoros().getCurrentPosition().getNeighbours();
 		Element chosenOne = null;
@@ -97,7 +122,17 @@ public class KeyboardInput implements KeyListener {
 			Grafikus.getSoros().moveTo(chosenOne);
 	}
 
+	/**
+	 * az alterpump egy speciális akció, abból a szempontból, hogy három billentyűt is
+	 * le kell nyomni a sikerességéhez. Az első lenyomás meglétét a doingSomething jelzi,
+	 * ez a változó a második lenyomást tárolja, azaz az átállítandó indexek közül az elsőt.
+	 * Ha éppen nem alterpump folyik, vagy még nem ütötte le a hozzá tartozó második
+	 * billentyűt, akkor -1 az értéke
+	 */
 	private int firstAlterPump = -1;
+	/**
+	 * számbemenet jött, a számot váró akciók itt hajtódnak végre
+	 */
 	private void numberInput(int n) {
 		Character character = Grafikus.getSoros();
 		switch (doingSomething) {
@@ -119,7 +154,7 @@ public class KeyboardInput implements KeyListener {
 			character.pickUpDanglingPipe(n);
 			break;
 		case MOVETO:
-			Element[] neighbours = Grafikus.getSoros().getCurrentPosition().getNeighbours();
+			Element[] neighbours = character.getCurrentPosition().getNeighbours();
 			if (n < neighbours.length && neighbours[n] != null)
 				character.moveTo(neighbours[n]);
 			break;

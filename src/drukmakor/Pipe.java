@@ -312,11 +312,23 @@ public class Pipe extends Element {
 		return new Object[] { end1, end2, end1Carried, end2Carried, hasWater, isPierced, isOccupied, isSlippery, isSticky, notPiercable };
 	}
 
-	
+
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private PipeView view;
-	public PipeView getView() { return view; }
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
+	@Override public PipeView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(PipeView v) { view = v; }
 	
+	/**
+	 * getter az end1 és end2 elemekhez
+	 */
 	@Override
 	public ActiveElement[] getNeighbours() {
 		return new ActiveElement[] { end1, end2 };

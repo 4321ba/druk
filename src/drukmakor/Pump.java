@@ -101,8 +101,17 @@ public class Pump extends ActiveElement {
 		ret[noValidPipes+3] = outPipeIdx;
 		return ret;
 	}
-	
+
+	/**
+	 * a modell objektumhoz tartozó view
+	 */
 	private PumpView view;
+	/**
+	 * visszaadja a modell objektumhoz tartozó viewt
+	 */
 	@Override public PumpView getView() { return view; }
+	/**
+	 * setter
+	 */
 	public void setView(PumpView v) { view = v; }
 }

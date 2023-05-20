@@ -11,6 +11,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+/*
+ * itt találhatóak a parancsnyelv értelmezéséhez szükséges függvények
+ */
 public class Proto {
 	/**
 	 * eltárolja, hogy történt-e exit parancs hívása, ami miatt ki kell lépni a programból
@@ -88,7 +91,15 @@ public class Proto {
 	private static List<Cistern> ciList = new LinkedList<>();
 	private static List<Source> soList = new LinkedList<>();
 	
+	/**
+	 * számon tartja, hogy push, vagy pull ciklus van
+	 * erre azért van szükség, mert ha nem szinkronban történik,
+	 * akkor rondán fog kinézni, és nem is lehet látni, hogy folyik-e víz egyáltalán
+	 */
 	private static boolean isPullCycle = false;
+	/**
+	 * @return hogy pull ciklus van-e
+	 */
 	public static boolean isUpdateCyclePull() {
 		return isPullCycle;
 	}

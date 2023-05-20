@@ -14,6 +14,9 @@ public abstract class ActiveElement extends Element {
 	 * azok a csövek, amelyek hozzá csatlakoznak
 	 */
 	protected Pipe[] pipes = new Pipe[MAX_CONNECTIONS];
+	/**
+	 * getter a pipes tömbhöz
+	 */
 	@Override public Pipe[] getNeighbours() { return pipes; }
 	/**
 	 *  rá enged lépni egy karaktert, ha
