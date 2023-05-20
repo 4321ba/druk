@@ -34,6 +34,7 @@ public class Cistern extends ActiveElement {
 		for (Pipe p : pipes)
 			if (p != null && p.drainWater()) {
 				// 50 PONT A GRIFFENDÉLNEK
+				PointCounter.get().addMechanicPoint();
 				++waterLevel;
 			}
 	}
@@ -47,6 +48,7 @@ public class Cistern extends ActiveElement {
 		for (Pipe p : pipes)
 			if (p != null && waterLevel > 0)
 				if (p.wasteWater()) {
+					PointCounter.get().subtractMechanicPoint();
 					// -50 PONT A GRIFFENDÉLNEK
 					--waterLevel;
 				}

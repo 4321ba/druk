@@ -88,14 +88,15 @@ public class Proto {
 	private static List<Cistern> ciList = new LinkedList<>();
 	private static List<Source> soList = new LinkedList<>();
 	
-	
-	/*public static boolean isUpdateCyclePull() {
-		return 
-	}*/
+	private static boolean isPullCycle = false;
+	public static boolean isUpdateCyclePull() {
+		return isPullCycle;
+	}
 	/**
 	 * frissít egyszer mindenkit
 	 */
-	public static void tick() {//TODO bool pulling?
+	public static void tick() {
+		isPullCycle = !isPullCycle;
 		for (Mechanic t : meList)
 			t.tick();
 		for (Saboteur t : saList)

@@ -115,10 +115,11 @@ public abstract class ActiveElement extends Element {
 	 * randomEvent-et néha. Ezzel végrehajtja az aktív elem egy frissítési ciklusát
 	 */
 	@Override public void tick() {
-		//if ()
-		pushWater();
-		pullWater();
-	    if (Proto.randomNextDouble() >= 0.999)
+		if (!Proto.isUpdateCyclePull())
+			pushWater();
+		else
+			pullWater();
+	    if (Proto.randomNextDouble() >= 0.996)
 	    	randomEvent();
 	}
 	

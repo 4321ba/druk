@@ -77,6 +77,7 @@ public class Pipe extends Element {
 		if (hasWater) {
 			hasWater = false;
 			//50 PONT A GRIFFENDÉLNEK
+			PointCounter.get().addSaboteurPoint();
 		}
 		return true;
 	}
@@ -215,8 +216,10 @@ public class Pipe extends Element {
 	public boolean addWater() {
 		if (hasWater)
 			return false;
-		if (isPierced)
+		if (isPierced) {
+			PointCounter.get().addSaboteurPoint();
 			return true;
+		}
 		hasWater = true;
 		return true;
 	}
@@ -241,6 +244,7 @@ public class Pipe extends Element {
 	public boolean wasteWater() {
 		if ((end1 == null || end2 == null) && !(end1Carried || end2Carried)) { // dangling: azaz az egyik vége null, és nem szállítják
 			//50 PONT A GRIFFENDÉLNEK
+			PointCounter.get().addSaboteurPoint();
 			return true;
 		}
 		return false;

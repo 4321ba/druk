@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-//TODO mindennek jó láthatóság, pont számítása
+//TODO mindennek jó láthatóság, kommentek
 
 
 
