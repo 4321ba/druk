@@ -1,7 +1,7 @@
 package drukmakor;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,16 @@ public class Desert extends JPanel {
 	/**
 	 * szingleton, szóval privát konstruktor
 	 */
-	private Desert() {}
+
+	private final BufferedImage sandImage;
+
+	private Desert() {
+		try {
+			sandImage = javax.imageio.ImageIO.read(new java.io.File("sand.jpg"));
+		} catch (java.io.IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	/**
 	 * az egyetlen példány
 	 */
@@ -52,9 +61,16 @@ public class Desert extends JPanel {
 	 */
 	@Override protected synchronized void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	    g.setColor(new Color(140, 78, 7));
-		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(new Color(255,180,170));
+		TexturePaint tp = new TexturePaint(sandImage, new Rectangle(0, 0, sandImage.getWidth(), sandImage.getHeight()));
+
+		/*g.setColor(new Color(140, 78, 7));
+		g.fillRect(0, 0, getWidth(), getHeight());*/
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setPaint(tp);
+		g2.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+
+		g.setColor(new Color(255/2,180/2,170/2));
 		int i = 0;
 		for (String s : KeyboardInput.getLayout())
 			g.drawString(s, 10, 90 + 20 * i++);
