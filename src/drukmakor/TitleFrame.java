@@ -81,9 +81,9 @@ public class TitleFrame {
 		jp.add(loadGame);
 		jp.add(charSelectLeft);
 		jp.add(charSelectRight);
-		createObject(0,"src/images/bloodysabgirl.jpg",500);
+		createObject(0,"images/bloodysabgirl.jpg",500);
 		//bgPanel[0].setVisible(true);
-		createObject(1,"src/images/mechgirl.png",870);
+		createObject(1,"images/mechgirl.png",870);
 		jp.add(mechN);
 		jp.add(sabN);
 		window.add(jp);
