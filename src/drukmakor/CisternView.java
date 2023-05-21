@@ -34,6 +34,7 @@ public class CisternView extends ActiveElementView {
 		g.setColor(new Color(255, 255, 255));
 		g.drawString(Integer.toString(model.getWaterLevel()), getCoords().x-10, getCoords().y-10);
 		g.setColor(new Color(0, 245, 0));
+		g.fillOval(coords.x-6, coords.y-6, 12, 12);
 		super.draw(g);
 	}
 }

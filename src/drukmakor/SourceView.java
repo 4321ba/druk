@@ -31,6 +31,7 @@ public class SourceView extends ActiveElementView {
 	 */
 	@Override public void draw(Graphics g) {
 		g.setColor(new Color(0, 0, 245));
+		g.fillOval(coords.x-6, coords.y-6, 12, 12);
 		super.draw(g);
 	}
 }

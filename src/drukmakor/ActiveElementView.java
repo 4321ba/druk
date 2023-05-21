@@ -38,15 +38,14 @@ public abstract class ActiveElementView extends ElementView {
 	protected Coords getCoordsForIdx(int idx) {
 		Coords c2 = coords.copy();
 		double phi = 2*Math.PI*idx / ActiveElement.MAX_CONNECTIONS;
-		c2.x += Math.cos(phi) * 30;
-		c2.y += Math.sin(phi) * 30;
+		c2.x += Math.cos(phi) * 34;
+		c2.y += Math.sin(phi) * 34;
 		return c2;
 	}
 	/**
 	 * kirajzolja g-re az aktív elemet
 	 */
-	@Override public void draw(Graphics g) { // színbeállítás a gyerekeknél kötelező
-		g.fillOval(coords.x-6, coords.y-6, 12, 12);
+	@Override public void draw(Graphics g) { // színbeállítás a gyerekeknél kötelező // not anymore
 		g.setColor(new Color(0, 0, 50));
 		for (int i = 0; i < ActiveElement.MAX_CONNECTIONS; ++i) {
 			Coords nc = getCoordsForIdx(i);
