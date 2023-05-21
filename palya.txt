@@ -1,24 +1,24 @@
-# 		Source s1 = Proto.newSource(new Coords(900, 400));
-# 		Source s2 = Proto.newSource(new Coords(1100, 600));
-# 		Source s3 = Proto.newSource(new Coords(730, 500));
-add so 900 400
-add so 1100 600
-add so 730 500
-# 		Cistern c1 = Proto.newCistern(new Coords(150, 450));
-# 		Cistern c2 = Proto.newCistern(new Coords(260, 450));
-# 		Cistern c3 = Proto.newCistern(new Coords(170, 340));
-add ci 150 450
-add ci 260 450
-add ci 170 340
+# 		Source s1 = Proto.newSource(new Coords(300, 550));
+# 		Source s2 = Proto.newSource(new Coords(500, 550));
+# 		Source s3 = Proto.newSource(new Coords(700, 550));
+add so 300 550
+add so 500 550
+add so 700 550
+# 		Cistern c1 = Proto.newCistern(new Coords(300, 150));
+# 		Cistern c2 = Proto.newCistern(new Coords(500, 150));
+# 		Cistern c3 = Proto.newCistern(new Coords(700, 150));
+add ci 300 150
+add ci 500 150
+add ci 700 150
 # 		
-# 		Pump p1 = Proto.newPump(new Coords(500, 100));
-# 		Pump p2 = Proto.newPump(new Coords(600, 300));
-# 		Pump p3 = Proto.newPump(new Coords(550, 600));
-# 		Pump p4 = Proto.newPump(new Coords(720, 650));
-add pu 500 100
-add pu 600 300
-add pu 550 600
-add pu 720 650
+# 		Pump p1 = Proto.newPump(new Coords(250, 450));
+# 		Pump p2 = Proto.newPump(new Coords(400, 450));
+# 		Pump p3 = Proto.newPump(new Coords(650, 450));
+# 		Pump p4 = Proto.newPump(new Coords(800, 450));
+add pu 250 350
+add pu 400 350
+add pu 550 350
+add pu 700 350
 # 		
 # 		Pipe pi1 = Proto.newPipe(s1, p1);
 add pi so1 pu1
