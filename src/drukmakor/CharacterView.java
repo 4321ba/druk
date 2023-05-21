@@ -1,6 +1,6 @@
 package drukmakor;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A karaktereket megjelenítő view osztályok közös őse. Számon tartja,
@@ -25,7 +25,9 @@ public abstract class CharacterView implements Drawable {
 	@Override public void draw(Graphics g) { // leszármazott állít színt!!
 		Coords c = getModel().getCurrentPosition().getView().getCoords();
 		g.drawRect(c.x-5, c.y-15, 10, 20);
-		if (soros)
-			g.fillOval(c.x-5, c.y-25, 10, 10);
+		if (soros) {
+			g.setColor(new Color(186,27,27));
+			g.fillOval(c.x - 6, c.y - 27, 12, 12);
+		}
 	}
 }
