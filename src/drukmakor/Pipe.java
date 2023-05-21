@@ -35,16 +35,19 @@ public class Pipe extends Element {
 	/**
 	 * stickyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */
+	private final int MAXSTICKY = 80;
 	private int isSticky;
 	public boolean getIsSticky() { return isSticky > 0; }
 	/**
 	 * slipperyPipe() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */
+	private final int MAXSLIPPERY = 80;
 	private int isSlippery;
 	public boolean getIsSlippery() { return isSlippery > 0; }
 	/**
 	 * fix() hatására beállítódik egy intre, ha >0 true a logikai értéke, tick()-re csökken
 	 */
+	private final int MAXNOTPIRCEABLE = 40;
 	private int notPiercable;
 	/**
 	 * a cső egyik vége ide van csatlakoztatva, nem lehet null
@@ -60,7 +63,7 @@ public class Pipe extends Element {
 	@Override public boolean fix() {
 		if(isPierced) {
 			isPierced = false;
-			notPiercable = (int) (2 + Proto.randomNextDouble() * 3);
+			notPiercable = (int) (Proto.randomNextDouble() * MAXNOTPIRCEABLE);
 			return true;
 		}else {
 			return false;
@@ -282,9 +285,9 @@ public class Pipe extends Element {
 	 */
 	@Override
 	public boolean stickyPipe() {
-		if (isSticky == 3)
+		if (isSticky == MAXSTICKY)
 			return false;
-		isSticky = 3;
+		isSticky = MAXSTICKY;
 		return true;
 	}
 	/**
@@ -293,9 +296,9 @@ public class Pipe extends Element {
 	 */
 	@Override
 	public boolean slipperyPipe() {
-		if (isSlippery == 3)
+		if (isSlippery == MAXSLIPPERY)
 			return false;
-		isSlippery = 3;
+		isSlippery = MAXSLIPPERY;
 		return true;
 	}
 	
