@@ -2,8 +2,11 @@ package drukmakor;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import javax.swing.Timer;
  * itt találhatóak a grafikus rendszer felállításáért, és összekötéséért felelős függvények
  */
 public class Grafikus {
+	private static TitleFrame tf;
 	
 	/**
 	 * eltárolja a rendszerben levő játékosokat, abból a célból, hogy
@@ -76,8 +80,14 @@ public class Grafikus {
 	 * az alkalmazás belépési pontja
 	 * feldolgozza a parancssori argumentumokat, majd azoknak megfelelően
 	 * elindítja a gui-t, illetve a parancsértelmezőt; vagy nem
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		tf=new TitleFrame();
+		while(tf.GetVisible()) {
+			tf.window.setVisible(true);
+		}
+		tf.window.setVisible(false);
 		boolean showgui = true;
 		if (args.length >= 1 && args[0].equals("nogui"))
 			showgui = false;
