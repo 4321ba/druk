@@ -73,10 +73,10 @@ public abstract class Character implements Tickable {
 	}
 	
 	/**
-	 * összeragasztózza a karaktert, beállítja isStuck-ot 3-ra (3 körig lesz ragasztós)
+	 * összeragasztózza a karaktert, beállítja isStuck-ot 50-re (2 körig lesz ragasztós)
 	 */
 	public void getStickied() {
-		isStuck = 3;
+		isStuck = 50;
 	}
 	/**
 	 * isStuckot csökkenti 1-gyel, ha >0
