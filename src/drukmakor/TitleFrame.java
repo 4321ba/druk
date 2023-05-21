@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class TitleFrame {
-	private static JFrame window;
+	public static JFrame window;
 	public static boolean visible=true;
 	private static JButton newGame, loadGame, charSelectLeft, charSelectRight;
 	private static JLabel mechN,sabN;
