@@ -2,6 +2,11 @@ package drukmakor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * Megjeleníti a vele összekapcsolt, hozzá tartozó típusú modell objektumot.
@@ -12,11 +17,22 @@ public class MechanicView extends CharacterView {
 	 * a viewhoz tartozó modell objektum
 	 */
 	private Mechanic model;
+	
+	private final BufferedImage profileIMG;
+	
+	
 	/**
 	 * konstruktor, beállítja a model attribútum értékét
 	 */
 	public MechanicView(Mechanic m) {
 		model = m;
+		
+		try {
+			profileIMG = ImageIO.read(new File("images/mechgirl_icon.png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
 	}
 	/**
 	 * visszaadja a viewhoz tartozó modell objektumot
@@ -37,6 +53,9 @@ public class MechanicView extends CharacterView {
 		if (hpi != null)
 			hpi.getView().setCoords(new Coords(cpc.x, cpc.y-10));
 		g.setColor(new Color(255,255,255));
+		
+		g.drawImage(profileIMG, cpc.x-31, cpc.y-31, null);
 		super.draw(g);
+
 	}
 }
