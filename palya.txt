@@ -51,9 +51,10 @@ add pi pu4 so2
 # 		Mechanic m2 = Proto.newMechanic(c1);
 # 		Saboteur sz1 = Proto.newSaboteur(p2);
 # 		Saboteur sz2 = Proto.newSaboteur(s2);
-add me pu1
-add me ci1
-add sa pu2
-add sa so2
 
-alterpump me1 0 2
+# add me pu1
+# add me ci1
+# add sa pu2
+# add sa so2
+
+# alterpump me1 0 2

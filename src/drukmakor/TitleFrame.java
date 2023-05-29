@@ -41,7 +41,7 @@ public class TitleFrame {
 	/**Ablak inicializálása
 	 * @throws IOException
 	 */
-	public TitleFrame() throws IOException{
+	public TitleFrame() throws IOException {
 		window=new JFrame();
 		jp=new JPanel();
 		jp.setBackground(new Color(0,0,0));
@@ -192,6 +192,7 @@ public class TitleFrame {
 			bgPanel[0].setVisible(false);
 			bgPanel[1].setVisible(false);
 			bgPanel[2].setVisible(false);
+			Proto.newSaboteur(Proto.getRandomAE());
 		}
 	}
 	
@@ -207,12 +208,14 @@ public class TitleFrame {
 			bgPanel[0].setVisible(false);
 			bgPanel[1].setVisible(false);
 			bgPanel[2].setVisible(false);
+			Proto.newMechanic(Proto.getRandomAE());
 		}
 	}
 	
 	private static class NewGameActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			SetVisible(false);
+			Grafikus.createAndShowGameGUI();
 		}
 	}
 	private static class ToggleButtActionListener implements ActionListener{

@@ -14,16 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-//TODO mindennek jó láthatóság!!!, kommentek (ami még hátravan: desert
-// + tesztek!? a pull/push miatt, cloc
-
-
 /**
  * itt találhatóak a grafikus rendszer felállításáért, és összekötéséért felelős függvények
  */
 public class Grafikus {
-	private static TitleFrame tf;
-	
 	/**
 	 * eltárolja a rendszerben levő játékosokat, abból a célból, hogy
 	 * tudja jelezni, hogy ki van éppen soron
@@ -82,12 +76,7 @@ public class Grafikus {
 	 * elindítja a gui-t, illetve a parancsértelmezőt; vagy nem
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException {
-		tf=new TitleFrame();
-		while(tf.GetVisible()) {
-			tf.window.setVisible(true);
-		}
-		tf.window.setVisible(false);
+	public static void main(String[] args) {
 		boolean showgui = true;
 		if (args.length >= 1 && args[0].equals("nogui"))
 			showgui = false;
@@ -98,7 +87,14 @@ public class Grafikus {
 		
 		if (showgui) {
 			Desert.get().clearDrawable();
-			SwingUtilities.invokeLater(() -> Grafikus.createAndShowGUI());
+			
+			try {
+				new TitleFrame();
+			} catch (IOException e) {
+				System.out.println("Failed to load images: " + e.getMessage());
+				return;
+			}
+			
 			if (!getFromStdin) {
 				// megpróbáljuk, hogy legalább itt ne legyen thread-safety probléma
 				try {
@@ -115,11 +111,11 @@ public class Grafikus {
 			Proto.interpret(System.in);
 	}
 	/**
-	 * létrehozza a guit, és beköti a dolgokat
+	 * létrehozza a játék guiját, és beköti a dolgokat
 	 * elindítja az időzítőket
 	 * a gui szálról illik meghívni
 	 */
-	private static void createAndShowGUI() {
+	public static void createAndShowGameGUI() {
 		
 		JFrame frame = new JFrame("Drukmakor");
         frame.setSize(1280, 720);

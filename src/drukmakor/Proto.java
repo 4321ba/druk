@@ -124,6 +124,22 @@ public class Proto {
 	
 	
 	/**
+	 * visszaad egy random aktív elemet, kivételt dob, ha nincs egy se
+	 */
+	public static ActiveElement getRandomAE() {
+		if (puList.isEmpty() && ciList.isEmpty() && soList.isEmpty())
+			throw new RuntimeException("Nincs egy aktív elem sem!"); // csúnya ilyet dobni
+		List<ActiveElement> aes = new LinkedList<>();
+		for (ActiveElement ae : puList)
+			aes.add(ae);
+		for (ActiveElement ae : ciList)
+			aes.add(ae);
+		for (ActiveElement ae : soList)
+			aes.add(ae);
+		return aes.get(random.nextInt(aes.size()));
+	}
+	
+	/**
 	 * új objektumot regisztrálva létrehozó függvények
 	 * ezeket a függvényeket a modell is használhatja, sőt, ezeket kell használnia,
 	 * hogy rendesen nevet is kapjanak a futás közben létrehozott objektumok
