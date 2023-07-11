@@ -34,6 +34,8 @@ A tesztelő helyes működéséhez szükség van a fentebb leírtak alapján a t
 
 `java -jar druk.jar`
 
+Innentől lehet beírni a parancsokat: például `add ci`, `add me ci1`. A dokumentációban, minden mással együtt, a parancsnyelv részletes dokumentációja is megtalálható.
+
 ## Tesztelő program
 
 `java -jar test.jar xxx`
