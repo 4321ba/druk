@@ -6,7 +6,7 @@ A három branch a forráskód tárgy által megkövetelt három fázisának fele
 
 Habár a tárgy fő célját képezi, a dokumentáció az anonimitás megőrzése céljából nem kerül feltöltésre (benne vannak a neveink és Neptun-kódjaink sok helyen).
 
-Proto tesztelőprogram repository-ja Stellaway által [itt](https://github.com/Stellaway/DrukTest) található.
+Proto tesztelőprogram repository-ja [Stellaway-nél](https://github.com/Stellaway/DrukTest) található.
 
 # Képernyőképek a végeredményről
 
