@@ -1,8 +1,11 @@
 # Fordítás
 
 `cd src`
+
 `dir`
+
 *látszik drukmakor mappa*
+
 `javac drukmakor/*.java`
 
 # Futtatás
