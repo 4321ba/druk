@@ -180,7 +180,7 @@ public class Test {
 
         try {
             Runtime rt = Runtime.getRuntime();
-            Process p = rt.exec(new String[]{"cmd.exe", "/c", "java", "-jar", drukFileName, "<", testInput, ">", testOutput});
+            Process p = rt.exec(System.getProperty("os.name").toLowerCase().contains("win") ? new String[]{"cmd.exe", "/c", "java", "-jar", drukFileName, "nogui", "<", testInput, ">", testOutput} : new String[]{"/bin/sh", "-c", "java -jar " + drukFileName + " nogui < " + testInput + " > " + testOutput});
             this.processes.add(p); //for parallell running
         } catch (IOException e) {
             System.out.println("Error in opening to test command.");
