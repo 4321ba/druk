@@ -1,0 +1,11 @@
+add ci
+add pu
+add pi ci1 pu1
+add me ci1
+pickuppump me1
+moveto me1 pi1
+get me1
+get pi1
+placepump me1
+get me1
+get pi1

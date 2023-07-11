@@ -1,0 +1,33 @@
+add ci
+random 1
+tick ci1
+get ci1
+add me ci1
+add me ci1
+pickupdanglingpipe me1 0
+disconnectpipe me2 0
+add pu
+add pu
+add pi ci1 pu1
+add pi pu1 pu2
+moveto me1 pi2
+moveto me1 pu1
+moveto me1 pi3
+moveto me1 pu2
+moveto me2 pi2
+moveto me2 pu1
+get me1
+get me2
+get ci1
+get pi1
+# eddig inic, most jon a feketeleves
+moveto me2 pi3
+moveto me2 pu2
+get me1
+get me2
+connectpipe me1 -1
+connectpipe me2 -1
+get me1
+get me2
+get pu2
+get pi1

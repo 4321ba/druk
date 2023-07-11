@@ -1,0 +1,8 @@
+add pu
+add pu
+add pi pu1 pu2
+add me pi1
+piercepipe me1
+random 0.2
+fix me1
+piercepipe me1

@@ -1,0 +1,7 @@
+add pu
+add pu
+add pi pu1 pu2
+add sa pi1
+get pi1
+alterpump sa1 5 12
+get pi1

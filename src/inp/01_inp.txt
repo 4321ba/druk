@@ -1,0 +1,9 @@
+add ci
+add so
+add pi ci1 so1
+add me pi1
+random 0
+piercepipe me1
+get pi1
+fix me1
+get pi1

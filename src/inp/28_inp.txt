@@ -1,0 +1,5 @@
+add pu
+add sa pu1
+random 1.0
+tick pu1
+piercepipe sa1

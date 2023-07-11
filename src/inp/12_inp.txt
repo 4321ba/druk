@@ -1,0 +1,6 @@
+add pu
+add so
+add pi pu1 so1
+add me pi1
+add sa so1
+moveto me1 so1

@@ -1,0 +1,6 @@
+add pu
+add pu
+add pi pu1 pu2
+add sa pi1
+piercepipe sa1
+get pi1

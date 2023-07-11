@@ -1,0 +1,5 @@
+add ci
+add me ci1
+pickuppump me1
+get me1
+get pu1

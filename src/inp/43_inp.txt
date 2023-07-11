@@ -1,0 +1,17 @@
+add ci
+add so
+add pi ci1 so1
+get ci1
+
+random 0
+tick so1
+tick ci1
+get ci1
+
+add me pi1
+piercepipe me1
+
+random 0
+tick ci1
+tick so1
+get ci1

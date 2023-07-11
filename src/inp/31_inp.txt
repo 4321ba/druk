@@ -1,0 +1,4 @@
+add pu
+random 1.0
+tick pu1
+get pu1

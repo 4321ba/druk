@@ -1,0 +1,16 @@
+add ci
+add pu
+add pi ci1 pu1
+random 1
+tick ci1
+add me ci1
+pickupdanglingpipe me1 1
+get me1
+moveto me1 pi1
+connectpipe me1 -1
+get me1
+moveto me1 pu1
+connectpipe me1 -1
+get me1
+get pu1
+get pi2

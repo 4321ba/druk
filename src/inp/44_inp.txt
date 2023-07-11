@@ -1,0 +1,26 @@
+add pu
+add so
+add ci
+add pi so1 pu1
+add pi pu1 ci1
+get pu1
+get ci1
+
+random 0
+tick so1
+tick pu1
+tick pu1
+tick ci1
+get ci1
+
+random 1
+tick pu1
+get pu1
+
+random 0
+tick so1
+tick pu1
+tick pu1
+tick pu1
+tick ci1
+get ci1

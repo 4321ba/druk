@@ -1,0 +1,7 @@
+# druk-0.2
+pu1
+pu2
+pi1
+me1
+sa1
+true

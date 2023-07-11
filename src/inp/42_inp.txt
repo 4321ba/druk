@@ -1,0 +1,20 @@
+add ci
+add pu
+
+random 1
+tick ci1
+add me ci1
+disconnectpipe me1 0
+
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+add pi pu1 ci1
+
+moveto me1 pi2
+moveto me1 pu1
+connectpipe me1 -1

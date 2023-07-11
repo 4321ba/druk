@@ -1,0 +1,24 @@
+add pu
+add pu
+add pi pu1 pu2
+add sa pi1
+stickypipe sa1
+moveto sa1 pu1
+get pi1
+
+# eddig inic, innen erdemi resz
+
+add me pu1
+get me1
+moveto me1 pi1
+get me1
+
+moveto me1 pu2
+get me1
+
+tick me1
+get me1
+tick me1
+get me1
+tick me1
+get me1

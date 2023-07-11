@@ -1,0 +1,4 @@
+# druk-0.2
+so1
+me1
+false

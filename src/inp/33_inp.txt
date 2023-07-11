@@ -1,0 +1,4 @@
+add ci
+random 1
+tick ci1
+get ci1

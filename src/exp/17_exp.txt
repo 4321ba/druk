@@ -1,0 +1,13 @@
+# druk-0.2
+pu1
+so1
+so2
+ci1
+ci2
+pi1
+pi2
+pi3
+pi4
+sa1
+true
+pi1 pi2 pi3 pi4 false true 2 3

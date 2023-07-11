@@ -1,0 +1,8 @@
+add ci
+add so
+add pi ci1 so1
+add sa pi1
+piercepipe sa1
+tick so1
+tick ci1
+get ci1

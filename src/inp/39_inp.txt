@@ -1,0 +1,14 @@
+add ci
+random 1
+tick ci1
+get ci1
+get pi1
+add me ci1
+add me ci1
+pickupdanglingpipe me1 0
+get pi1
+disconnectpipe me2 0
+get pi1
+get ci1
+get me1
+get me2

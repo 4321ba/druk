@@ -1,0 +1,11 @@
+add ci
+add so
+add pu
+add pi pu1 so1
+add pi pu1 ci1
+add me pu1
+random 1.0
+tick pu1
+get pu1
+fix me1
+get pu1

@@ -1,0 +1,34 @@
+add ci
+add ci
+add pu
+add so
+add so
+
+add pi so1 pu1
+add pi pu1 ci1
+add pi so2 pu1
+add pi pu1 ci2
+
+get pu1
+
+random 0
+tick so1
+tick so2
+tick pu1
+tick pu1
+tick ci1
+tick ci2
+get ci1
+get ci2
+
+add sa pu1
+alterpump sa1 2 3
+
+tick so1
+tick so2
+tick pu1
+tick pu1
+tick ci1
+tick ci2
+get ci1
+get ci2
